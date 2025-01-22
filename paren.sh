@@ -87,6 +87,7 @@ about() {
 
 exit_script() {
     echo "${GREEN}Exiting script..."
+    clear
     exit 0
 }
 
