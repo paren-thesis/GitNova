@@ -22,63 +22,6 @@ banner_g() {
 }
 
 
-backup() {
-    read -p "${GREEN}Enter directory to back up: " backup_path
-    if [[ -d "$backup_path" ]]; then
-        tar -czf "backup_$(date +%Y%m%d_%H%M%S).tar.gz" -C "$backup_path" .
-        echo "${GREEN}Backup completed successfully!"
-    else
-        echo "${RED}Directory does not exist. Backup failed."
-    fi
-}
-
-create_folder() {
-    read -p "${GREEN}Enter folder name: " folder_name
-    mkdir -p "$folder_name" || {
-        echo "${RED}Failed to create folder '$folder_name'."
-        return 1
-    }
-    echo "${GREEN}Folder '$folder_name' created!"
-}
-
-create_file() {
-    read -p "${GREEN}Enter file name: " file_name
-    touch "$file_name" || {
-        echo "${RED}Failed to create file '$file_name'."
-        return 1
-    }
-    echo "${GREEN}File '$file_name' created!"
-}
-
-flush_pc() {
-    echo "${GREEN}Flushing system cache..."
-    sync; echo 3 > /proc/sys/vm/drop_caches || {
-        echo "${RED}Failed to flush cache. Make sure you are running as root."
-        return 1
-    }
-    echo "${GREEN}System cache flushed!"
-}
-
-activate_windows() {
-    echo "${GREEN}Activating Windows... (placeholder logic)"
-}
-
-file_transfer() {
-    read -p "${GREEN}Enter file to transfer: " file_path
-    read -p "${GREEN}Enter destination path: " destination_path
-    read -p "${GREEN}Enter host (default: $HOST): " input_host
-    read -p "${GREEN}Enter port (default: $PORT): " input_port
-    
-    host=${input_host:-$HOST}
-    port=${input_port:-$PORT}
-
-    scp -P "$port" "$file_path" "$host:$destination_path" || {
-        echo "${RED}File transfer failed. Check paths and permissions."
-        return 1
-    }
-    echo "${GREEN}File transfer completed successfully!"
-}
-
 about() {
     echo "${GREEN}About this script:"
     echo "${GREEN}Version: ${__version__}"
@@ -96,28 +39,38 @@ main_menu() {
         clear
         banner_g
         echo
-        echo -e "${RED}[${WHITE}01${RED}]${ORANGE} BackUp"
-        echo -e "${RED}[${WHITE}02${RED}]${ORANGE} Create Folder"
-        echo -e "${RED}[${WHITE}03${RED}]${ORANGE} Create File"
-        echo -e "${RED}[${WHITE}04${RED}]${ORANGE} Flush PC"
-        echo -e "${RED}[${WHITE}05${RED}]${ORANGE} Activate Windows"
-        echo -e "${RED}[${WHITE}06${RED}]${ORANGE} File Transfer"
+        echo -e "${RED}[${WHITE}01${RED}]${ORANGE} Configuration and Setup"
+        echo -e "${RED}[${WHITE}02${RED}]${ORANGE} Branch Management"
+        echo -e "${RED}[${WHITE}03${RED}]${ORANGE} Staging and Stash"
+        echo -e "${RED}[${WHITE}04${RED}]${ORANGE} Undoing Changes"
+        echo -e "${RED}[${WHITE}05${RED}]${ORANGE} Remote Repositories"
+        echo -e "${RED}[${WHITE}06${RED}]${ORANGE} Logs and History"
+        echo -e "${RED}[${WHITE}07${RED}]${ORANGE} Working with Submodules"
+        echo -e "${RED}[${WHITE}08${RED}]${ORANGE} Advanced Commands"
+        echo -e "${RED}[${WHITE}09${RED}]${ORANGE} Clean Up"
+        echo -e "${RED}[${WHITE}10${RED}]${ORANGE} Tagging"
         echo -e "${RED}[${WHITE}99${RED}]${ORANGE} About"
         echo -e "${RED}[${WHITE}00${RED}]${ORANGE} Exit"
+
         echo
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
 
-        case $selected in
-            01) backup ;;
-            02) create_folder ;;
-            03) create_file ;;
-            04) flush_pc ;;
-            05) activate_windows ;;
-            06) file_transfer ;;
+          case $selected in
+            01) configuration_setup ;;
+            02) branch_management ;;
+            03) staging_and_stash ;;
+            04) undoing_changes ;;
+            05) remote_repositories ;;
+            06) logs_and_history ;;
+            07) submodules ;;
+            08) advanced_commands ;;
+            09) clean_up ;;
+            10) tagging ;;
             99) about ;;
             00) exit_script ;;
             *) echo "${RED}Invalid option! Please try again." ;;
         esac
+
 
         read -p "${GREEN}Press [Enter] to continue..." dummy
     done
