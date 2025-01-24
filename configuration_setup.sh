@@ -28,7 +28,7 @@ configuration_setup() {
                 echo -e "${GREEN}Git Configuration:${RESETBG}"
                 echo "${GREEN}user.name"
                 git config --global user.name
-                "${GREEN}user.email"
+                echo "${GREEN}user.email"
                 git config --global user.email
                 ;;
             00) break ;;
@@ -40,3 +40,6 @@ configuration_setup() {
         read -p "${GREEN}Press [Enter] to continue..." dummy
     done
 }
+
+
+configuration_setup
