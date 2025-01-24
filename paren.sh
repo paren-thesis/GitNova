@@ -145,7 +145,7 @@ main_menu() {
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
 
         case $selected in
-            01) configuration_setup ;;
+            01) configuration_setup.exe ;;
             02) branch_management ;;
             03) staging_and_stash ;;
             04) undoing_changes ;;
