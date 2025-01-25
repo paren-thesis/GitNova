@@ -11,15 +11,16 @@ RESETBG="$(printf '\e[0m\n')"
 # Display Branch Management Menu
 branch_menu() {
     clear
-    echo "${CYAN}Branch Management Commands:"
-    echo -e "${GREEN}1. Create a branch: ${ORANGE}git checkout -b branch_name"
-    echo -e "${GREEN}2. Delete a branch: ${ORANGE}git branch -d branch_name"
-    echo -e "${GREEN}3. Merge a branch: ${ORANGE}git merge branch_name"
-    echo -e "${GREEN}4. List all branches: ${ORANGE}git branch"
-    echo -e "${GREEN}5. Switch to a branch: ${ORANGE}git checkout branch_name"
-    echo -e "${GREEN}0. Back to Main Menu"
+    echo -e "${RED}Branch Management Commands:${RESETBG}"
+    echo -e "${RED}[${WHITE}01${RED}]${ORANGE} Create a branch: ${GREEN}git checkout -b branch_name"
+    echo -e "${RED}[${WHITE}02${RED}]${ORANGE} Delete a branch: ${GREEN}git branch -d branch_name"
+    echo -e "${RED}[${WHITE}03${RED}]${ORANGE} Merge a branch: ${GREEN}git merge branch_name"
+    echo -e "${RED}[${WHITE}04${RED}]${ORANGE} List all branches: ${GREEN}git branch"
+    echo -e "${RED}[${WHITE}05${RED}]${ORANGE} Switch to a branch: ${GREEN}git checkout branch_name"
+    echo -e "${RED}[${WHITE}00${RED}]${ORANGE} Back to main menu"
     echo
 }
+
 
 # Function to create a branch
 create_branch() {
