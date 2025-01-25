@@ -12,12 +12,12 @@ RESETBG="$(printf '\e[0m\n')"
 branch_menu() {
     clear
     echo -e "${RED}Branch Management Commands:${RESETBG}"
-    echo -e "${RED}[${WHITE}01${RED}]${ORANGE} Create a branch: ${GREEN}git checkout -b branch_name"
-    echo -e "${RED}[${WHITE}02${RED}]${ORANGE} Delete a branch: ${GREEN}git branch -d branch_name"
-    echo -e "${RED}[${WHITE}03${RED}]${ORANGE} Merge a branch: ${GREEN}git merge branch_name"
-    echo -e "${RED}[${WHITE}04${RED}]${ORANGE} List all branches: ${GREEN}git branch"
-    echo -e "${RED}[${WHITE}05${RED}]${ORANGE} Switch to a branch: ${GREEN}git checkout branch_name"
-    echo -e "${RED}[${WHITE}00${RED}]${ORANGE} Back to main menu"
+    echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Create a branch: ${GREEN}git checkout -b branch_name"
+    echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Delete a branch: ${GREEN}git branch -d branch_name"
+    echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Merge a branch: ${GREEN}git merge branch_name"
+    echo -e "${RED}[${WHITE}4${RED}]${ORANGE} List all branches: ${GREEN}git branch"
+    echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Switch to a branch: ${GREEN}git checkout branch_name"
+    echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
     echo
 }
 
