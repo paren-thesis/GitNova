@@ -147,7 +147,7 @@ main_menu() {
         case $selected in
             01) source /c/paren/config.exe ;;
             02) source /c/paren/branch.exe ;;
-            03) staging_and_stash ;;
+            03) source /c/paren/stage.exe ;;
             04) undoing_changes ;;
             05) remote_repositories ;;
             06) logs_and_history ;;
