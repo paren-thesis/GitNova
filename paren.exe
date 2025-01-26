@@ -129,15 +129,15 @@ main_menu() {
         clear
         banner_g
         echo
-        echo -e "${RED}[${WHITE}01${RED}]${ORANGE} Configuration and Setup"
-        echo -e "${RED}[${WHITE}02${RED}]${ORANGE} Branch Management"
-        echo -e "${RED}[${WHITE}03${RED}]${ORANGE} Staging and Stash"
-        echo -e "${RED}[${WHITE}04${RED}]${ORANGE} Undoing Changes"
-        echo -e "${RED}[${WHITE}05${RED}]${ORANGE} Remote Repositories"
-        echo -e "${RED}[${WHITE}06${RED}]${ORANGE} Logs and History"
-        echo -e "${RED}[${WHITE}07${RED}]${ORANGE} Working with Submodules"
-        echo -e "${RED}[${WHITE}08${RED}]${ORANGE} Advanced Commands"
-        echo -e "${RED}[${WHITE}09${RED}]${ORANGE} Clean Up"
+        echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Configuration and Setup"
+        echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Branch Management"
+        echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Staging and Stash"
+        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Undoing Changes"
+        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Remote Repositories"
+        echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Logs and History"
+        echo -e "${RED}[${WHITE}7${RED}]${ORANGE} Working with Submodules"
+        echo -e "${RED}[${WHITE}8${RED}]${ORANGE} Advanced Commands"
+        echo -e "${RED}[${WHITE}9${RED}]${ORANGE} Clean Up"
         echo -e "${RED}[${WHITE}10${RED}]${ORANGE} Tagging"
         echo -e "${RED}[${WHITE}99${RED}]${ORANGE} About"
         echo -e "${RED}[${WHITE}00${RED}]${ORANGE} Exit"
@@ -145,15 +145,15 @@ main_menu() {
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
 
         case $selected in
-            01) source /c/paren/config.exe ;;
-            02) source /c/paren/branch.exe ;;
-            03) source /c/paren/stage.exe ;;
-            04) undoing_changes ;;
-            05) remote_repositories ;;
-            06) logs_and_history ;;
-            07) submodules ;;
-            08) advanced_commands ;;
-            09) clean_up ;;
+            1) source /c/paren/config.exe ;;
+            2) source /c/paren/branch.exe ;;
+            3) source /c/paren/stage.exe ;;
+            4) undoing_changes ;;
+            5) remote_repositories ;;
+            6) logs_and_history ;;
+            7) submodules ;;
+            8) advanced_commands ;;
+            9) clean_up ;;
             10) tagging ;;
             99) about ;;
             00) exit_script ;;
