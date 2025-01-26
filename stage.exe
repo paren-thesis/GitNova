@@ -62,5 +62,4 @@ list_stashed_changes() {
     git stash list
 }
 
-# Uncomment the line below if you want to test this script standalone
-# staging_stash_menu
+staging_stash_menu
