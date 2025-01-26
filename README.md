@@ -1,6 +1,9 @@
+<p align="center">
 ![PAREN](/src/paren.jpg)
+</p>
 
-#PAREN
+------
+
 PAREN is a Bash-based tool designed to simplify Git commands for users who find it difficult to remember or use Git commands directly. The tool provides an interactive menu system for performing common Git tasks such as configuration, branch management, and more.
 
 ## Features
