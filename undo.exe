@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Undoing Changes Menu
+undoing_changes_menu() {
+    while true; do
+        clear
+        echo -e "${RED}Undoing Changes Options:${RESETBG}"
+        echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Undo unstaged changes to a file ${GREEN}git checkout -- file_name"
+        echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Undo staged changes ${GREEN}git reset HEAD file_name"
+        echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Revert a commit ${GREEN}git revert commit_hash"
+        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Reset to a previous commit ${GREEN}git reset --hard commit_hash"
+        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Remove untracked files ${GREEN}git clean -f"
+        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
+        echo
+        read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
+
+        case $selected in
+            1) undo_unstaged_changes ;;
+            2) undo_staged_changes ;;
+            3) revert_commit ;;
+            4) reset_to_commit ;;
+            5) remove_untracked_files ;;
+            0) break ;;  # Exit the loop and return to the main menu
+            *) echo "${RED}Invalid option! Please try again.${RESETBG}" ;;
+        esac
+
+        read -p "${GREEN}Press [Enter] to return to the menu...${RESETBG}"
+    done
+}
+
+# Functions for each option
+undo_unstaged_changes() {
+    read -p "${GREEN}Enter the file name to undo unstaged changes: ${BLUE}" file_name
+    git checkout -- "$file_name"
+    echo "${GREEN}Unstaged changes for '$file_name' have been undone.${RESETBG}"
+}
+
+undo_staged_changes() {
+    read -p "${GREEN}Enter the file name to unstage: ${BLUE}" file_name
+    git reset HEAD "$file_name"
+    echo "${GREEN}Staged changes for '$file_name' have been undone.${RESETBG}"
+}
+
+revert_commit() {
+    read -p "${GREEN}Enter the commit hash to revert: ${BLUE}" commit_hash
+    git revert "$commit_hash"
+    echo "${GREEN}Commit '$commit_hash' has been reverted.${RESETBG}"
+}
+
+reset_to_commit() {
+    read -p "${GREEN}Enter the commit hash to reset to: ${BLUE}" commit_hash
+    git reset --hard "$commit_hash"
+    echo "${GREEN}Repository has been reset to commit '$commit_hash'.${RESETBG}"
+}
+
+remove_untracked_files() {
+    git clean -f
+    echo "${GREEN}All untracked files have been removed.${RESETBG}"
+}
+
+undoing_changes_menu

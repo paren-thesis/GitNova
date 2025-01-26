@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Commit Commands Menu
+commit_commands_menu() {
+    while true; do
+        clear
+        echo -e "${RED}Commit Commands Options:${RESETBG}"
+        echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Commit changes with a message ${GREEN}git commit -m 'message'"
+        echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Amend the last commit ${GREEN}git commit --amend"
+        echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Commit only specific files ${GREEN}git commit file_name -m 'message'"
+        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Skip staging and commit directly ${GREEN}git commit -a -m 'message'"
+        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
+        echo
+        read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
+
+        case $selected in
+            1) commit_with_message ;;
+            2) amend_last_commit ;;
+            3) commit_specific_files ;;
+            4) skip_staging_and_commit ;;
+            0) break ;;  # Exit the loop and return to the main menu
+            *) echo "${RED}Invalid option! Please try again.${RESETBG}" ;;
+        esac
+
+        read -p "${GREEN}Press [Enter] to return to the menu...${RESETBG}"
+    done
+}
+
+# Functions for each option
+commit_with_message() {
+    read -p "${GREEN}Enter the commit message: ${BLUE}" message
+    git commit -m "$message"
+    echo "${GREEN}Changes have been committed with the message: '$message'.${RESETBG}"
+}
+
+amend_last_commit() {
+    echo "${GREEN}Amending the last commit...${RESETBG}"
+    git commit --amend
+    echo "${GREEN}The last commit has been amended.${RESETBG}"
+}
+
+commit_specific_files() {
+    read -p "${GREEN}Enter the file name(s) to commit: ${BLUE}" files
+    read -p "${GREEN}Enter the commit message: ${BLUE}" message
+    git commit $files -m "$message"
+    echo "${GREEN}File(s) '$files' have been committed with the message: '$message'.${RESETBG}"
+}
+
+skip_staging_and_commit() {
+    read -p "${GREEN}Enter the commit message: ${BLUE}" message
+    git commit -a -m "$message"
+    echo "${GREEN}Changes have been committed directly with the message: '$message'.${RESETBG}"
+}
+
+commit_commands_menu
