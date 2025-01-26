@@ -5,17 +5,17 @@
 
 PAREN is a Bash-based tool designed to simplify Git commands for users who find it difficult to remember or use Git commands directly. The tool provides an interactive menu system for performing common Git tasks such as configuration, branch management, and more.
 
-## Features
+## ✨Features
 - Easy-to-navigate menu for Git commands.
 - Simplifies tasks such as setting up configuration, managing branches, and working with repositories.
 - Modular structure for better scalability and customization.
 - Hints on the git command associated to the item on the menu
 
-## Dependencies
+## 🧬Dependencies
 - Git: Ensure Git is installed on your system. [Download Git](https://git-scm.com/)
 - Bash Shell: Use a compatible terminal like Git Bash, WSL, or any Linux-based shell.
 
-## Installation
+## 💉Installation
 Follow these steps to clone and set up PAREN on your system:
 
 1. Clone the repository:
@@ -48,7 +48,7 @@ Follow these steps to clone and set up PAREN on your system:
      source ~/.bashrc
      ```
 
-## Usage
+## 🎲Usage
 1. Run the tool using:
    ```bash
    ./paren.sh
