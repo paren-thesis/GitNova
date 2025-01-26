@@ -1,6 +1,5 @@
-<p align="center">
+
 ![PAREN](/src/paren.jpg)
-</p>
 
 ------
 
