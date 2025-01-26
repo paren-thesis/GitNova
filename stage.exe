@@ -2,72 +2,65 @@
 
 # Staging and Stash Menu
 staging_stash_menu() {
-    clear
-    echo -e "${RED}Staging and Stash Options:${RESETBG}"
-    echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Stage all changes ${GREEN}git add ."
-    echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Stage a specific file ${GREEN}git add file_name"
-    echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Unstage a file ${GREEN}git reset file_name"
-    echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Stash changes ${GREEN}git stash"
-    echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Apply stashed changes ${GREEN}git stash apply"
-    echo -e "${RED}[${WHITE}6${RED}]${ORANGE} List stashed changes ${GREEN}git stash list"
-    echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
-    echo
-    read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
+    while true; do
+        clear
+        echo -e "${RED}Staging and Stash Options:${RESETBG}"
+        echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Stage all changes ${GREEN}git add ."
+        echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Stage a specific file ${GREEN}git add file_name"
+        echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Unstage a file ${GREEN}git reset file_name"
+        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Stash changes ${GREEN}git stash"
+        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Apply stashed changes ${GREEN}git stash apply"
+        echo -e "${RED}[${WHITE}6${RED}]${ORANGE} List stashed changes ${GREEN}git stash list"
+        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
+        echo
+        read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
 
-    case $selected in
-        1) stage_all_changes ;;
-        2) stage_specific_file ;;
-        3) unstage_file ;;
-        4) stash_changes ;;
-        5) apply_stashed_changes ;;
-        6) list_stashed_changes ;;
-        0) exit 0 ;;
-        *) echo "${RED}Invalid option! Please try again."; sleep 2; staging_stash_menu ;;
-    esac
+        case $selected in
+            1) stage_all_changes ;;
+            2) stage_specific_file ;;
+            3) unstage_file ;;
+            4) stash_changes ;;
+            5) apply_stashed_changes ;;
+            6) list_stashed_changes ;;
+            0) break ;;  # Exit the loop and return to the main menu
+            *) echo "${RED}Invalid option! Please try again." ;;
+        esac
+
+        read -p "${GREEN}Press [Enter] to return to the menu...${RESETBG}"
+    done
 }
 
 # Functions for each option
 stage_all_changes() {
     git add .
     echo "${GREEN}All changes have been staged.${RESETBG}"
-    sleep 2
-    staging_stash_menu
 }
 
 stage_specific_file() {
     read -p "${GREEN}Enter the file name to stage: ${BLUE}" file_name
     git add "$file_name"
     echo "${GREEN}File '$file_name' has been staged.${RESETBG}"
-    sleep 2
-    staging_stash_menu
 }
 
 unstage_file() {
     read -p "${GREEN}Enter the file name to unstage: ${BLUE}" file_name
     git reset "$file_name"
     echo "${GREEN}File '$file_name' has been unstaged.${RESETBG}"
-    sleep 2
-    staging_stash_menu
 }
 
 stash_changes() {
     git stash
     echo "${GREEN}Changes have been stashed.${RESETBG}"
-    sleep 2
-    staging_stash_menu
 }
 
 apply_stashed_changes() {
     git stash apply
     echo "${GREEN}Stashed changes have been applied.${RESETBG}"
-    sleep 2
-    staging_stash_menu
 }
 
 list_stashed_changes() {
     git stash list
-    sleep 2
-    staging_stash_menu
 }
 
-staging_stash_menu
+# Uncomment the line below if you want to test this script standalone
+# staging_stash_menu
