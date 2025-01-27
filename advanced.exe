@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# Colors for formatting
+RED="$(printf '\033[31m')"
+GREEN="$(printf '\033[32m')"
+ORANGE="$(printf '\033[33m')"
+WHITE="$(printf '\033[37m')"
+RESETBG="$(printf '\e[0m\n')"
+
+# Advanced Commands Menu
+advanced_menu() {
+    while true; do
+        clear
+        echo -e "${RED}Advanced Git Commands:${RESETBG}"
+        echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Squash commits into one ${GREEN}git rebase -i HEAD~n"
+        echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Cherry-pick a commit ${GREEN}git cherry-pick commit_hash"
+        echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Revert a specific commit ${GREEN}git revert commit_hash"
+        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Fix the last commit ${GREEN}git commit --amend"
+        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} View changes in staged files ${GREEN}git diff --cached"
+        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to Main Menu"
+        echo
+
+        read -p "${GREEN}Select an option: ${WHITE}" choice
+        case $choice in
+            1) squash_commits ;;
+            2) cherry_pick ;;
+            3) revert_commit ;;
+            4) fix_last_commit ;;
+            5) view_staged_diff ;;
+            0) break ;;
+            *) echo -e "${RED}Invalid option! Try again.${RESETBG}" ;;
+        esac
+        read -p "${GREEN}Press [Enter] to continue...${RESETBG}"
+    done
+}
+
+# Function to squash commits into one
+squash_commits() {
+    echo -e "${ORANGE}Squashing the last n commits into one.${RESETBG}"
+    echo -e "${GREEN}Command: git rebase -i HEAD~n${RESETBG}"
+    echo -e "${RED}Note: Replace 'n' with the number of commits to squash.${RESETBG}"
+    git rebase -i HEAD~n
+}
+
+# Function to cherry-pick a commit
+cherry_pick() {
+    read -p "${ORANGE}Enter the commit hash to cherry-pick: ${WHITE}" commit_hash
+    echo -e "${GREEN}Cherry-picking commit: ${commit_hash}${RESETBG}"
+    git cherry-pick "$commit_hash"
+}
+
+# Function to revert a specific commit
+revert_commit() {
+    read -p "${ORANGE}Enter the commit hash to revert: ${WHITE}" commit_hash
+    echo -e "${GREEN}Reverting commit: ${commit_hash}${RESETBG}"
+    git revert "$commit_hash"
+}
+
+# Function to fix the last commit
+fix_last_commit() {
+    echo -e "${ORANGE}Fixing the last commit.${RESETBG}"
+    echo -e "${GREEN}Command: git commit --amend${RESETBG}"
+    git commit --amend
+}
+
+# Function to view changes in staged files
+view_staged_diff() {
+    echo -e "${ORANGE}Viewing changes in staged files.${RESETBG}"
+    echo -e "${GREEN}Command: git diff --cached${RESETBG}"
+    git diff --cached
+}
+
+advanced_menu
