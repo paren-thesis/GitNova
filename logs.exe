@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Logs and History Menu
+logs_history_menu() {
+    while true; do
+        clear
+        echo -e "${RED}Logs and History Commands Options:${RESETBG}"
+        echo -e "${RED}[${WHITE}1${RED}]${ORANGE} View commit history ${GREEN}git log"
+        echo -e "${RED}[${WHITE}2${RED}]${ORANGE} View one-line commit history ${GREEN}git log --oneline"
+        echo -e "${RED}[${WHITE}3${RED}]${ORANGE} View commit history with graph ${GREEN}git log --oneline --graph"
+        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} View the last N commits ${GREEN}git log -n N"
+        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} View a specific file's commit history ${GREEN}git log -- file_name"
+        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
+        echo
+        read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
+
+        case $selected in
+            1) view_commit_history ;;
+            2) view_oneline_commit_history ;;
+            3) view_commit_graph ;;
+            4) view_last_n_commits ;;
+            5) view_file_commit_history ;;
+            0) break ;;  # Exit the loop and return to the main menu
+            *) echo "${RED}Invalid option! Please try again.${RESETBG}" ;;
+        esac
+
+        read -p "${GREEN}Press [Enter] to return to the menu...${RESETBG}"
+    done
+}
+
+# Functions for each option
+view_commit_history() {
+    echo "${GREEN}Commit history:${RESETBG}"
+    git log
+}
+
+view_oneline_commit_history() {
+    echo "${GREEN}One-line commit history:${RESETBG}"
+    git log --oneline
+}
+
+view_commit_graph() {
+    echo "${GREEN}Commit history with graph:${RESETBG}"
+    git log --oneline --graph
+}
+
+view_last_n_commits() {
+    read -p "${GREEN}Enter the number of commits to view: ${BLUE}" n
+    echo "${GREEN}Last $n commits:${RESETBG}"
+    git log -n "$n"
+}
+
+view_file_commit_history() {
+    read -p "${GREEN}Enter the file name: ${BLUE}" file_name
+    echo "${GREEN}Commit history for '$file_name':${RESETBG}"
+    git log -- "$file_name"
+}
+
+
+logs_history_menu
