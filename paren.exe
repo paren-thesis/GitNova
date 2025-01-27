@@ -149,9 +149,9 @@ main_menu() {
             1) source /c/paren/config.exe ;;
             2) source /c/paren/branch.exe ;;
             3) source /c/paren/stage.exe ;;
-	    4) source /c/paren/commit.exe ;;
+            4) source /c/paren/commit.exe ;;
             5) source /c/paren/undo.exe ;;
-            6) remote_repositories ;;
+            6) source /c/paren/remote.exe ;;
             7) logs_and_history ;;
             8) submodules ;;
             9) advanced_commands ;;
