@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# Submodules Menu
+submodules_menu() {
+    while true; do
+        clear
+        echo -e "${RED}Submodules Commands Options:${RESETBG}"
+        echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Add a submodule ${GREEN}git submodule add repository_url path"
+        echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Initialize submodules ${GREEN}git submodule init"
+        echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Update submodules ${GREEN}git submodule update"
+        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Remove a submodule ${GREEN}manual steps required"
+        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Show submodule status ${GREEN}git submodule status"
+        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
+        echo
+        read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
+
+        case $selected in
+            1) add_submodule ;;
+            2) init_submodules ;;
+            3) update_submodules ;;
+            4) remove_submodule ;;
+            5) show_submodule_status ;;
+            0) break ;;  # Exit the loop and return to the main menu
+            *) echo "${RED}Invalid option! Please try again.${RESETBG}" ;;
+        esac
+
+        read -p "${GREEN}Press [Enter] to return to the menu...${RESETBG}"
+    done
+}
+
+# Functions for each option
+add_submodule() {
+    read -p "${GREEN}Enter the repository URL for the submodule: ${BLUE}" repo_url
+    read -p "${GREEN}Enter the path where the submodule should be added: ${BLUE}" submodule_path
+    echo "${GREEN}Adding submodule...${RESETBG}"
+    git submodule add "$repo_url" "$submodule_path"
+}
+
+init_submodules() {
+    echo "${GREEN}Initializing submodules...${RESETBG}"
+    git submodule init
+}
+
+update_submodules() {
+    echo "${GREEN}Updating submodules...${RESETBG}"
+    git submodule update
+}
+
+remove_submodule() {
+    read -p "${GREEN}Enter the submodule path to remove: ${BLUE}" submodule_path
+    echo "${GREEN}Removing submodule...${RESETBG}"
+    git submodule deinit -f "$submodule_path"
+    rm -rf ".git/modules/$submodule_path"
+    git rm -f "$submodule_path"
+    echo "${GREEN}Submodule removed.${RESETBG}"
+}
+
+show_submodule_status() {
+    echo "${GREEN}Submodule status:${RESETBG}"
+    git submodule status
+}
+
+
+submodules_menu
