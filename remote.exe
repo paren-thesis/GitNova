@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# Remote Repositories Menu
+remote_repositories_menu() {
+    while true; do
+        clear
+        echo -e "${RED}Remote Repositories Commands Options:${RESETBG}"
+        echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Add a remote repository ${GREEN}git remote add name url"
+        echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Remove a remote repository ${GREEN}git remote remove name"
+        echo -e "${RED}[${WHITE}3${RED}]${ORANGE} List all remotes ${GREEN}git remote -v"
+        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Fetch from a remote repository ${GREEN}git fetch remote_name"
+        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Push changes to a remote repository ${GREEN}git push remote_name branch_name"
+        echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Pull changes from a remote repository ${GREEN}git pull remote_name branch_name"
+        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
+        echo
+        read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
+
+        case $selected in
+            1) add_remote_repository ;;
+            2) remove_remote_repository ;;
+            3) list_remotes ;;
+            4) fetch_from_remote ;;
+            5) push_to_remote ;;
+            6) pull_from_remote ;;
+            0) break ;;  # Exit the loop and return to the main menu
+            *) echo "${RED}Invalid option! Please try again.${RESETBG}" ;;
+        esac
+
+        read -p "${GREEN}Press [Enter] to return to the menu...${RESETBG}"
+    done
+}
+
+# Functions for each option
+add_remote_repository() {
+    read -p "${GREEN}Enter the remote name: ${BLUE}" name
+    read -p "${GREEN}Enter the remote URL: ${BLUE}" url
+    git remote add "$name" "$url"
+    echo "${GREEN}Remote repository '$name' has been added with URL '$url'.${RESETBG}"
+}
+
+remove_remote_repository() {
+    read -p "${GREEN}Enter the remote name to remove: ${BLUE}" name
+    git remote remove "$name"
+    echo "${GREEN}Remote repository '$name' has been removed.${RESETBG}"
+}
+
+list_remotes() {
+    echo "${GREEN}Listing all remote repositories:${RESETBG}"
+    git remote -v
+}
+
+fetch_from_remote() {
+    read -p "${GREEN}Enter the remote name to fetch from: ${BLUE}" name
+    git fetch "$name"
+    echo "${GREEN}Fetched changes from remote '$name'.${RESETBG}"
+}
+
+push_to_remote() {
+    read -p "${GREEN}Enter the remote name: ${BLUE}" remote_name
+    read -p "${GREEN}Enter the branch name: ${BLUE}" branch_name
+    git push "$remote_name" "$branch_name"
+    echo "${GREEN}Changes have been pushed to '$remote_name' on branch '$branch_name'.${RESETBG}"
+}
+
+pull_from_remote() {
+    read -p "${GREEN}Enter the remote name: ${BLUE}" remote_name
+    read -p "${GREEN}Enter the branch name: ${BLUE}" branch_name
+    git pull "$remote_name" "$branch_name"
+    echo "${GREEN}Pulled changes from '$remote_name' on branch '$branch_name'.${RESETBG}"
+}
+
+remote_repositories_menu
