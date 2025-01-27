@@ -152,7 +152,7 @@ main_menu() {
             4) source /c/paren/commit.exe ;;
             5) source /c/paren/undo.exe ;;
             6) source /c/paren/remote.exe ;;
-            7) logs_and_history ;;
+            7) source /c/paren/logs.exe ;;
             8) submodules ;;
             9) advanced_commands ;;
             10) clean_up ;;
