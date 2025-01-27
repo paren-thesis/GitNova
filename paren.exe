@@ -154,7 +154,7 @@ main_menu() {
             6) source /c/paren/remote.exe ;;
             7) source /c/paren/logs.exe ;;
             8) source /c/paren/submod.exe ;;
-            9) advanced_commands ;;
+            9) source /c/paren/advanced.exe ;;
             10) clean_up ;;
             11) tagging ;;
             99) about ;;
