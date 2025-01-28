@@ -1,0 +1,79 @@
+#!/bin/bash
+
+# Colors for formatting
+RED="$(printf '\033[31m')"
+GREEN="$(printf '\033[32m')"
+ORANGE="$(printf '\033[33m')"
+WHITE="$(printf '\033[37m')"
+RESETBG="$(printf '\e[0m\n')"
+
+# Tagging Menu
+tagging_menu() {
+    while true; do
+        clear
+        echo -e "${RED}Tagging Commands:${RESETBG}"
+        echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Create a new tag ${GREEN}git tag tag_name"
+        echo -e "${RED}[${WHITE}2${RED}]${ORANGE} List all tags ${GREEN}git tag"
+        echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Delete a tag ${GREEN}git tag -d tag_name"
+        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Push a tag to remote ${GREEN}git push origin tag_name"
+        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Push all tags to remote ${GREEN}git push --tags"
+        echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Show tag details ${GREEN}git show tag_name"
+        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to Main Menu"
+        echo
+
+        read -p "${GREEN}Select an option: ${WHITE}" choice
+        case $choice in
+            1) create_tag ;;
+            2) list_tags ;;
+            3) delete_tag ;;
+            4) push_tag ;;
+            5) push_all_tags ;;
+            6) show_tag_details ;;
+            0) break ;;
+            *) echo -e "${RED}Invalid option! Try again.${RESETBG}" ;;
+        esac
+        read -p "${GREEN}Press [Enter] to continue...${RESETBG}"
+    done
+}
+
+# Function to create a new tag
+create_tag() {
+    read -p "${ORANGE}Enter tag name: ${WHITE}" tag_name
+    git tag "$tag_name"
+    echo -e "${GREEN}Tag '${tag_name}' created.${RESETBG}"
+}
+
+# Function to list all tags
+list_tags() {
+    echo -e "${GREEN}Listing all tags:${RESETBG}"
+    git tag
+}
+
+# Function to delete a tag
+delete_tag() {
+    read -p "${ORANGE}Enter tag name to delete: ${WHITE}" tag_name
+    git tag -d "$tag_name"
+    echo -e "${GREEN}Tag '${tag_name}' deleted.${RESETBG}"
+}
+
+# Function to push a tag to remote
+push_tag() {
+    read -p "${ORANGE}Enter tag name to push: ${WHITE}" tag_name
+    git push origin "$tag_name"
+    echo -e "${GREEN}Tag '${tag_name}' pushed to remote.${RESETBG}"
+}
+
+# Function to push all tags to remote
+push_all_tags() {
+    git push --tags
+    echo -e "${GREEN}All tags pushed to remote.${RESETBG}"
+}
+
+# Function to show tag details
+show_tag_details() {
+    read -p "${ORANGE}Enter tag name to view details: ${WHITE}" tag_name
+    git show "$tag_name"
+}
+
+# Call the menu
+tagging_menu
