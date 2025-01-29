@@ -17,7 +17,6 @@ branch_management() {
     echo -e "${CYAN}[${WHITE}3${CYAN}]${ORANGE} Merge a branch: ${GREEN}git merge branch_name"
     echo -e "${CYAN}[${WHITE}4${CYAN}]${ORANGE} List all branches: ${GREEN}git branch"
     echo -e "${CYAN}[${WHITE}5${CYAN}]${ORANGE} Switch to a branch: ${GREEN}git checkout branch_name"
-    echo
 }
 
 # Configuration and Setup
