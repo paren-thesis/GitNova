@@ -1,0 +1,138 @@
+#!/bin/bash
+
+
+CYAN="$(printf '\033[36m')"
+GREEN="$(printf '\033[32m')"
+ORANGE="$(printf '\033[33m')"
+BLUE="$(printf '\033[34m')"
+TEMP="$(printf '\033[31m')"
+RESETBG="$(printf '\e[0m\n')"
+
+
+# Branch Management
+branch_management() {
+    echo "${CYAN}Branch Management Commands:"
+    echo -e "${CYAN}[${WHITE}1${CYAN}]${ORANGE} Create a branch: ${GREEN}git checkout -b branch_name"
+    echo -e "${CYAN}[${WHITE}2${CYAN}]${ORANGE} Delete a branch: ${GREEN}git branch -d branch_name"
+    echo -e "${CYAN}[${WHITE}3${CYAN}]${ORANGE} Merge a branch: ${GREEN}git merge branch_name"
+    echo -e "${CYAN}[${WHITE}4${CYAN}]${ORANGE} List all branches: ${GREEN}git branch"
+    echo -e "${CYAN}[${WHITE}5${CYAN}]${ORANGE} Switch to a branch: ${GREEN}git checkout branch_name"
+    echo
+}
+
+# Configuration and Setup
+configuration_setup() {
+    echo "${CYAN}Configuration and Setup Commands:"
+    echo -e "${CYAN}[${WHITE}1${CYAN}]${ORANGE} Set user name ${GREEN}git config --global user.name username"
+    echo -e "${CYAN}[${WHITE}2${CYAN}]${ORANGE} Set user email ${GREEN}git config --global user.email useremail"
+    echo -e "${CYAN}[${WHITE}3${CYAN}]${ORANGE} View configuration ${GREEN}git config --list"
+}
+
+# Commit Changes
+commit() {
+    echo "${CYAN}Commit Changes commands:"
+    echo -e "${CYAN}[${WHITE}1${CYAN}]${ORANGE} Commit changes with a message ${GREEN}git commit -m 'message'"
+    echo -e "${CYAN}[${WHITE}2${CYAN}]${ORANGE} Amend the last commit ${GREEN}git commit --amend"
+    echo -e "${CYAN}[${WHITE}3${CYAN}]${ORANGE} Commit only specific files ${GREEN}git commit file_name -m 'message'"
+    echo -e "${CYAN}[${WHITE}4${CYAN}]${ORANGE} Skip staging and commit directly ${GREEN}git commit -a -m 'message'"
+}
+
+# Staging and Stash
+staging_and_stash() {
+    echo "${CYAN}Staging and Stash Commands:"
+    echo -e "${CYAN}[${WHITE}1${CYAN}]${ORANGE} Stage all changes ${GREEN}git add ."
+    echo -e "${CYAN}[${WHITE}2${CYAN}]${ORANGE} Stage a specific file ${GREEN}git add file_name"
+    echo -e "${CYAN}[${WHITE}3${CYAN}]${ORANGE} Unstage a file ${GREEN}git reset file_name"
+    echo -e "${CYAN}[${WHITE}4${CYAN}]${ORANGE} Stash changes ${GREEN}git stash"
+    echo -e "${CYAN}[${WHITE}5${CYAN}]${ORANGE} Apply stashed changes ${GREEN}git stash apply"
+    echo -e "${CYAN}[${WHITE}6${CYAN}]${ORANGE} List stashed changes ${GREEN}git stash list"
+}
+
+# Undoing Changes
+undoing_changes() {
+    echo "${CYAN}Undoing Changes Commands:"
+    echo -e "${CYAN}[${WHITE}1${CYAN}]${ORANGE} Undo unstaged changes to a file ${GREEN}git checkout -- file_name"
+    echo -e "${CYAN}[${WHITE}2${CYAN}]${ORANGE} Undo staged changes ${GREEN}git reset HEAD file_name"
+    echo -e "${CYAN}[${WHITE}3${CYAN}]${ORANGE} Revert a commit ${GREEN}git revert commit_hash"
+    echo -e "${CYAN}[${WHITE}4${CYAN}]${ORANGE} Reset to a previous commit ${GREEN}git reset --hard commit_hash"
+    echo -e "${CYAN}[${WHITE}5${CYAN}]${ORANGE} Remove untracked files ${GREEN}git clean -f"
+}
+
+# Remote Repositories
+remote_repositories() {
+    echo "${CYAN}Remote Repositories Commands:"
+    echo -e "${CYAN}[${WHITE}1${CYAN}]${ORANGE} Add a remote repository ${GREEN}git remote add name url"
+    echo -e "${CYAN}[${WHITE}2${CYAN}]${ORANGE} Remove a remote repository ${GREEN}git remote remove name"
+    echo -e "${CYAN}[${WHITE}3${CYAN}]${ORANGE} List all remotes ${GREEN}git remote -v"
+    echo -e "${CYAN}[${WHITE}4${CYAN}]${ORANGE} Fetch from a remote repository ${GREEN}git fetch remote_name"
+    echo -e "${CYAN}[${WHITE}5${CYAN}]${ORANGE} Push changes to a remote repository ${GREEN}git push remote_name branch_name"
+    echo -e "${CYAN}[${WHITE}6${CYAN}]${ORANGE} Pull changes from a remote repository ${GREEN}git pull remote_name branch_name"
+}
+
+# Logs and History
+logs_and_history() {
+    echo "${CYAN}Logs and History Commands:"
+    echo -e "${CYAN}[${WHITE}1${CYAN}]${ORANGE} View commit history ${GREEN}git log"
+    echo -e "${CYAN}[${WHITE}2${CYAN}]${ORANGE} View one-line commit history ${GREEN}git log --oneline"
+    echo -e "${CYAN}[${WHITE}3${CYAN}]${ORANGE} View commit history with graph ${GREEN}git log --oneline --graph"
+    echo -e "${CYAN}[${WHITE}4${CYAN}]${ORANGE} View the last N commits ${GREEN}git log -n N"
+    echo -e "${CYAN}[${WHITE}5${CYAN}]${ORANGE} View a specific file's commit history ${GREEN}git log -- file_name"
+}
+
+# Working with Submodules
+submodules() {
+    echo "${CYAN}Working with Submodules Commands:"
+    echo -e "${CYAN}[${WHITE}1${CYAN}]${ORANGE} Add a submodule ${GREEN}git submodule add repository_url path"
+    echo -e "${CYAN}[${WHITE}2${CYAN}]${ORANGE} Initialize submodules ${GREEN}git submodule init"
+    echo -e "${CYAN}[${WHITE}3${CYAN}]${ORANGE} Update submodules ${GREEN}git submodule update"
+    echo -e "${CYAN}[${WHITE}4${CYAN}]${ORANGE} Remove a submodule ${GREEN}manual steps requiCYAN"
+    echo -e "${CYAN}[${WHITE}5${CYAN}]${ORANGE} Show submodule status ${GREEN}git submodule status"
+}
+
+# Advanced Commands
+advanced_commands() {
+    echo "${CYAN}Advanced Commands:"
+    echo -e "${CYAN}[${WHITE}1${CYAN}]${ORANGE} Squash commits into one ${GREEN}git rebase -i HEAD~n"
+    echo -e "${CYAN}[${WHITE}2${CYAN}]${ORANGE} Cherry-pick a commit ${GREEN}git cherry-pick commit_hash"
+    echo -e "${CYAN}[${WHITE}3${CYAN}]${ORANGE} Revert a specific commit ${GREEN}git revert commit_hash"
+    echo -e "${CYAN}[${WHITE}4${CYAN}]${ORANGE} Fix the last commit ${GREEN}git commit --amend"
+    echo -e "${CYAN}[${WHITE}5${CYAN}]${ORANGE} View changes in staged files ${GREEN}git diff --cached"
+}
+
+# Clean Up
+clean_up() {
+    echo "${CYAN}Clean Up Commands:"
+    echo -e "${CYAN}[${WHITE}1${CYAN}]${ORANGE} Remove untracked files ${GREEN}git clean -f"
+    echo -e "${CYAN}[${WHITE}2${CYAN}]${ORANGE} Remove untracked directories ${GREEN}git clean -fd"
+    echo -e "${CYAN}[${WHITE}3${CYAN}]${ORANGE} Prune remote-tracking branches ${GREEN}git remote prune origin"
+    echo -e "${CYAN}[${WHITE}4${CYAN}]${ORANGE} Delete merged branches ${GREEN}git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+    echo -e "${CYAN}[${WHITE}5${CYAN}]${ORANGE} Clean up dangling objects ${GREEN}git gc --prune=now"
+}
+
+# Tagging
+tagging() {
+    echo "${CYAN}Tagging Commands:"
+    echo -e "${CYAN}[${WHITE}1${CYAN}]${ORANGE} Create a new tag ${GREEN}git tag tag_name"
+    echo -e "${CYAN}[${WHITE}2${CYAN}]${ORANGE} List all tags ${GREEN}git tag"
+    echo -e "${CYAN}[${WHITE}3${CYAN}]${ORANGE} Delete a tag ${GREEN}git tag -d tag_name"
+    echo -e "${CYAN}[${WHITE}4${CYAN}]${ORANGE} Push a tag to remote ${GREEN}git push origin tag_name"
+    echo -e "${CYAN}[${WHITE}5${CYAN}]${ORANGE} Push all tags to remote ${GREEN}git push --tags"
+    echo -e "${CYAN}[${WHITE}6${CYAN}]${ORANGE} Show tag details ${GREEN}git show tag_name"
+}
+
+list_em() {
+    echo "${CYAN}Listing commands Commands:"
+configuration_setup
+branch_management
+staging_and_stash
+commit
+undoing_changes
+remote_repositories
+logs_and_history
+submodules
+advanced_commands
+clean_up
+tagging
+}
+
+list_em
