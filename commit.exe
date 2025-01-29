@@ -26,20 +26,27 @@ commit_commands_menu() {
     done
 }
 
+git_status() {
+    git status -s
+}
+
 # Functions for each option
 commit_with_message() {
+    git_status
     read -p "${GREEN}Enter the commit message: ${BLUE}" message
     git commit -m "$message"
     echo "${GREEN}Changes have been committed with the message: '$message'.${RESETBG}"
 }
 
 amend_last_commit() {
+    git_status
     echo "${GREEN}Amending the last commit...${RESETBG}"
     git commit --amend
     echo "${GREEN}The last commit has been amended.${RESETBG}"
 }
 
 commit_specific_files() {
+    git_status
     read -p "${GREEN}Enter the file name(s) to commit: ${BLUE}" files
     read -p "${GREEN}Enter the commit message: ${BLUE}" message
     git commit $files -m "$message"
@@ -47,6 +54,7 @@ commit_specific_files() {
 }
 
 skip_staging_and_commit() {
+    git_status
     read -p "${GREEN}Enter the commit message: ${BLUE}" message
     git commit -a -m "$message"
     echo "${GREEN}Changes have been committed directly with the message: '$message'.${RESETBG}"
