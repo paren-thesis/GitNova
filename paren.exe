@@ -69,7 +69,7 @@ main_menu() {
             7) source /c/paren/logs.exe ;;
             8) source /c/paren/submod.exe ;;
             9) source /c/paren/advanced.exe ;;
-            10) source /c/paren/clean_up.exe ;;
+            10) source /c/paren/cleanup.exe ;;
             11) source /c/paren/tagging.exe ;;
             99) about ;;
             00) exit_script ;;
