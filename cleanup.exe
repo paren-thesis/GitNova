@@ -9,6 +9,7 @@ RESETBG="$(printf '\e[0m\n')"
 
 # Clean Up Menu
 cleanup_menu() {
+    status
     while true; do
         clear
         echo -e "${RED}Clean Up Commands:${RESETBG}"
@@ -67,6 +68,10 @@ cleanup_dangling_objects() {
     echo -e "${ORANGE}Cleaning up dangling objects...${RESETBG}"
     echo -e "${GREEN}Command: git gc --prune=now${RESETBG}"
     git gc --prune=now
+}
+
+status() {
+    git status -s
 }
 
 cleanup_menu
