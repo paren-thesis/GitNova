@@ -26,7 +26,7 @@ Follow these steps to clone and set up PAREN on your system:
 
 2. Navigate to the project directory:
    ```bash
-   cd paren
+   cd PAREN
    ```
 
 3. Make the main script executable:
@@ -39,9 +39,9 @@ Follow these steps to clone and set up PAREN on your system:
      ```bash
      nano ~/.bashrc
      ```
-   - Add the following line (replace `/path/to/paren` with the actual path):
+   - Add the following line (replace `/path/to/PAREN` with the actual path):
      ```bash
-     export PATH="/path/to/paren:$PATH"
+     export PATH="/path/to/PAREN:$PATH"
      ```
    - Save and reload the shell:
      ```bash
