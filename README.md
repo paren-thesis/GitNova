@@ -31,7 +31,7 @@ Follow these steps to clone and set up PAREN on your system:
 
 3. Make the main script executable:
    ```bash
-   chmod +x paren.sh
+   chmod +x paren.exe
    ```
 
 4. Optionally, add the script to your PATH for easier access:
