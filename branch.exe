@@ -24,6 +24,7 @@ branch_menu() {
 
 # Function to create a branch
 create_branch() {
+    list_branches
     read -p "Enter the name of the new branch: " branch_name
     git checkout -b "$branch_name"
     if [ $? -eq 0 ]; then
@@ -35,6 +36,7 @@ create_branch() {
 
 # Function to delete a branch
 delete_branch() {
+    list_branches
     read -p "Enter the name of the branch to delete: " branch_name
     git branch -d "$branch_name"
     if [ $? -eq 0 ]; then
@@ -46,6 +48,7 @@ delete_branch() {
 
 # Function to merge a branch
 merge_branch() {
+    list_branches
     read -p "Enter the name of the branch to merge: " branch_name
     git merge "$branch_name"
     if [ $? -eq 0 ]; then
@@ -63,6 +66,7 @@ list_branches() {
 
 # Function to switch to a branch
 switch_branch() {
+    list_branches
     read -p "Enter the name of the branch to switch to: " branch_name
     git checkout "$branch_name"
     if [ $? -eq 0 ]; then
