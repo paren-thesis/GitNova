@@ -62,6 +62,8 @@ Follow these steps to clone and set up PAREN on your system:
 
 3. Follow on-screen instructions to complete the desired action.
 
+   ![HOME](/src/image1.png)
+
 ## Contributing
 Feel free to fork the repository and submit pull requests for enhancements or bug fixes. Contributions are always welcome!
 
