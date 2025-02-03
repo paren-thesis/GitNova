@@ -9,7 +9,7 @@ configuration_setup() {
         echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Set user name ${GREEN}git config --global user.name username"
         echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Set user email ${GREEN}git config --global user.email useremail"
         echo -e "${RED}[${WHITE}3${RED}]${ORANGE} View configuration ${GREEN}git config --list"
-        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Initialise repository ${GREEN}git init"
+        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Initialize repository ${GREEN}git init"
         echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
         echo
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
