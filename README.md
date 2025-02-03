@@ -51,7 +51,7 @@ Follow these steps to clone and set up PAREN on your system:
 ## 🎲Usage
 1. Run the tool using:
    ```bash
-   ./gitty.sh
+   ./gitty.exe
    ```
    Or, if added to your PATH:
    ```bash
