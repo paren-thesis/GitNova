@@ -9,28 +9,16 @@ configuration_setup() {
         echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Set user name ${GREEN}git config --global user.name username"
         echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Set user email ${GREEN}git config --global user.email useremail"
         echo -e "${RED}[${WHITE}3${RED}]${ORANGE} View configuration ${GREEN}git config --list"
+        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Initialise repository ${GREEN}git init"
         echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
         echo
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
 
         case $selected in
-            1) 
-                read -p "${GREEN}Enter your name: ${BLUE}" name
-                git config --global user.name "$name"
-                echo "${GREEN}User name set to $name"
-                ;;
-            2) 
-                read -p "${GREEN}Enter your email: ${BLUE}" email
-                git config --global user.email "$email"
-                echo "${GREEN}User email set to $email"
-                ;;
-            3)
-                echo -e "${GREEN}Git Configuration:${RESETBG}"
-                echo "${GREEN}user.name"
-                git config --global user.name
-                echo "${GREEN}user.email"
-                git config --global user.email
-                ;;
+            1) set_user_name ;;
+            2) set_user_email ;;
+            3) view_config ;;
+            4) initialise ;;
             0) break ;;
             *)
                 echo "${RED}Invalid option! Please try again."
@@ -41,5 +29,29 @@ configuration_setup() {
     done
 }
 
+set_user_name() {
+    read -p "${GREEN}Enter your name: ${BLUE}" name
+    git config --global user.name "$name"
+    echo "${GREEN}User name set to $name"
+}
+
+set_user_email() {
+    read -p "${GREEN}Enter your email: ${BLUE}" email
+    git config --global user.email "$email"
+    echo "${GREEN}User email set to $email"
+}
+
+view_config() {
+    echo -e "${GREEN}Git Configuration:${RESETBG}"
+    echo "${GREEN}user.name"
+    git config --global user.name
+    echo "${GREEN}user.email"
+    git config --global user.email
+}
+
+initialise() {
+    echo -e "${GREEN}Initialising...${RESETBG}"
+    git init
+}
 
 configuration_setup
