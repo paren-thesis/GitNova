@@ -21,7 +21,7 @@ Follow these steps to clone and set up PAREN on your system:
 1. Clone the repository:
    ```bash
    cd c:
-   git clone https://github.com/paren-thesis/gitty.git
+   git clone https://github.com/paren-thesis/Gitty.git
    ```
 
 2. Navigate to the project directory:
