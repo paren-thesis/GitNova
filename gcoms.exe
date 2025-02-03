@@ -25,6 +25,7 @@ configuration_setup() {
     echo -e "${CYAN}[${WHITE}1${CYAN}]${ORANGE} Set user name ${GREEN}git config --global user.name username"
     echo -e "${CYAN}[${WHITE}2${CYAN}]${ORANGE} Set user email ${GREEN}git config --global user.email useremail"
     echo -e "${CYAN}[${WHITE}3${CYAN}]${ORANGE} View configuration ${GREEN}git config --list"
+    echo -e "${CYAN}[${WHITE}4${CYAN}]${ORANGE} Initialize repository ${GREEN}git init"
 }
 
 # Commit Changes
