@@ -1,5 +1,5 @@
 
-![PAREN](/src/paren.jpg)
+![GITTY](/src/gitty.jpg)
 
 ------
 
@@ -21,17 +21,17 @@ Follow these steps to clone and set up PAREN on your system:
 1. Clone the repository:
    ```bash
    cd c:
-   git clone https://github.com/paren-thesis/paren.git
+   git clone https://github.com/paren-thesis/gitty.git
    ```
 
 2. Navigate to the project directory:
    ```bash
-   cd PAREN
+   cd gitty
    ```
 
-3. Make the main script executable:
+3. Make all scripts executable:
    ```bash
-   chmod +x paren.exe
+   chmod +x *.exe
    ```
 
 4. Optionally, add the script to your PATH for easier access:
@@ -39,9 +39,9 @@ Follow these steps to clone and set up PAREN on your system:
      ```bash
      nano ~/.bashrc
      ```
-   - Add the following line (replace `/path/to/PAREN` with the actual path):
+   - Add the following line (replace `/path/to/gitty` with the actual path):
      ```bash
-     export PATH="/path/to/PAREN:$PATH"
+     export PATH="/path/to/gitty:$PATH"
      ```
    - Save and reload the shell:
      ```bash
@@ -51,18 +51,18 @@ Follow these steps to clone and set up PAREN on your system:
 ## 🎲Usage
 1. Run the tool using:
    ```bash
-   ./paren.sh
+   ./gitty.exe
    ```
    Or, if added to your PATH:
    ```bash
-   paren
+   gitty
    ```
 
 2. Select an option from the menu to execute a Git-related task.
 
 3. Follow on-screen instructions to complete the desired action.
 
-   ![HOME](/src/image1.png)
+   ![HOME](/src/image1.jpg)
 
 ## Contributing
 Feel free to fork the repository and submit pull requests for enhancements or bug fixes. Contributions are always welcome!

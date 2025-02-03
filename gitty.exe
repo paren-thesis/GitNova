@@ -13,12 +13,12 @@ MAGENTABG="$(printf '\033[45m')"  CYANBG="$(printf '\033[46m')"  WHITEBG="$(prin
 RESETBG="$(printf '\e[0m\n')"
 
 banner_g() {
-    echo	${CYAN}     ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+    echo	${CYAN}       ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
     echo	${RED}        █░░░░░░░░░░░░░░░░░░░░░░█
-    echo	${GREEN} █░█▀█░█▀█░█▀▄░█▀▀░█░░█░█
-    echo	${BLUE}     █░█▀▀░█▀█░█▀▄░█▀▀░█▀▄█░█
-    echo	${RED}        █░▀░░░▀░▀░▀░▀░▀▀▀░▀░░▀░█${YELLOW} ${__version__}
-    echo	${CYAN}     ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    echo	${GREEN}      █░█▀▀▀░▀█▀░▀█▀░▀█▀░█░█░█
+    echo	${BLUE}       █░█░▀█░░█░░░█░░░█░░░█░░█
+    echo	${RED}        █░▀▀▀▀░▀▀▀░░▀░░░▀░░░▀░░█${BLUE} ${__version__}
+    echo	${CYAN}       ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 }
 
 
@@ -26,7 +26,7 @@ about() {
     echo "${GREEN}About this script:"
     echo "${GREEN}Version: ${__version__}"
     echo "${GREEN}This script provides various utility functions for repo management."
-    echo "${GREEN}This repo was created by paren-thesis on github"
+    echo "${GREEN}This repo was created by gitty-thesis on github"
     echo
     echo "${CYAN}This is a this of available commands"
 }
@@ -60,17 +60,17 @@ main_menu() {
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
 
         case $selected in
-            1) source /c/paren/config.exe ;;
-            2) source /c/paren/branch.exe ;;
-            3) source /c/paren/stage.exe ;;
-            4) source /c/paren/commit.exe ;;
-            5) source /c/paren/undo.exe ;;
-            6) source /c/paren/remote.exe ;;
-            7) source /c/paren/logs.exe ;;
-            8) source /c/paren/submod.exe ;;
-            9) source /c/paren/advanced.exe ;;
-            10) source /c/paren/cleanup.exe ;;
-            11) source /c/paren/tagging.exe ;;
+            1) source /c/gitty/config.exe ;;
+            2) source /c/gitty/branch.exe ;;
+            3) source /c/gitty/stage.exe ;;
+            4) source /c/gitty/commit.exe ;;
+            5) source /c/gitty/undo.exe ;;
+            6) source /c/gitty/remote.exe ;;
+            7) source /c/gitty/logs.exe ;;
+            8) source /c/gitty/submod.exe ;;
+            9) source /c/gitty/advanced.exe ;;
+            10) source /c/gitty/cleanup.exe ;;
+            11) source /c/gitty/tagging.exe ;;
             99) about ;;
             00) exit_script ;;
             *) echo "${RED}Invalid option! Please try again." ;;
