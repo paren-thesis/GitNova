@@ -26,7 +26,7 @@ Follow these steps to clone and set up PAREN on your system:
 
 2. Navigate to the project directory:
    ```bash
-   cd gitty
+   cd Gitty
    ```
 
 3. Make all scripts executable:
@@ -39,9 +39,9 @@ Follow these steps to clone and set up PAREN on your system:
      ```bash
      nano ~/.bashrc
      ```
-   - Add the following line (replace `/path/to/gitty` with the actual path):
+   - Add the following line (replace `/path/to/Gitty` with the actual path):
      ```bash
-     export PATH="/path/to/gitty:$PATH"
+     export PATH="/path/to/Gitty:$PATH"
      ```
    - Save and reload the shell:
      ```bash
