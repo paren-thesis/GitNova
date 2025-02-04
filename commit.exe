@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Define color variables
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+ORANGE='\033[0;33m'
+WHITE='\033[0;37m'
+RESETBG='\033[0m'
+
 # Commit Commands Menu
 commit_commands_menu() {
     while true; do
@@ -19,45 +27,85 @@ commit_commands_menu() {
             3) commit_specific_files ;;
             4) skip_staging_and_commit ;;
             0) break ;;  # Exit the loop and return to the main menu
-            *) echo "${RED}Invalid option! Please try again.${RESETBG}" ;;
+            *) echo -e "${RED}Invalid option! Please try again.${RESETBG}" ;;
         esac
 
         read -p "${GREEN}Press [Enter] to return to the menu...${RESETBG}"
     done
 }
 
+# Display Git status
 git_status() {
+    echo -e "${GREEN}Current Git status:${RESETBG}"
     git status -s
 }
 
-# Functions for each option
+# Commit with a message
 commit_with_message() {
     git_status
     read -p "${GREEN}Enter the commit message: ${BLUE}" message
-    git commit -m "$message"
-    echo "${GREEN}Changes have been committed with the message: '$message'.${RESETBG}"
+    if [[ -z "$message" ]]; then
+        echo -e "${RED}Error: Commit message cannot be empty.${RESETBG}"
+        return
+    fi
+    git commit -m "$message" || echo -e "${RED}Error: Commit failed.${RESETBG}"
+    echo -e "${GREEN}Changes have been committed with the message: '$message'.${RESETBG}"
 }
 
+# Amend the last commit
 amend_last_commit() {
     git_status
-    echo "${GREEN}Amending the last commit...${RESETBG}"
-    git commit --amend
-    echo "${GREEN}The last commit has been amended.${RESETBG}"
+    read -p "${GREEN}Are you sure you want to amend the last commit? (y/n): ${BLUE}" confirm
+    if [[ $confirm == "y" || $confirm == "Y" ]]; then
+        git commit --amend || echo -e "${RED}Error: Amend operation failed.${RESETBG}"
+        echo -e "${GREEN}The last commit has been amended.${RESETBG}"
+    else
+        echo -e "${RED}Amend operation canceled.${RESETBG}"
+    fi
 }
 
+# Commit specific files
 commit_specific_files() {
     git_status
-    read -p "${GREEN}Enter the file name(s) to commit: ${BLUE}" files
+    read -p "${GREEN}Enter the file name(s) to commit (space-separated): ${BLUE}" files
     read -p "${GREEN}Enter the commit message: ${BLUE}" message
-    git commit $files -m "$message"
-    echo "${GREEN}File(s) '$files' have been committed with the message: '$message'.${RESETBG}"
+
+    if [[ -z "$files" || -z "$message" ]]; then
+        echo -e "${RED}Error: File(s) and commit message cannot be empty.${RESETBG}"
+        return
+    fi
+
+    # Split files into an array
+    IFS=' ' read -r -a files_array <<< "$files"
+
+    # Check if files exist and are tracked by Git
+    for file in "${files_array[@]}"; do
+        if [[ -z $(git ls-files "$file") ]]; then
+            echo -e "${RED}Error: File '$file' not found or not tracked by Git.${RESETBG}"
+            return
+        fi
+    done
+
+    # Stage and commit the files
+    git add "${files_array[@]}" && git commit -m "$message"
+    if [[ $? -eq 0 ]]; then
+        echo -e "${GREEN}File(s) '${files_array[*]}' have been committed with the message: '$message'.${RESETBG}"
+    else
+        echo -e "${RED}Error: Commit failed.${RESETBG}"
+    fi
 }
 
+# Skip staging and commit directly
 skip_staging_and_commit() {
     git_status
     read -p "${GREEN}Enter the commit message: ${BLUE}" message
-    git commit -a -m "$message"
-    echo "${GREEN}Changes have been committed directly with the message: '$message'.${RESETBG}"
+    if [[ -z "$message" ]]; then
+        echo -e "${RED}Error: Commit message cannot be empty.${RESETBG}"
+        return
+    fi
+    git commit -a -m "$message" || echo -e "${RED}Error: Commit failed.${RESETBG}"
+    echo -e "${GREEN}Changes have been committed directly with the message: '$message'.${RESETBG}"
 }
 
+# Start the menu
 commit_commands_menu
