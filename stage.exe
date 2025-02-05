@@ -1,5 +1,12 @@
 #!/bin/bash
 
+CYAN="$(printf '\033[36m')"
+GREEN="$(printf '\033[32m')"
+ORANGE="$(printf '\033[33m')"
+BLUE="$(printf '\033[34m')"
+RED="$(printf '\033[31m')"
+RESETBG="$(printf '\e[0m\n')"
+
 # Staging and Stash Menu
 staging_stash_menu() {
     while true; do

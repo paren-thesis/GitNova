@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Define color variables
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-ORANGE='\033[0;33m'
-WHITE='\033[0;37m'
-RESETBG='\033[0m'
+CYAN="$(printf '\033[36m')"
+GREEN="$(printf '\033[32m')"
+ORANGE="$(printf '\033[33m')"
+BLUE="$(printf '\033[34m')"
+RED="$(printf '\033[31m')"
+RESETBG="$(printf '\e[0m\n')"
 
 # Commit Commands Menu
 commit_commands_menu() {

@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # Colors for formatting
-RED="$(printf '\033[31m')"
+CYAN="$(printf '\033[36m')"
 GREEN="$(printf '\033[32m')"
 ORANGE="$(printf '\033[33m')"
-WHITE="$(printf '\033[37m')"
+BLUE="$(printf '\033[34m')"
+RED="$(printf '\033[31m')"
 RESETBG="$(printf '\e[0m\n')"
 
 # Advanced Commands Menu

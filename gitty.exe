@@ -13,12 +13,12 @@ MAGENTABG="$(printf '\033[45m')"  CYANBG="$(printf '\033[46m')"  WHITEBG="$(prin
 RESETBG="$(printf '\e[0m\n')"
 
 banner_g() {
-    echo	${CYAN}       ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-    echo	${RED}        █░░░░░░░░░░░░░░░░░░░░░░█
-    echo	${GREEN}      █░█▀▀▀░▀█▀░▀█▀░▀█▀░█░█░█
-    echo	${BLUE}       █░█░▀█░░█░░░█░░░█░░░█░░█
-    echo	${RED}        █░▀▀▀▀░▀▀▀░░▀░░░▀░░░▀░░█${BLUE} ${__version__}
-    echo	${CYAN}       ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+    echo	${CYAN}          ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+    echo	${ORANGE}        █░░░░░░░░░░░░░░░░░░░░░░█
+    echo	${GREEN}         █░█▀▀▀░▀█▀░▀█▀░▀█▀░█░█░█
+    echo	${BLUE}          █░█░▀█░░█░░░█░░░█░░░█░░█
+    echo	${RED}           █░▀▀▀▀░▀▀▀░░▀░░░▀░░░▀░░█${BLUE} ${__version__}
+    echo	${CYAN}          ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 }
 
 
