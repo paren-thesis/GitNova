@@ -25,36 +25,45 @@ branch_menu() {
 # Function to create a branch
 create_branch() {
     list_branches
-    read -p "Enter the name of the new branch: " branch_name
+    read -p "${GREEN}Enter the name of the new branch: ${BLUE}" branch_name
+    if [[ ! "$branch_name" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+        echo -e "${RED}Error: Invalid branch name.${RESETBG}"
+        return
+    fi
     git checkout -b "$branch_name"
     if [ $? -eq 0 ]; then
-        echo "${GREEN}Branch '$branch_name' created successfully!${RESETBG}"
+        echo -e "${GREEN}Branch '$branch_name' created successfully!${RESETBG}"
     else
-        echo "${RED}Failed to create branch '$branch_name'.${RESETBG}"
+        echo -e "${RED}Failed to create branch '$branch_name'.${RESETBG}"
     fi
 }
 
 # Function to delete a branch
 delete_branch() {
     list_branches
-    read -p "Enter the name of the branch to delete: " branch_name
-    git branch -d "$branch_name"
-    if [ $? -eq 0 ]; then
-        echo "${GREEN}Branch '$branch_name' deleted successfully!${RESETBG}"
+    read -p "${GREEN}Enter the name of the branch to delete: ${BLUE}" branch_name
+    read -p "${GREEN}Force delete unmerged branch? (y/n): ${BLUE}" force
+    if [[ $force == "y" || $force == "Y" ]]; then
+        git branch -D "$branch_name"
     else
-        echo "${RED}Failed to delete branch '$branch_name'.${RESETBG}"
+        git branch -d "$branch_name"
+    fi
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Branch '$branch_name' deleted successfully!${RESETBG}"
+    else
+        echo -e "${RED}Failed to delete branch '$branch_name'.${RESETBG}"
     fi
 }
 
 # Function to merge a branch
 merge_branch() {
     list_branches
-    read -p "Enter the name of the branch to merge: " branch_name
+    read -p "${GREEN}Enter the name of the branch to merge: ${BLUE}" branch_name
     git merge "$branch_name"
     if [ $? -eq 0 ]; then
-        echo "${GREEN}Branch '$branch_name' merged successfully!${RESETBG}"
+        echo -e "${GREEN}Branch '$branch_name' merged successfully!${RESETBG}"
     else
-        echo "${RED}Failed to merge branch '$branch_name'.${RESETBG}"
+        echo -e "${RED}Merge conflict detected! Resolve conflicts and commit the changes.${RESETBG}"
     fi
 }
 
@@ -67,12 +76,12 @@ list_branches() {
 # Function to switch to a branch
 switch_branch() {
     list_branches
-    read -p "Enter the name of the branch to switch to: " branch_name
+    read -p "${GREEN}Enter the name of the branch to switch to: ${BLUE}" branch_name
     git checkout "$branch_name"
     if [ $? -eq 0 ]; then
-        echo "${GREEN}Switched to branch '$branch_name' successfully!${RESETBG}"
+        echo -e "${GREEN}Switched to branch '$branch_name' successfully!${RESETBG}"
     else
-        echo "${RED}Failed to switch to branch '$branch_name'.${RESETBG}"
+        echo -e "${RED}Failed to switch to branch '$branch_name'.${RESETBG}"
     fi
 }
 
