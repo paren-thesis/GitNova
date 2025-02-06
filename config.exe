@@ -17,6 +17,10 @@ configuration_setup() {
         echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Set user email ${GREEN}git config --global user.email useremail"
         echo -e "${RED}[${WHITE}3${RED}]${ORANGE} View configuration ${GREEN}git config --list"
         echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Initialize repository ${GREEN}git init"
+        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Set default branch name ${GREEN}git config --global init.defaultBranch main"
+        echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Set default text editor ${GREEN}git config --global core.editor vim"
+        echo -e "${RED}[${WHITE}7${RED}]${ORANGE} Set GPG signing key ${GREEN}git config --global user.signingKey <GPG_KEY_ID>"
+        echo -e "${RED}[${WHITE}8${RED}]${ORANGE} Unset configuration ${GREEN}git config --global --unset <key>"
         echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
         echo
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
@@ -26,6 +30,10 @@ configuration_setup() {
             2) set_user_email ;;
             3) view_config ;;
             4) initialise ;;
+            5) set_default_branch ;;
+            6) set_default_editor ;;
+            7) set_gpg_signing_key ;;
+            8) unset_config ;;
             0) break ;;
             *)
                 echo "${RED}Invalid option! Please try again."
@@ -38,27 +46,89 @@ configuration_setup() {
 
 set_user_name() {
     read -p "${GREEN}Enter your name: ${BLUE}" name
-    git config --global user.name "$name"
-    echo "${GREEN}User name set to $name"
+    if [[ -z "$name" ]]; then
+        echo -e "${RED}Error: Name cannot be empty.${RESETBG}"
+        return
+    fi
+    git config --global user.name "$name" || echo -e "${RED}Error: Failed to set user name.${RESETBG}"
+    echo -e "${GREEN}User name set to $name${RESETBG}"
 }
 
 set_user_email() {
     read -p "${GREEN}Enter your email: ${BLUE}" email
-    git config --global user.email "$email"
-    echo "${GREEN}User email set to $email"
+    if [[ ! "$email" =~ ^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$ ]]; then
+        echo -e "${RED}Error: Invalid email format.${RESETBG}"
+        return
+    fi
+    git config --global user.email "$email" || echo -e "${RED}Error: Failed to set user email.${RESETBG}"
+    echo -e "${GREEN}User email set to $email${RESETBG}"
 }
 
 view_config() {
     echo -e "${GREEN}Git Configuration:${RESETBG}"
-    echo "${GREEN}user.name"
-    git config --global user.name
-    echo "${GREEN}user.email"
-    git config --global user.email
+    git config --global --list
 }
 
 initialise() {
-    echo -e "${GREEN}Initialising...${RESETBG}"
-    git init
+    read -p "${GREEN}Enter the directory to initialize (leave blank for current directory): ${BLUE}" dir
+    if [[ -z "$dir" ]]; then
+        git init || echo -e "${RED}Error: Failed to initialize repository.${RESETBG}"
+    else
+        git init "$dir" || echo -e "${RED}Error: Failed to initialize repository in '$dir'.${RESETBG}"
+    fi
+    echo -e "${GREEN}Repository initialized.${RESETBG}"
+}
+
+set_default_branch() {
+    read -p "${GREEN}Enter the default branch name (e.g., main): ${BLUE}" branch
+    if [[ -z "$branch" ]]; then
+        echo -e "${RED}Error: Branch name cannot be empty.${RESETBG}"
+        return
+    fi
+    git config --global init.defaultBranch "$branch" || echo -e "${RED}Error: Failed to set default branch.${RESETBG}"
+    echo -e "${GREEN}Default branch set to '$branch'.${RESETBG}"
+}
+
+set_default_editor() {
+    read -p "${GREEN}Enter the default text editor (e.g., vim, nano, code): ${BLUE}" editor
+    if [[ -z "$editor" ]]; then
+        echo -e "${RED}Error: Editor name cannot be empty.${RESETBG}"
+        return
+    fi
+    git config --global core.editor "$editor" || echo -e "${RED}Error: Failed to set default editor.${RESETBG}"
+    echo -e "${GREEN}Default editor set to '$editor'.${RESETBG}"
+}
+
+set_gpg_signing_key() {
+    read -p "${GREEN}Enter your GPG signing key ID: ${BLUE}" gpg_key
+    if [[ -z "$gpg_key" ]]; then
+        echo -e "${RED}Error: GPG key ID cannot be empty.${RESETBG}"
+        return
+    fi
+    git config --global user.signingKey "$gpg_key" || echo -e "${RED}Error: Failed to set GPG signing key.${RESETBG}"
+    echo -e "${GREEN}GPG signing key set to '$gpg_key'.${RESETBG}"
+}
+
+unset_config() {
+    echo -e "${GREEN}Select the configuration to unset:${RESETBG}"
+    echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Unset user name ${GREEN}git config --global --unset user.name"
+    echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Unset user email ${GREEN}git config --global --unset user.email"
+    echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Unset default branch ${GREEN}git config --global --unset init.defaultBranch"
+    echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Unset default editor ${GREEN}git config --global --unset core.editor"
+    echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Unset GPG signing key ${GREEN}git config --global --unset user.signingKey"
+    echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
+    echo
+    read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" unset_option
+
+    case $unset_option in
+        1) git config --global --unset user.name && echo -e "${GREEN}User name unset.${RESETBG}" ;;
+        2) git config --global --unset user.email && echo -e "${GREEN}User email unset.${RESETBG}" ;;
+        3) git config --global --unset init.defaultBranch && echo -e "${GREEN}Default branch unset.${RESETBG}" ;;
+        4) git config --global --unset core.editor && echo -e "${GREEN}Default editor unset.${RESETBG}" ;;
+        5) git config --global --unset user.signingKey && echo -e "${GREEN}GPG signing key unset.${RESETBG}" ;;
+        0) return ;;
+        *) echo -e "${RED}Invalid option! Please try again.${RESETBG}" ;;
+    esac
 }
 
 configuration_setup
