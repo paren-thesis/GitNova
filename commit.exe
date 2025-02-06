@@ -17,6 +17,12 @@ commit_commands_menu() {
         echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Amend the last commit ${GREEN}git commit --amend"
         echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Commit only specific files ${GREEN}git commit file_name -m 'message'"
         echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Skip staging and commit directly ${GREEN}git commit -a -m 'message'"
+        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Commit and sign with GPG ${GREEN}git commit -S -m 'message'"
+        echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Commit all changes (including untracked files) ${GREEN}git add -A && git commit -m 'message'"
+        echo -e "${RED}[${WHITE}7${RED}]${ORANGE} Create an empty commit ${GREEN}git commit --allow-empty -m 'message'"
+        echo -e "${RED}[${WHITE}8${RED}]${ORANGE} Commit with a specific date ${GREEN}git commit -m 'message' --date='YYYY-MM-DD HH:MM:SS'"
+        echo -e "${RED}[${WHITE}9${RED}]${ORANGE} View commit history ${GREEN}git log --oneline"
+        echo -e "${RED}[${WHITE}10${RED}]${ORANGE} Undo last commit (keep changes) ${GREEN}git reset --soft HEAD~1"
         echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
         echo
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
@@ -26,6 +32,12 @@ commit_commands_menu() {
             2) amend_last_commit ;;
             3) commit_specific_files ;;
             4) skip_staging_and_commit ;;
+            5) commit_and_sign ;;
+            6) commit_all_changes ;;
+            7) empty_commit ;;
+            8) commit_with_date ;;
+            9) view_commit_history ;;
+            10) undo_last_commit ;;
             0) break ;;  # Exit the loop and return to the main menu
             *) echo -e "${RED}Invalid option! Please try again.${RESETBG}" ;;
         esac
@@ -105,6 +117,67 @@ skip_staging_and_commit() {
     fi
     git commit -a -m "$message" || echo -e "${RED}Error: Commit failed.${RESETBG}"
     echo -e "${GREEN}Changes have been committed directly with the message: '$message'.${RESETBG}"
+}
+
+commit_and_sign() {
+    git_status
+    read -p "${GREEN}Enter the commit message: ${BLUE}" message
+    if [[ -z "$message" ]]; then
+        echo -e "${RED}Error: Commit message cannot be empty.${RESETBG}"
+        return
+    fi
+    git commit -S -m "$message" || echo -e "${RED}Error: Commit failed.${RESETBG}"
+    echo -e "${GREEN}Changes have been committed and signed with the message: '$message'.${RESETBG}"
+}
+
+commit_all_changes() {
+    git_status
+    read -p "${GREEN}Enter the commit message: ${BLUE}" message
+    if [[ -z "$message" ]]; then
+        echo -e "${RED}Error: Commit message cannot be empty.${RESETBG}"
+        return
+    fi
+    git add -A && git commit -m "$message" || echo -e "${RED}Error: Commit failed.${RESETBG}"
+    echo -e "${GREEN}All changes have been committed with the message: '$message'.${RESETBG}"
+}
+
+empty_commit() {
+    read -p "${GREEN}Enter the commit message: ${BLUE}" message
+    if [[ -z "$message" ]]; then
+        echo -e "${RED}Error: Commit message cannot be empty.${RESETBG}"
+        return
+    fi
+    git commit --allow-empty -m "$message" || echo -e "${RED}Error: Commit failed.${RESETBG}"
+    echo -e "${GREEN}Empty commit created with the message: '$message'.${RESETBG}"
+}
+
+commit_with_date() {
+    git_status
+    read -p "${GREEN}Enter the commit message: ${BLUE}" message
+    read -p "${GREEN}Enter the date (YYYY-MM-DD HH:MM:SS): ${BLUE}" date
+    if [[ -z "$message" || -z "$date" ]]; then
+        echo -e "${RED}Error: Commit message and date cannot be empty.${RESETBG}"
+        return
+    fi
+    git commit -m "$message" --date="$date" || echo -e "${RED}Error: Commit failed.${RESETBG}"
+    echo -e "${GREEN}Changes have been committed with the message: '$message' and date: '$date'.${RESETBG}"
+}
+
+view_commit_history() {
+    echo -e "${GREEN}Commit history:${RESETBG}"
+    git log --oneline
+    echo -e "${GREEN}Press [Enter] to continue...${RESETBG}"
+    read
+}
+
+undo_last_commit() {
+    read -p "${GREEN}Are you sure you want to undo the last commit? (y/n): ${BLUE}" confirm
+    if [[ $confirm == "y" || $confirm == "Y" ]]; then
+        git reset --soft HEAD~1 || echo -e "${RED}Error: Undo operation failed.${RESETBG}"
+        echo -e "${GREEN}Last commit has been undone. Changes are preserved in the working directory.${RESETBG}"
+    else
+        echo -e "${RED}Undo operation canceled.${RESETBG}"
+    fi
 }
 
 # Start the menu
