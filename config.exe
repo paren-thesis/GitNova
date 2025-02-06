@@ -38,27 +38,37 @@ configuration_setup() {
 
 set_user_name() {
     read -p "${GREEN}Enter your name: ${BLUE}" name
-    git config --global user.name "$name"
-    echo "${GREEN}User name set to $name"
+    if [[ -z "$name" ]]; then
+        echo -e "${RED}Error: Name cannot be empty.${RESETBG}"
+        return
+    fi
+    git config --global user.name "$name" || echo -e "${RED}Error: Failed to set user name.${RESETBG}"
+    echo -e "${GREEN}User name set to $name${RESETBG}"
 }
 
 set_user_email() {
     read -p "${GREEN}Enter your email: ${BLUE}" email
-    git config --global user.email "$email"
-    echo "${GREEN}User email set to $email"
+    if [[ ! "$email" =~ ^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$ ]]; then
+        echo -e "${RED}Error: Invalid email format.${RESETBG}"
+        return
+    fi
+    git config --global user.email "$email" || echo -e "${RED}Error: Failed to set user email.${RESETBG}"
+    echo -e "${GREEN}User email set to $email${RESETBG}"
 }
 
 view_config() {
     echo -e "${GREEN}Git Configuration:${RESETBG}"
-    echo "${GREEN}user.name"
-    git config --global user.name
-    echo "${GREEN}user.email"
-    git config --global user.email
+    git config --global --list
 }
 
 initialise() {
-    echo -e "${GREEN}Initialising...${RESETBG}"
-    git init
+    read -p "${GREEN}Enter the directory to initialize (leave blank for current directory): ${BLUE}" dir
+    if [[ -z "$dir" ]]; then
+        git init || echo -e "${RED}Error: Failed to initialize repository.${RESETBG}"
+    else
+        git init "$dir" || echo -e "${RED}Error: Failed to initialize repository in '$dir'.${RESETBG}"
+    fi
+    echo -e "${GREEN}Repository initialized.${RESETBG}"
 }
 
 configuration_setup
