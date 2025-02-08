@@ -15,9 +15,12 @@ staging_stash_menu() {
         echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Stage all changes ${GREEN}git add ."
         echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Stage a specific file ${GREEN}git add file_name"
         echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Unstage a file ${GREEN}git reset file_name"
-        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Stash changes ${GREEN}git stash"
-        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Apply stashed changes ${GREEN}git stash apply"
-        echo -e "${RED}[${WHITE}6${RED}]${ORANGE} List stashed changes ${GREEN}git stash list"
+        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Unstage all changes ${GREEN}git reset"
+        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Stash changes ${GREEN}git stash"
+        echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Apply stashed changes ${GREEN}git stash apply"
+        echo -e "${RED}[${WHITE}7${RED}]${ORANGE} Apply a specific stash ${GREEN}git stash apply stash@{n}"
+        echo -e "${RED}[${WHITE}8${RED}]${ORANGE} Drop a stash ${GREEN}git stash drop stash@{n}"
+        echo -e "${RED}[${WHITE}9${RED}]${ORANGE} List stashed changes ${GREEN}git stash list"
         echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
         echo
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
@@ -26,11 +29,14 @@ staging_stash_menu() {
             1) stage_all_changes ;;
             2) stage_specific_file ;;
             3) unstage_file ;;
-            4) stash_changes ;;
-            5) apply_stashed_changes ;;
-            6) list_stashed_changes ;;
+            4) unstage_all_changes ;;
+            5) stash_changes ;;
+            6) apply_stashed_changes ;;
+            7) apply_specific_stash ;;
+            8) drop_stash ;;
+            9) list_stashed_changes ;;
             0) break ;;  # Exit the loop and return to the main menu
-            *) echo "${RED}Invalid option! Please try again." ;;
+            *) echo -e "${RED}Invalid option! Please try again.${RESETBG}" ;;
         esac
 
         read -p "${GREEN}Press [Enter] to return to the menu...${RESETBG}"
@@ -40,33 +46,62 @@ staging_stash_menu() {
 # Functions for each option
 stage_all_changes() {
     git add .
-    echo "${GREEN}All changes have been staged.${RESETBG}"
+    echo -e "${GREEN}All changes have been staged.${RESETBG}"
 }
 
 stage_specific_file() {
     read -p "${GREEN}Enter the file name to stage: ${BLUE}" file_name
-    git add "$file_name"
-    echo "${GREEN}File '$file_name' has been staged.${RESETBG}"
+    if [[ ! -f "$file_name" ]]; then
+        echo -e "${RED}Error: File '$file_name' does not exist.${RESETBG}"
+        return
+    fi
+    git add "$file_name" || echo -e "${RED}Error: File '$file_name' could not be staged.${RESETBG}"
+    echo -e "${GREEN}File '$file_name' has been staged.${RESETBG}"
 }
 
 unstage_file() {
     read -p "${GREEN}Enter the file name to unstage: ${BLUE}" file_name
-    git reset "$file_name"
-    echo "${GREEN}File '$file_name' has been unstaged.${RESETBG}"
+    if [[ ! -f "$file_name" ]]; then
+        echo -e "${RED}Error: File '$file_name' does not exist.${RESETBG}"
+        return
+    fi
+    git reset "$file_name" || echo -e "${RED}Error: File '$file_name' could not be unstaged.${RESETBG}"
+    echo -e "${GREEN}File '$file_name' has been unstaged.${RESETBG}"
+}
+
+unstage_all_changes() {
+    git reset
+    echo -e "${GREEN}All changes have been unstaged.${RESETBG}"
 }
 
 stash_changes() {
-    git stash
-    echo "${GREEN}Changes have been stashed.${RESETBG}"
+    read -p "${GREEN}Enter a message for the stash: ${BLUE}" stash_message
+    git stash push -m "$stash_message" || echo -e "${RED}Error: Failed to stash changes.${RESETBG}"
+    echo -e "${GREEN}Changes have been stashed with message: '$stash_message'.${RESETBG}"
 }
 
 apply_stashed_changes() {
-    git stash apply
-    echo "${GREEN}Stashed changes have been applied.${RESETBG}"
+    git stash apply || echo -e "${RED}Error: Failed to apply stashed changes.${RESETBG}"
+    echo -e "${GREEN}Stashed changes have been applied.${RESETBG}"
+}
+
+apply_specific_stash() {
+    git stash list
+    read -p "${GREEN}Enter the stash ID to apply (e.g., stash@{0}): ${BLUE}" stash_id
+    git stash apply "$stash_id" || echo -e "${RED}Error: Failed to apply stash '$stash_id'.${RESETBG}"
+    echo -e "${GREEN}Stash '$stash_id' has been applied.${RESETBG}"
+}
+
+drop_stash() {
+    git stash list
+    read -p "${GREEN}Enter the stash ID to drop (e.g., stash@{0}): ${BLUE}" stash_id
+    git stash drop "$stash_id" || echo -e "${RED}Error: Failed to drop stash '$stash_id'.${RESETBG}"
+    echo -e "${GREEN}Stash '$stash_id' has been dropped.${RESETBG}"
 }
 
 list_stashed_changes() {
     git stash list
 }
 
+# Start the menu
 staging_stash_menu
