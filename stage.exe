@@ -21,6 +21,10 @@ staging_stash_menu() {
         echo -e "${RED}[${WHITE}7${RED}]${ORANGE} Apply a specific stash ${GREEN}git stash apply stash@{n}"
         echo -e "${RED}[${WHITE}8${RED}]${ORANGE} Drop a stash ${GREEN}git stash drop stash@{n}"
         echo -e "${RED}[${WHITE}9${RED}]${ORANGE} List stashed changes ${GREEN}git stash list"
+        echo -e "${RED}[${WHITE}10${RED}]${ORANGE} Pop the most recent stash ${GREEN}git stash pop"
+        echo -e "${RED}[${WHITE}11${RED}]${ORANGE} Clear all stashes ${GREEN}git stash clear"
+        echo -e "${RED}[${WHITE}12${RED}]${ORANGE} Stage changes interactively ${GREEN}git add -p"
+        echo -e "${RED}[${WHITE}13${RED}]${ORANGE} View stash diff ${GREEN}git stash show -p stash@{n}"
         echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
         echo
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
@@ -35,6 +39,10 @@ staging_stash_menu() {
             7) apply_specific_stash ;;
             8) drop_stash ;;
             9) list_stashed_changes ;;
+            10) pop_stash ;;
+            11) clear_all_stashes ;;
+            12) stage_interactively ;;
+            13) view_stash_diff ;;
             0) break ;;  # Exit the loop and return to the main menu
             *) echo -e "${RED}Invalid option! Please try again.${RESETBG}" ;;
         esac
@@ -101,6 +109,32 @@ drop_stash() {
 
 list_stashed_changes() {
     git stash list
+}
+
+pop_stash() {
+    git stash pop || echo -e "${RED}Error: Failed to pop the stash.${RESETBG}"
+    echo -e "${GREEN}Stash applied and dropped successfully.${RESETBG}"
+}
+
+clear_all_stashes() {
+    read -p "${GREEN}Are you sure you want to clear all stashes? (y/n): ${BLUE}" confirm
+    if [[ $confirm == "y" || $confirm == "Y" ]]; then
+        git stash clear || echo -e "${RED}Error: Failed to clear stashes.${RESETBG}"
+        echo -e "${GREEN}All stashes have been cleared.${RESETBG}"
+    else
+        echo -e "${RED}Operation canceled.${RESETBG}"
+    fi
+}
+
+stage_interactively() {
+    git add -p
+    echo -e "${GREEN}Interactive staging completed.${RESETBG}"
+}
+
+view_stash_diff() {
+    git stash list
+    read -p "${GREEN}Enter the stash ID to view diff (e.g., stash@{0}): ${BLUE}" stash_id
+    git stash show -p "$stash_id" || echo -e "${RED}Error: Failed to view stash diff.${RESETBG}"
 }
 
 # Start the menu
