@@ -17,6 +17,12 @@ branch_menu() {
     echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Merge a branch: ${GREEN}git merge branch_name"
     echo -e "${RED}[${WHITE}4${RED}]${ORANGE} List all branches: ${GREEN}git branch"
     echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Switch to a branch: ${GREEN}git checkout branch_name"
+    echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Create a remote branch: ${GREEN}git push -u origin branch_name"
+    echo -e "${RED}[${WHITE}7${RED}]${ORANGE} Delete a remote branch: ${GREEN}git push origin --delete branch_name"
+    echo -e "${RED}[${WHITE}8${RED}]${ORANGE} Switch to a remote branch: ${GREEN}git checkout -b branch_name origin/branch_name"
+    echo -e "${RED}[${WHITE}9${RED}]${ORANGE} Rebase a branch: ${GREEN}git rebase branch_name"
+    echo -e "${RED}[${WHITE}10${RED}]${ORANGE} Rename a branch: ${GREEN}git branch -m old_name new_name"
+    echo -e "${RED}[${WHITE}11${RED}]${ORANGE} View branch history: ${GREEN}git log branch_name --oneline"
     echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
     echo
 }
@@ -85,6 +91,80 @@ switch_branch() {
     fi
 }
 
+create_remote_branch() {
+    list_branches
+    read -p "${GREEN}Enter the name of the new branch: ${BLUE}" branch_name
+    if [[ ! "$branch_name" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+    
+        echo -e "${RED}Error: Invalid branch name.${RESETBG}"
+        return
+    fi
+    git checkout -b "$branch_name"
+    git push -u origin "$branch_name"
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Remote branch '$branch_name' created and pushed successfully!${RESETBG}"
+    else
+        echo -e "${RED}Failed to create remote branch '$branch_name'.${RESETBG}"
+    fi
+}
+
+delete_remote_branch() {
+    list_branches
+    read -p "${GREEN}Enter the name of the remote branch to delete: ${BLUE}" branch_name
+    git push origin --delete "$branch_name"
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Remote branch '$branch_name' deleted successfully!${RESETBG}"
+    else
+        echo -e "${RED}Failed to delete remote branch '$branch_name'.${RESETBG}"
+    fi
+}
+
+switch_remote_branch() {
+    git fetch --all
+    list_branches
+    read -p "${GREEN}Enter the name of the remote branch to switch to: ${BLUE}" branch_name
+    git checkout -b "$branch_name" "origin/$branch_name"
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Switched to remote branch '$branch_name' successfully!${RESETBG}"
+    else
+        echo -e "${RED}Failed to switch to remote branch '$branch_name'.${RESETBG}"
+    fi
+}
+
+rebase_branch() {
+    list_branches
+    read -p "${GREEN}Enter the name of the branch to rebase onto: ${BLUE}" branch_name
+    git rebase "$branch_name"
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Rebase onto '$branch_name' completed successfully!${RESETBG}"
+    else
+        echo -e "${RED}Rebase failed. Resolve conflicts and run 'git rebase --continue'.${RESETBG}"
+    fi
+}
+
+rename_branch() {
+    list_branches
+    read -p "${GREEN}Enter the current name of the branch: ${BLUE}" old_name
+    read -p "${GREEN}Enter the new name for the branch: ${BLUE}" new_name
+    if [[ ! "$new_name" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+        echo -e "${RED}Error: Invalid branch name.${RESETBG}"
+        return
+    fi
+    git branch -m "$old_name" "$new_name"
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Branch renamed from '$old_name' to '$new_name' successfully!${RESETBG}"
+    else
+        echo -e "${RED}Failed to rename branch.${RESETBG}"
+    fi
+}
+
+view_branch_history() {
+    list_branches
+    read -p "${GREEN}Enter the name of the branch to view history: ${BLUE}" branch_name
+    echo -e "${CYAN}Commit history for branch '$branch_name':${RESETBG}"
+    git log "$branch_name" --oneline
+}
+
 # Menu Navigation
 branch_management() {
     while true; do
@@ -96,6 +176,12 @@ branch_management() {
             3) merge_branch ;;
             4) list_branches ;;
             5) switch_branch ;;
+            6) create_remote_branch ;;
+            7) delete_remote_branch ;;
+            8) switch_remote_branch ;;
+            9) rebase_branch ;;
+            10) rename_branch ;;
+            11) view_branch_history ;;
             0) break ;;
             *) echo "${RED}Invalid option! Please try again.${RESETBG}" ;;
         esac
