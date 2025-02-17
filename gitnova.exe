@@ -55,17 +55,17 @@ main_menu() {
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
 
         case $selected in
-            1) source /c/gitty/n-config.exe ;;
-            2) source /c/gitty/n-branch.exe ;;
-            3) source /c/gitty/n-stage.exe ;;
-            4) source /c/gitty/n-commit.exe ;;
-            5) source /c/gitty/n-undo.exe ;;
-            6) source /c/gitty/n-remote.exe ;;
-            7) source /c/gitty/n-logs.exe ;;
-            8) source /c/gitty/n-subm.exe ;;
-            9) source /c/gitty/n-adv.exe ;;
-            10) source /c/gitty/n-clean.exe ;;
-            11) source /c/gitty/n-tag.exe ;;
+            1) source /c/GitNova/n-config.exe ;;
+            2) source /c/GItNova/n-branch.exe ;;
+            3) source /c/GitNova/n-stage.exe ;;
+            4) source /c/GitNova/n-commit.exe ;;
+            5) source /c/GitNova/n-undo.exe ;;
+            6) source /c/GitNova/n-remote.exe ;;
+            7) source /c/GitNova/n-logs.exe ;;
+            8) source /c/GitNova/n-subm.exe ;;
+            9) source /c/GitNova/n-adv.exe ;;
+            10) source /c/GitNova/n-clean.exe ;;
+            11) source /c/GitNova/n-tag.exe ;;
             99) about ;;
             00) exit_script ;;
             *) echo "${RED}Invalid option! Please try again." ;;
