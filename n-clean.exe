@@ -1,0 +1,110 @@
+#!/bin/bash
+
+# Colors for formatting
+CYAN="$(printf '\033[36m')"
+GREEN="$(printf '\033[32m')"
+ORANGE="$(printf '\033[33m')"
+BLUE="$(printf '\033[34m')"
+RED="$(printf '\033[31m')"
+WHITE="$(printf '\033[37m')"
+RESETBG="$(printf '\e[0m\n')"
+
+# Check if the current directory is a Git repository
+check_git_repo() {
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo -e "${RED}Error: This is not a Git repository.${RESETBG}"
+        exit 1
+    fi
+}
+
+# Display Git status
+status() {
+    echo -e "${BLUE}Current Git Status:${RESETBG}"
+    git status -s
+}
+
+# Confirm before proceeding
+confirm() {
+    read -p "${RED}Are you sure? (y/n): ${RESETBG}" choice
+    case "$choice" in
+        y|Y ) return 0 ;;
+        n|N ) echo -e "${ORANGE}Operation canceled.${RESETBG}"; return 1 ;;
+        * ) echo -e "${RED}Invalid input. Operation canceled.${RESETBG}"; return 1 ;;
+    esac
+}
+
+# Clean Up Menu
+cleanup_menu() {
+    while true; do
+        clear
+        echo -e "${RED}Clean Up Commands:${RESETBG}"
+        echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Remove untracked files ${GREEN}(git clean -f)${RESETBG}"
+        echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Remove untracked directories ${GREEN}(git clean -fd)${RESETBG}"
+        echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Prune remote-tracking branches ${GREEN}(git remote prune origin)${RESETBG}"
+        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Delete merged branches ${GREEN}(git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d)${RESETBG}"
+        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Clean up dangling objects ${GREEN}(git gc --prune=now)${RESETBG}"
+        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to Main Menu${RESETBG}"
+        echo
+        read -p "${GREEN}Select an option: ${WHITE}" choice
+        case $choice in
+            1) remove_untracked_files ;;
+            2) remove_untracked_directories ;;
+            3) prune_remote_branches ;;
+            4) delete_merged_branches ;;
+            5) cleanup_dangling_objects ;;
+            0) break ;;
+            *) echo -e "${RED}Invalid option! Try again.${RESETBG}" ;;
+        esac
+        read -p "${GREEN}Press [Enter] to continue...${RESETBG}"
+    done
+}
+
+# Function to remove untracked files
+remove_untracked_files() {
+    echo -e "${ORANGE}Removing untracked files...${RESETBG}"
+    if confirm; then
+        echo -e "${GREEN}Command: git clean -f${RESETBG}"
+        git clean -f
+    fi
+}
+
+# Function to remove untracked directories
+remove_untracked_directories() {
+    echo -e "${ORANGE}Removing untracked directories...${RESETBG}"
+    if confirm; then
+        echo -e "${GREEN}Command: git clean -fd${RESETBG}"
+        git clean -fd
+    fi
+}
+
+# Function to prune remote-tracking branches
+prune_remote_branches() {
+    echo -e "${ORANGE}Pruning remote-tracking branches...${RESETBG}"
+    if confirm; then
+        echo -e "${GREEN}Command: git remote prune origin${RESETBG}"
+        git remote prune origin
+    fi
+}
+
+# Function to delete merged branches
+delete_merged_branches() {
+    echo -e "${ORANGE}Deleting merged branches...${RESETBG}"
+    if confirm; then
+        echo -e "${GREEN}Command: git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d${RESETBG}"
+        git branch --merged | grep -v '\*' | xargs -n 1 git branch -d
+    fi
+}
+
+# Function to clean up dangling objects
+cleanup_dangling_objects() {
+    echo -e "${ORANGE}Cleaning up dangling objects...${RESETBG}"
+    if confirm; then
+        echo -e "${GREEN}Command: git gc --prune=now${RESETBG}"
+        git gc --prune=now
+    fi
+}
+
+# Main Execution
+check_git_repo
+status
+cleanup_menu

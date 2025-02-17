@@ -1,0 +1,79 @@
+#!/bin/bash
+
+__version__="2.3.5"
+
+## DEFAULT HOST & PORT
+HOST='127.0.0.1'
+PORT='8080' 
+
+RED="$(printf '\033[31m')"  GREEN="$(printf '\033[32m')"  ORANGE="$(printf '\033[33m')"  BLUE="$(printf '\033[34m')"
+MAGENTA="$(printf '\033[35m')"  CYAN="$(printf '\033[36m')"  WHITE="$(printf '\033[37m')" BLACK="$(printf '\033[30m')"
+CYANBG="$(printf '\033[41m')"  GREENBG="$(printf '\033[42m')"  ORANGEBG="$(printf '\033[43m')"  BLUEBG="$(printf '\033[44m')"
+MAGENTABG="$(printf '\033[45m')"  CYANBG="$(printf '\033[46m')"  WHITEBG="$(printf '\033[47m')" BLACKBG="$(printf '\033[40m')"
+RESETBG="$(printf '\e[0m\n')"
+
+banner_g() {
+echo "${CYAN} <<--NoVa-->>" ${__version__}
+}
+
+
+about() {
+    echo "${GREEN}About this script:"
+    echo "${GREEN}Version: ${__version__}"
+    echo "${GREEN}This script provides various utility functions for repo management."
+    echo "${GREEN}This repo was created by gitty-thesis on github"
+    echo
+    echo "${CYAN}This is a list this of available commands"
+}
+
+exit_script() {
+    echo "${GREEN}Exiting script..."
+    clear
+    exit 0
+}
+
+# Main Menu
+main_menu() {
+    while true; do
+        clear
+        banner_g
+        echo
+        echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Configuration and Setup --> ${GREEN} n-config"
+        echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Branch Management --> ${GREEN} n-branch"
+        echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Staging and Stash --> ${GREEN} n-stage"
+        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Commit Changes --> ${GREEN} n-commit"
+        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Undoing Changes --> ${GREEN} n-undo"
+        echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Remote Repositories --> ${GREEN} n-remote"
+        echo -e "${RED}[${WHITE}7${RED}]${ORANGE} Logs and History --> ${GREEN} n-logs"
+        echo -e "${RED}[${WHITE}8${RED}]${ORANGE} Working with Submodules --> ${GREEN} n-subm"
+        echo -e "${RED}[${WHITE}9${RED}]${ORANGE} Advanced Commands --> ${GREEN} n-adv"
+        echo -e "${RED}[${WHITE}10${RED}]${ORANGE} Clean Up  --> ${GREEN} n-clean"
+        echo -e "${RED}[${WHITE}11${RED}]${ORANGE} Tagging --> ${GREEN} n-tag"
+        echo -e "${RED}[${WHITE}99${RED}]${ORANGE} About  --> ${GREEN} about"
+        echo -e "${RED}[${WHITE}00${RED}]${ORANGE} Exit"
+        echo
+        read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
+
+        case $selected in
+            1) source /c/gitty/n-config.exe ;;
+            2) source /c/gitty/n-branch.exe ;;
+            3) source /c/gitty/n-stage.exe ;;
+            4) source /c/gitty/n-commit.exe ;;
+            5) source /c/gitty/n-undo.exe ;;
+            6) source /c/gitty/n-remote.exe ;;
+            7) source /c/gitty/n-logs.exe ;;
+            8) source /c/gitty/n-subm.exe ;;
+            9) source /c/gitty/n-adv.exe ;;
+            10) source /c/gitty/n-clean.exe ;;
+            11) source /c/gitty/n-tag.exe ;;
+            99) about ;;
+            00) exit_script ;;
+            *) echo "${RED}Invalid option! Please try again." ;;
+        esac
+
+        read -p "${GREEN}Press [Enter] to continue..." dummy
+    done
+}
+
+# Run the menu
+main_menu
