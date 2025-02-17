@@ -26,7 +26,7 @@ Follow these steps to clone and set up PAREN on your system:
 
 2. Navigate to the project directory:
    ```bash
-   cd GitNova
+   cd GitNova/cmds
    ```
 
 3. Make all scripts executable:
@@ -41,7 +41,7 @@ Follow these steps to clone and set up PAREN on your system:
      ```
    - Add the following line (replace `/path/to/Gitty` with the actual path):
      ```bash
-     export PATH="/path/to/GitNova:$PATH"
+     export PATH="/path/to/GitNova/cmds:$PATH"
      ```
    - Save and reload the shell:
      ```bash
