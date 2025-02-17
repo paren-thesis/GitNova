@@ -7,8 +7,15 @@ BLUE="$(printf '\033[34m')"
 RED="$(printf '\033[31m')"
 RESETBG="$(printf '\e[0m\n')"
 
-# Configuration and Setup Functions
+# Check if the current directory is a Git repository
+check_git_repo() {
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo -e "${RED}Error: This is not a Git repository.${RESETBG}"
+        exit 1
+    fi
+}
 
+# Configuration and Setup Functions
 configuration_setup() {
     while true; do
         clear
@@ -131,4 +138,5 @@ unset_config() {
     esac
 }
 
+check_git_repo
 configuration_setup

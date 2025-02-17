@@ -8,6 +8,14 @@ BLUE="$(printf '\033[34m')"
 RED="$(printf '\033[31m')"
 RESETBG="$(printf '\e[0m\n')"
 
+# Check if the current directory is a Git repository
+check_git_repo() {
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo -e "${RED}Error: This is not a Git repository.${RESETBG}"
+        exit 1
+    fi
+}
+
 # Advanced Commands Menu
 advanced_menu() {
     while true; do
@@ -77,4 +85,5 @@ view_staged_diff() {
     git diff --cached
 }
 
+check_git_repo
 advanced_menu

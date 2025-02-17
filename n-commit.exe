@@ -8,6 +8,14 @@ BLUE="$(printf '\033[34m')"
 RED="$(printf '\033[31m')"
 RESETBG="$(printf '\e[0m\n')"
 
+# Check if the current directory is a Git repository
+check_git_repo() {
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo -e "${RED}Error: This is not a Git repository.${RESETBG}"
+        exit 1
+    fi
+}
+
 # Commit Commands Menu
 commit_commands_menu() {
     while true; do
@@ -181,4 +189,5 @@ undo_last_commit() {
 }
 
 # Start the menu
+check_git_repo
 commit_commands_menu

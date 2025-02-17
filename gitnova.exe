@@ -12,6 +12,14 @@ CYANBG="$(printf '\033[41m')"  GREENBG="$(printf '\033[42m')"  ORANGEBG="$(print
 MAGENTABG="$(printf '\033[45m')"  CYANBG="$(printf '\033[46m')"  WHITEBG="$(printf '\033[47m')" BLACKBG="$(printf '\033[40m')"
 RESETBG="$(printf '\e[0m\n')"
 
+# Check if the current directory is a Git repository
+check_git_repo() {
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo -e "${RED}Error: This is not a Git repository.${RESETBG}"
+        exit 1
+    fi
+}
+
 banner_g() {
 echo "${CYAN} <<--NoVa-->>" ${__version__}
 }
@@ -76,4 +84,5 @@ main_menu() {
 }
 
 # Run the menu
+check_git_repo
 main_menu

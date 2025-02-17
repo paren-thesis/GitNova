@@ -7,12 +7,13 @@ BLUE="$(printf '\033[34m')"
 RED="$(printf '\033[31m')"
 RESETBG="$(printf '\e[0m\n')"
 
-# Colors for formatting
-RED="$(printf '\033[31m')"
-GREEN="$(printf '\033[32m')"
-ORANGE="$(printf '\033[33m')"
-WHITE="$(printf '\033[37m')"
-RESETBG="$(printf '\e[0m\n')"
+# Check if the current directory is a Git repository
+check_git_repo() {
+    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        echo -e "${RED}Error: This is not a Git repository.${RESETBG}"
+        exit 1
+    fi
+}
 
 # Tagging Menu
 tagging_menu() {
@@ -83,4 +84,5 @@ show_tag_details() {
 }
 
 # Call the menu
+check_git_repo
 tagging_menu
