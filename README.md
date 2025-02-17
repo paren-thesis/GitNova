@@ -1,4 +1,5 @@
-
+# GitNova
+## Your version control biddy 🤓
 
 ------
 
