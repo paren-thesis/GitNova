@@ -1,9 +1,8 @@
 
-![GITTY](/src/gitty.jpg)
 
 ------
 
-PAREN is a Bash-based tool designed to simplify Git commands for users who find it difficult to remember or use Git commands directly. The tool provides an interactive menu system for performing common Git tasks such as configuration, branch management, and more.
+GitNova is a Bash-based tool designed to simplify Git commands for users who find it difficult to remember or use Git commands directly. The tool provides an interactive menu system for performing common Git tasks such as configuration, branch management, and more.
 
 ## ✨Features
 - Easy-to-navigate menu for Git commands.
@@ -21,12 +20,12 @@ Follow these steps to clone and set up PAREN on your system:
 1. Clone the repository:
    ```bash
    cd c:
-   git clone https://github.com/paren-thesis/Gitty.git
+   git clone https://github.com/paren-thesis/GitNova.git
    ```
 
 2. Navigate to the project directory:
    ```bash
-   cd Gitty
+   cd GitNova
    ```
 
 3. Make all scripts executable:
@@ -41,7 +40,7 @@ Follow these steps to clone and set up PAREN on your system:
      ```
    - Add the following line (replace `/path/to/Gitty` with the actual path):
      ```bash
-     export PATH="/path/to/Gitty:$PATH"
+     export PATH="/path/to/GitNova:$PATH"
      ```
    - Save and reload the shell:
      ```bash
@@ -51,18 +50,17 @@ Follow these steps to clone and set up PAREN on your system:
 ## 🎲Usage
 1. Run the tool using:
    ```bash
-   ./gitty.exe
+   ./gitnova.exe
    ```
    Or, if added to your PATH:
    ```bash
-   gitty
+   gitnova
    ```
 
 2. Select an option from the menu to execute a Git-related task.
 
 3. Follow on-screen instructions to complete the desired action.
 
-   ![HOME](/src/image1.jpg)
 
 ## Contributing
 Feel free to fork the repository and submit pull requests for enhancements or bug fixes. Contributions are always welcome!
