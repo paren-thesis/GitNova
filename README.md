@@ -1,5 +1,5 @@
 # GitNova
-## Your version control biddy 🤓
+## Your version control buddy 🤓
 
 ------
 
@@ -16,7 +16,7 @@ GitNova is a Bash-based tool designed to simplify Git commands for users who fin
 - Bash Shell: Use a compatible terminal like Git Bash, WSL, or any Linux-based shell.
 
 ## 💉Installation
-Follow these steps to clone and set up PAREN on your system:
+Follow these steps to clone and set up GitNova on your system:
 
 1. Clone the repository:
    ```bash
@@ -39,7 +39,7 @@ Follow these steps to clone and set up PAREN on your system:
      ```bash
      nano ~/.bashrc
      ```
-   - Add the following line (replace `/path/to/Gitty` with the actual path):
+   - Add the following line (replace `/path/to/GitNova/cmds` with the actual path):
      ```bash
      export PATH="/path/to/GitNova/cmds:$PATH"
      ```
