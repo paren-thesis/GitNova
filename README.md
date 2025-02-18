@@ -1,5 +1,5 @@
 # GitNova
-## Your version control biddy 🤓
+## Your version control buddy 🤓
 
 ------
 
