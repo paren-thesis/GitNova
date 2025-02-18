@@ -31,7 +31,7 @@ Follow these steps to clone and set up PAREN on your system:
 
 3. Make all scripts executable:
    ```bash
-   chmod +x *.exe
+   chmod +x *
    ```
 
 4. Optionally, add the script to your PATH for easier access:
@@ -51,7 +51,7 @@ Follow these steps to clone and set up PAREN on your system:
 ## 🎲Usage
 1. Run the tool using:
    ```bash
-   ./gitnova.exe
+   ./gitnova
    ```
    Or, if added to your PATH:
    ```bash
