@@ -1,0 +1,25 @@
+# menu_utils.sh
+
+generic_menu() {
+    local title="$1"
+    shift
+    while true; do
+        clear
+        echo -e "${RED}$title${RESETBG}"
+        echo "$@"
+        echo
+        read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
+        case $selected in
+            0) break ;;
+            *) 
+                func="option_$selected"
+                if declare -f "$func" > /dev/null; then
+                    $func
+                else
+                    echo -e "${RED}Invalid option! Please try again.${RESETBG}"
+                fi
+                ;;
+        esac
+        read -p "${GREEN}Press [Enter] to continue...${RESETBG}"
+    done
+}
