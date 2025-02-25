@@ -41,7 +41,7 @@ Follow these steps to clone and set up GitNova on your system:
      ```
    - Add the following line (replace `/path/to/GitNova/cmds` with the actual path):
      ```bash
-     export PATH="/path/to/GitNova/cmds:$PATH"
+     export PATH=$PATH:/c/GitNova/cmds"
      ```
    - Save and reload the shell:
      ```bash
