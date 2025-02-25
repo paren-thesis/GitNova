@@ -1,19 +1,6 @@
 #!/bin/bash
 
-CYAN="$(printf '\033[36m')"
-GREEN="$(printf '\033[32m')"
-ORANGE="$(printf '\033[33m')"
-BLUE="$(printf '\033[34m')"
-RED="$(printf '\033[31m')"
-RESETBG="$(printf '\e[0m\n')"
-
-# Check if the current directory is a Git repository
-check_git_repo() {
-    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
-        echo -e "${RED}Error: This is not a Git repository.${RESETBG}"
-        exit 1
-    fi
-}
+source /c/GitNova/cmds/utils/utils
 
 # Tagging Menu
 tagging_menu() {
@@ -37,7 +24,7 @@ tagging_menu() {
             4) push_tag ;;
             5) push_all_tags ;;
             6) show_tag_details ;;
-            0) break ;;
+            0) clear; break ;;
             *) echo -e "${RED}Invalid option! Try again.${RESETBG}" ;;
         esac
         read -p "${GREEN}Press [Enter] to continue...${RESETBG}"

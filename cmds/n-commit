@@ -1,20 +1,6 @@
 #!/bin/bash
 
-# Define color variables
-CYAN="$(printf '\033[36m')"
-GREEN="$(printf '\033[32m')"
-ORANGE="$(printf '\033[33m')"
-BLUE="$(printf '\033[34m')"
-RED="$(printf '\033[31m')"
-RESETBG="$(printf '\e[0m\n')"
-
-# Check if the current directory is a Git repository
-check_git_repo() {
-    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
-        echo -e "${RED}Error: This is not a Git repository.${RESETBG}"
-        exit 1
-    fi
-}
+source /c/GitNova/cmds/utils/utils
 
 # Commit Commands Menu
 commit_commands_menu() {
@@ -46,7 +32,7 @@ commit_commands_menu() {
             8) commit_with_date ;;
             9) view_commit_history ;;
             10) undo_last_commit ;;
-            0) break ;;  # Exit the loop and return to the main menu
+            0) clear; break ;;  # Exit the loop and return to the main menu
             *) echo -e "${RED}Invalid option! Please try again.${RESETBG}" ;;
         esac
 

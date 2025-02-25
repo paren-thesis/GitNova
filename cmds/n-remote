@@ -1,19 +1,7 @@
 #!/bin/bash
 
-CYAN="$(printf '\033[36m')"
-GREEN="$(printf '\033[32m')"
-ORANGE="$(printf '\033[33m')"
-BLUE="$(printf '\033[34m')"
-RED="$(printf '\033[31m')"
-RESETBG="$(printf '\e[0m\n')"
+source /c/GitNova/cmds/utils/utils
 
-# Check if the current directory is a Git repository
-check_git_repo() {
-    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
-        echo -e "${RED}Error: This is not a Git repository.${RESETBG}"
-        exit 1
-    fi
-}
 
 # Remote Repositories Menu
 remote_repositories_menu() {
@@ -37,7 +25,7 @@ remote_repositories_menu() {
             4) fetch_from_remote ;;
             5) push_to_remote ;;
             6) pull_from_remote ;;
-            0) break ;;  # Exit the loop and return to the main menu
+            0) clear; break ;;  # Exit the loop and return to the main menu
             *) echo "${RED}Invalid option! Please try again.${RESETBG}" ;;
         esac
 
