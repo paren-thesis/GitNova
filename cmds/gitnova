@@ -47,7 +47,7 @@ main_menu() {
         echo -e "${RED}[${WHITE}10${RED}]${ORANGE} Clean Up  --> ${GREEN} n-clean"
         echo -e "${RED}[${WHITE}11${RED}]${ORANGE} Tagging --> ${GREEN} n-tag"
         echo -e "${RED}[${WHITE}99${RED}]${ORANGE} About  --> ${GREEN} about"
-        echo -e "${RED}[${WHITE}00${RED}]${ORANGE} Exit"
+        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Exit"
         echo
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
 
@@ -64,7 +64,7 @@ main_menu() {
             10) source /c/GitNova/cmds/n-clean ;;
             11) source /c/GitNova/cmds/n-tag ;;
             99) about ;;
-            00) exit_script ;;
+            0) exit_script ;;
             *) echo "${RED}Invalid option! Please try again." ;;
         esac
 

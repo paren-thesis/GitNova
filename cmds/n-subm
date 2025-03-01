@@ -13,11 +13,11 @@ submodules_menu() {
         echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Update submodules ${GREEN}git submodule update"
         echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Remove a submodule ${GREEN}manual steps required"
         echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Show submodule status ${GREEN}git submodule status"
-        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
 		echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Clone repository with submodules ${GREEN}git clone --recurse-submodules"
 		echo -e "${RED}[${WHITE}7${RED}]${ORANGE} Synchronize submodules ${GREEN}git submodule sync --recursive"
 		echo -e "${RED}[${WHITE}8${RED}]${ORANGE} List submodules ${GREEN}git config --file .gitmodules --get-regexp path"
 		echo -e "${RED}[${WHITE}9${RED}]${ORANGE} Rebase submodules ${GREEN}git submodule foreach git pull origin main"
+		echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
         echo
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
 
