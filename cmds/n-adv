@@ -82,6 +82,7 @@ revert_commit() {
 }
 
 # Function to fix the last commit
+fix_last_commit() {
     echo -e "${ORANGE}Listing last two commits..."
     echo -e "${WHITE}Command: git log -oneline -2${RESETBG}"
     git log -oneline -2
