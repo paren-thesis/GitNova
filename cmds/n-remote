@@ -37,12 +37,29 @@ remote_repositories_menu() {
 add_remote_repository() {
     read -p "${GREEN}Enter the remote name: ${BLUE}" name
     read -p "${GREEN}Enter the remote URL: ${BLUE}" url
+
+    if git remote | grep -Fxq "$name"; then
+        echo -e "${RED}Error: Remote '$name' already exists.${RESETBG}"
+        return
+    fi
+
     git remote add "$name" "$url"
     echo "${GREEN}Remote repository '$name' has been added with URL '$url'.${RESETBG}"
 }
 
 remove_remote_repository() {
     read -p "${GREEN}Enter the remote name to remove: ${BLUE}" name
+
+    if ! git remote | grep -Fxq "$name"; then
+        echo -e "${RED}Error: Remote '$name' does not exist.${RESETBG}"
+        return
+    fi
+
+    if ! confirm; then
+        echo -e "${ORANGE}Operation canceled.${RESETBG}"
+        return
+    fi
+
     git remote remove "$name"
     echo "${GREEN}Remote repository '$name' has been removed.${RESETBG}"
 }
@@ -54,6 +71,12 @@ list_remotes() {
 
 fetch_from_remote() {
     read -p "${GREEN}Enter the remote name to fetch from: ${BLUE}" name
+
+    if ! git remote | grep -Fxq "$name"; then
+        echo -e "${RED}Error: Remote '$name' does not exist.${RESETBG}"
+        return
+    fi
+
     git fetch "$name"
     echo "${GREEN}Fetched changes from remote '$name'.${RESETBG}"
 }
@@ -61,6 +84,17 @@ fetch_from_remote() {
 push_to_remote() {
     read -p "${GREEN}Enter the remote name: ${BLUE}" remote_name
     read -p "${GREEN}Enter the branch name: ${BLUE}" branch_name
+
+    if ! git remote | grep -Fxq "$remote_name"; then
+        echo -e "${RED}Error: Remote '$remote_name' does not exist.${RESETBG}"
+        return
+    fi
+
+    if ! git show-ref --verify --quiet "refs/heads/$branch_name"; then
+        echo -e "${RED}Error: Branch '$branch_name' does not exist.${RESETBG}"
+        return
+    fi
+
     git push "$remote_name" "$branch_name"
     echo "${GREEN}Changes have been pushed to '$remote_name' on branch '$branch_name'.${RESETBG}"
 }
@@ -68,6 +102,17 @@ push_to_remote() {
 pull_from_remote() {
     read -p "${GREEN}Enter the remote name: ${BLUE}" remote_name
     read -p "${GREEN}Enter the branch name: ${BLUE}" branch_name
+
+    if ! git remote | grep -Fxq "$remote_name"; then
+        echo -e "${RED}Error: Remote '$remote_name' does not exist.${RESETBG}"
+        return
+    fi
+
+    if ! git show-ref --verify --quiet "refs/heads/$branch_name"; then
+        echo -e "${RED}Error: Branch '$branch_name' does not exist.${RESETBG}"
+        return
+    fi
+
     git pull "$remote_name" "$branch_name"
     echo "${GREEN}Pulled changes from '$remote_name' on branch '$branch_name'.${RESETBG}"
 }
