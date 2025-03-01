@@ -31,16 +31,25 @@ advanced_menu() {
 
 # Function to squash commits into one
 squash_commits() {
-    echo -e "${ORANGE}Squashing the last n commits into one.${RESETBG}"
-    echo -e "${GREEN}Command: git rebase -i HEAD~n${RESETBG}"
-    echo -e "${RED}Note: Replace 'n' with the number of commits to squash.${RESETBG}"
-    echo -e "${WHITE}Command: git rebase -i HEAD~n${RESETBG}"
-    git rebase -i HEAD~n
+    read -p "${ORANGE}Enter the number of commits to squash: ${WHITE}" n
+    if ! [[ "$n" =~ ^[0-9]+$ ]]; then
+        echo -e "${RED}Error: Please enter a valid number.${RESETBG}"
+        return
+    fi
+
+    echo -e "${ORANGE}Squashing the last $n commits into one.${RESETBG}"
+    echo -e "${WHITE}Command: git rebase -i HEAD~$n${RESETBG}"
+    git rebase -i HEAD~"$n"
 }
 
 # Function to cherry-pick a commit
 cherry_pick() {
     read -p "${ORANGE}Enter the commit hash to cherry-pick: ${WHITE}" commit_hash
+    if ! git rev-parse "$commit_hash" > /dev/null 2>&1; then
+        echo -e "${RED}Error: Commit hash '$commit_hash' not found.${RESETBG}"
+        return
+    fi
+
     echo -e "${GREEN}Cherry-picking commit: ${commit_hash}${RESETBG}"
     echo -e "${WHITE}Command: git cherry-pick ${commit_hash}${RESETBG}"
     git cherry-pick "$commit_hash"
@@ -49,16 +58,31 @@ cherry_pick() {
 # Function to revert a specific commit
 revert_commit() {
     read -p "${ORANGE}Enter the commit hash to revert: ${WHITE}" commit_hash
+    if ! git rev-parse "$commit_hash" > /dev/null 2>&1; then
+        echo -e "${RED}Error: Commit hash '$commit_hash' not found.${RESETBG}"
+        return
+    fi
+
+    if ! confirm; then
+        echo -e "${ORANGE}Operation canceled.${RESETBG}"
+        return
+    fi
+
     echo -e "${GREEN}Reverting commit: ${commit_hash}${RESETBG}"
     echo -e "${WHITE}Command: git revert ${commit_hash}${RESETBG}"
     git revert "$commit_hash"
 }
 
 # Function to fix the last commit
-fix_last_commit() {
     echo -e "${ORANGE}Listing last two commits..."
     echo -e "${WHITE}Command: git log -oneline -2${RESETBG}"
     git log -oneline -2
+
+    if ! confirm; then
+        echo -e "${ORANGE}Operation canceled.${RESETBG}"
+        return
+    fi
+
     echo -e "${ORANGE}Fixing the last commit.${RESETBG}"
     echo -e "${WHITE}Command: git commit --amend${RESETBG}"
     git commit --amend
@@ -68,7 +92,7 @@ fix_last_commit() {
 view_staged_diff() {
     echo -e "${ORANGE}Viewing changes in staged files.${RESETBG}"
     echo -e "${WHITE}Command: git diff --cached${RESETBG}"
-    git diff --cached
+    git diff --cached | less -R
 }
 
 check_git_repo
