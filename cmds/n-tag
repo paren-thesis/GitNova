@@ -13,6 +13,10 @@ tagging_menu() {
         echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Push a tag to remote ${GREEN}git push origin tag_name"
         echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Push all tags to remote ${GREEN}git push --tags"
         echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Show tag details ${GREEN}git show tag_name"
+		echo -e "${RED}[${WHITE}7${RED}]${ORANGE} View commit associated with a tag ${GREEN}git log -1 tag_name"
+		echo -e "${RED}[${WHITE}8${RED}]${ORANGE} Delete a remote tag ${GREEN}git push origin --delete tag_name"
+		echo -e "${RED}[${WHITE}9${RED}]${ORANGE} Sign a tag with GPG ${GREEN}git tag -s tag_name -m 'message'"
+		echo -e "${RED}[${WHITE}10${RED}]${ORANGE} Verify a signed tag ${GREEN}git tag -v tag_name"
         echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to Main Menu"
         echo
 
@@ -24,6 +28,10 @@ tagging_menu() {
             4) push_tag ;;
             5) push_all_tags ;;
             6) show_tag_details ;;
+			7) view_tag_commit ;;
+			8) delete_remote_tag ;;
+			9) sign_tag ;;
+			10) verify_tag ;;
             0) clear; break ;;
             *) echo -e "${RED}Invalid option! Try again.${RESETBG}" ;;
         esac
@@ -123,6 +131,54 @@ show_tag_details() {
     echo -e "${GREEN}Details for tag '${tag_name}':${RESETBG}"
     git show "$tag_name"
 }
+
+view_tag_commit() {
+    read -p "${ORANGE}Enter tag name to view associated commit: ${WHITE}" tag_name
+    if ! git rev-parse --verify "$tag_name" > /dev/null 2>&1; then
+        echo -e "${RED}Error: Tag '$tag_name' not found.${RESETBG}"
+        return
+    fi
+
+    echo -e "${GREEN}Commit associated with tag '${tag_name}':${RESETBG}"
+    git log -1 "$tag_name"
+}
+
+delete_remote_tag() {
+    read -p "${ORANGE}Enter tag name to delete from remote: ${WHITE}" tag_name
+    if ! git rev-parse --verify "$tag_name" > /dev/null 2>&1; then
+        echo -e "${RED}Error: Tag '$tag_name' not found locally.${RESETBG}"
+        return
+    fi
+
+    if ! confirm; then
+        echo -e "${ORANGE}Operation canceled.${RESETBG}"
+        return
+    fi
+
+    git push origin --delete "$tag_name"
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Tag '${tag_name}' deleted from remote.${RESETBG}"
+    else
+        echo -e "${RED}Failed to delete tag '${tag_name}' from remote.${RESETBG}"
+    fi
+}
+
+sign_tag() {
+    read -p "${ORANGE}Enter tag name to sign: ${WHITE}" tag_name
+    read -p "${ORANGE}Enter tag message: ${WHITE}" message
+    git tag -s "$tag_name" -m "$message"
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Tag '${tag_name}' signed successfully.${RESETBG}"
+    else
+        echo -e "${RED}Failed to sign tag '${tag_name}'.${RESETBG}"
+    fi
+}
+
+verify_tag() {
+    read -p "${ORANGE}Enter tag name to verify: ${WHITE}" tag_name
+    git tag -v "$tag_name"
+}
+
 
 # Call the menu
 check_git_repo
