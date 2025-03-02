@@ -12,6 +12,10 @@ advanced_menu() {
         echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Revert a specific commit ${GREEN}git revert commit_hash"
         echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Fix the last commit ${GREEN}git commit --amend"
         echo -e "${RED}[${WHITE}5${RED}]${ORANGE} View changes in staged files ${GREEN}git diff --cached"
+		echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Perform interactive rebase ${GREEN}git rebase -i HEAD~n"
+		echo -e "${RED}[${WHITE}7${RED}]${ORANGE} Bisect commits ${GREEN}git bisect start bad_commit good_commit"
+		echo -e "${RED}[${WHITE}8${RED}]${ORANGE} Show commit details ${GREEN}git show commit_hash"
+		echo -e "${RED}[${WHITE}9${RED}]${ORANGE} Search commits by message ${GREEN}git log --grep='message'"
         echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to Main Menu"
         echo
 
@@ -22,6 +26,10 @@ advanced_menu() {
             3) revert_commit ;;
             4) fix_last_commit ;;
             5) view_staged_diff ;;
+			6) interactive_rebase ;;
+			7) bisect_start ;;
+			8) show_commit_details ;;
+			9) search_commits_by_message ;;
             0) clear; break ;;
             *) echo -e "${RED}Invalid option! Try again.${RESETBG}" ;;
         esac
@@ -31,16 +39,25 @@ advanced_menu() {
 
 # Function to squash commits into one
 squash_commits() {
-    echo -e "${ORANGE}Squashing the last n commits into one.${RESETBG}"
-    echo -e "${GREEN}Command: git rebase -i HEAD~n${RESETBG}"
-    echo -e "${RED}Note: Replace 'n' with the number of commits to squash.${RESETBG}"
-    echo -e "${WHITE}Command: git rebase -i HEAD~n${RESETBG}"
-    git rebase -i HEAD~n
+    read -p "${ORANGE}Enter the number of commits to squash: ${WHITE}" n
+    if ! [[ "$n" =~ ^[0-9]+$ ]]; then
+        echo -e "${RED}Error: Please enter a valid number.${RESETBG}"
+        return
+    fi
+
+    echo -e "${ORANGE}Squashing the last $n commits into one.${RESETBG}"
+    echo -e "${WHITE}Command: git rebase -i HEAD~$n${RESETBG}"
+    git rebase -i HEAD~"$n"
 }
 
 # Function to cherry-pick a commit
 cherry_pick() {
     read -p "${ORANGE}Enter the commit hash to cherry-pick: ${WHITE}" commit_hash
+    if ! git rev-parse "$commit_hash" > /dev/null 2>&1; then
+        echo -e "${RED}Error: Commit hash '$commit_hash' not found.${RESETBG}"
+        return
+    fi
+
     echo -e "${GREEN}Cherry-picking commit: ${commit_hash}${RESETBG}"
     echo -e "${WHITE}Command: git cherry-pick ${commit_hash}${RESETBG}"
     git cherry-pick "$commit_hash"
@@ -49,6 +66,16 @@ cherry_pick() {
 # Function to revert a specific commit
 revert_commit() {
     read -p "${ORANGE}Enter the commit hash to revert: ${WHITE}" commit_hash
+    if ! git rev-parse "$commit_hash" > /dev/null 2>&1; then
+        echo -e "${RED}Error: Commit hash '$commit_hash' not found.${RESETBG}"
+        return
+    fi
+
+    if ! confirm; then
+        echo -e "${ORANGE}Operation canceled.${RESETBG}"
+        return
+    fi
+
     echo -e "${GREEN}Reverting commit: ${commit_hash}${RESETBG}"
     echo -e "${WHITE}Command: git revert ${commit_hash}${RESETBG}"
     git revert "$commit_hash"
@@ -59,6 +86,12 @@ fix_last_commit() {
     echo -e "${ORANGE}Listing last two commits..."
     echo -e "${WHITE}Command: git log -oneline -2${RESETBG}"
     git log -oneline -2
+
+    if ! confirm; then
+        echo -e "${ORANGE}Operation canceled.${RESETBG}"
+        return
+    fi
+
     echo -e "${ORANGE}Fixing the last commit.${RESETBG}"
     echo -e "${WHITE}Command: git commit --amend${RESETBG}"
     git commit --amend
@@ -68,7 +101,57 @@ fix_last_commit() {
 view_staged_diff() {
     echo -e "${ORANGE}Viewing changes in staged files.${RESETBG}"
     echo -e "${WHITE}Command: git diff --cached${RESETBG}"
-    git diff --cached
+    git diff --cached | less -R
+}
+
+interactive_rebase() {
+    read -p "${ORANGE}Enter the number of commits to rebase: ${WHITE}" n
+    if ! [[ "$n" =~ ^[0-9]+$ ]]; then
+        echo -e "${RED}Error: Please enter a valid number.${RESETBG}"
+        return
+    fi
+
+    echo -e "${ORANGE}Performing interactive rebase on the last $n commits.${RESETBG}"
+    echo -e "${WHITE}Command: git rebase -i HEAD~$n${RESETBG}"
+    git rebase -i HEAD~"$n"
+}
+
+bisect_start() {
+    read -p "${ORANGE}Enter the bad commit hash: ${WHITE}" bad_commit
+    read -p "${ORANGE}Enter the good commit hash: ${WHITE}" good_commit
+
+    if ! git rev-parse "$bad_commit" > /dev/null 2>&1 || ! git rev-parse "$good_commit" > /dev/null 2>&1; then
+        echo -e "${RED}Error: Invalid commit hash provided.${RESETBG}"
+        return
+    fi
+
+    echo -e "${ORANGE}Starting bisect with bad commit: $bad_commit and good commit: $good_commit.${RESETBG}"
+    echo -e "${WHITE}Command: git bisect start $bad_commit $good_commit${RESETBG}"
+    git bisect start "$bad_commit" "$good_commit"
+}
+
+show_commit_details() {
+    read -p "${ORANGE}Enter the commit hash to view details: ${WHITE}" commit_hash
+    if ! git rev-parse "$commit_hash" > /dev/null 2>&1; then
+        echo -e "${RED}Error: Commit hash '$commit_hash' not found.${RESETBG}"
+        return
+    fi
+
+    echo -e "${ORANGE}Showing details for commit: $commit_hash${RESETBG}"
+    echo -e "${WHITE}Command: git show $commit_hash${RESETBG}"
+    git show "$commit_hash"
+}
+
+search_commits_by_message() {
+    read -p "${ORANGE}Enter the keyword to search in commit messages: ${WHITE}" keyword
+    if [[ -z "$keyword" ]]; then
+        echo -e "${RED}Error: Keyword cannot be empty.${RESETBG}"
+        return
+    fi
+
+    echo -e "${ORANGE}Searching commits with message containing: $keyword${RESETBG}"
+    echo -e "${WHITE}Command: git log --grep='$keyword'${RESETBG}"
+    git log --grep="$keyword"
 }
 
 check_git_repo
