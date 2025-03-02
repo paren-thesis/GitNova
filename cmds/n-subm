@@ -13,7 +13,11 @@ submodules_menu() {
         echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Update submodules ${GREEN}git submodule update"
         echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Remove a submodule ${GREEN}manual steps required"
         echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Show submodule status ${GREEN}git submodule status"
-        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
+		echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Clone repository with submodules ${GREEN}git clone --recurse-submodules"
+		echo -e "${RED}[${WHITE}7${RED}]${ORANGE} Synchronize submodules ${GREEN}git submodule sync --recursive"
+		echo -e "${RED}[${WHITE}8${RED}]${ORANGE} List submodules ${GREEN}git config --file .gitmodules --get-regexp path"
+		echo -e "${RED}[${WHITE}9${RED}]${ORANGE} Rebase submodules ${GREEN}git submodule foreach git pull origin main"
+		echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
         echo
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
 
@@ -23,6 +27,10 @@ submodules_menu() {
             3) update_submodules ;;
             4) remove_submodule ;;
             5) show_submodule_status ;;
+			6) clone_with_submodules ;;
+			7) synchronize_submodules ;;
+			8) list_submodules ;;
+			9) rebase_submodules ;;
             0) clear; break ;;  # Exit the loop and return to the main menu
             *) echo "${RED}Invalid option! Please try again.${RESETBG}" ;;
         esac
@@ -34,33 +42,145 @@ submodules_menu() {
 # Functions for each option
 add_submodule() {
     read -p "${GREEN}Enter the repository URL for the submodule: ${BLUE}" repo_url
+    if ! git ls-remote --exit-code "$repo_url" > /dev/null 2>&1; then
+        echo -e "${RED}Error: Repository '$repo_url' not found or unreachable.${RESETBG}"
+        return
+    fi
+
     read -p "${GREEN}Enter the path where the submodule should be added: ${BLUE}" submodule_path
+    if [[ -z "$submodule_path" ]]; then
+        echo -e "${RED}Error: Submodule path cannot be empty.${RESETBG}"
+        return
+    fi
+
     echo "${GREEN}Adding submodule...${RESETBG}"
     git submodule add "$repo_url" "$submodule_path"
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Failed to add submodule '${submodule_path}'.${RESETBG}"
+    else
+        echo -e "${GREEN}Submodule '${submodule_path}' added successfully.${RESETBG}"
+    fi
 }
 
 init_submodules() {
+    if [[ -z $(git config --file .gitmodules --get-regexp path) ]]; then
+        echo -e "${RED}No submodules to initialize.${RESETBG}"
+        return
+    fi
+
     echo "${GREEN}Initializing submodules...${RESETBG}"
     git submodule init
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Failed to initialize submodules.${RESETBG}"
+    else
+        echo -e "${GREEN}Submodules initialized successfully.${RESETBG}"
+    fi
 }
 
 update_submodules() {
-    echo "${GREEN}Updating submodules...${RESETBG}"
-    git submodule update
+    read -p "${GREEN}Fetch updates from remotes? (y/n): ${BLUE}" fetch_updates
+    if [[ "$fetch_updates" == "y" || "$fetch_updates" == "Y" ]]; then
+        echo "${GREEN}Updating submodules with remote changes...${RESETBG}"
+        git submodule update --remote --merge
+    else
+        echo "${GREEN}Updating submodules...${RESETBG}"
+        git submodule update
+    fi
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Failed to update submodules.${RESETBG}"
+    else
+        echo -e "${GREEN}Submodules updated successfully.${RESETBG}"
+    fi
 }
 
 remove_submodule() {
     read -p "${GREEN}Enter the submodule path to remove: ${BLUE}" submodule_path
+    if [[ -z "$submodule_path" ]]; then
+        echo -e "${RED}Error: Submodule path cannot be empty.${RESETBG}"
+        return
+    fi
+
+    if ! git config --file .gitmodules --get-regexp "path" | grep -q "$submodule_path"; then
+        echo -e "${RED}Error: Submodule at path '$submodule_path' not found.${RESETBG}"
+        return
+    fi
+
+    if ! confirm; then
+        echo -e "${ORANGE}Operation canceled.${RESETBG}"
+        return
+    fi
+
     echo "${GREEN}Removing submodule...${RESETBG}"
     git submodule deinit -f "$submodule_path"
     rm -rf ".git/modules/$submodule_path"
     git rm -f "$submodule_path"
-    echo "${GREEN}Submodule removed.${RESETBG}"
+    git config --file .gitmodules --remove-section "submodule.$submodule_path" > /dev/null 2>&1
+    sed -i "/\[submodule \"$submodule_path\"\]/,/^$/d" .git/config > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Submodule '${submodule_path}' removed successfully.${RESETBG}"
+    else
+        echo -e "${RED}Failed to remove submodule '${submodule_path}'.${RESETBG}"
+    fi
 }
 
 show_submodule_status() {
     echo "${GREEN}Submodule status:${RESETBG}"
-    git submodule status
+    git submodule status --recursive
+}
+
+clone_with_submodules() {
+    read -p "${ORANGE}Enter the repository URL to clone: ${WHITE}" repo_url
+    if [[ -z "$repo_url" ]]; then
+        echo -e "${RED}Error: Repository URL cannot be empty.${RESETBG}"
+        return
+    fi
+
+    read -p "${ORANGE}Enter the directory name to clone into (leave blank for default): ${WHITE}" dir_name
+    if [[ -n "$dir_name" ]]; then
+        echo -e "${CYAN}Cloning repository with submodules into '$dir_name'...${RESETBG}"
+        git clone --recurse-submodules "$repo_url" "$dir_name"
+    else
+        echo -e "${CYAN}Cloning repository with submodules...${RESETBG}"
+        git clone --recurse-submodules "$repo_url"
+    fi
+
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Repository cloned successfully with submodules.${RESETBG}"
+    else
+        echo -e "${RED}Failed to clone repository with submodules.${RESETBG}"
+    fi
+}
+
+synchronize_submodules() {
+    echo -e "${CYAN}Synchronizing submodules with upstream repositories...${RESETBG}"
+    git submodule sync --recursive
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Submodules synchronized successfully.${RESETBG}"
+    else
+        echo -e "${RED}Failed to synchronize submodules.${RESETBG}"
+    fi
+}
+
+list_submodules() {
+    echo -e "${CYAN}Listing all submodules:${RESETBG}"
+    git config --file .gitmodules --get-regexp path | while read line; do
+        submodule_path=$(echo "$line" | awk '{print $2}')
+        echo -e "${GREEN}- Submodule Path: ${WHITE}$submodule_path${RESETBG}"
+    done
+
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}No submodules found in this repository.${RESETBG}"
+    fi
+}
+
+rebase_submodules() {
+    echo -e "${CYAN}Rebasing submodules onto their latest commits...${RESETBG}"
+    git submodule foreach 'git pull origin main'
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Submodules rebased successfully.${RESETBG}"
+    else
+        echo -e "${RED}Failed to rebase submodules. Resolve conflicts and try again.${RESETBG}"
+    fi
 }
 
 check_git_repo

@@ -13,6 +13,10 @@ undoing_changes_menu() {
         echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Revert a commit ${GREEN}git revert commit_hash"
         echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Reset to a previous commit ${GREEN}git reset --hard commit_hash"
         echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Remove untracked files ${GREEN}git clean -f"
+		echo -e "${RED}[${WHITE}6${RED}]${ORANGE} View staged changes before unstaging ${GREEN}git diff --cached"
+		echo -e "${RED}[${WHITE}7${RED}]${ORANGE} Perform a soft reset ${GREEN}git reset --soft commit_hash"
+		echo -e "${RED}[${WHITE}8${RED}]${ORANGE} Run git clean in interactive mode ${GREEN}git clean -i"
+		echo -e "${RED}[${WHITE}9${RED}]${ORANGE} Recover unstaged changes ${GREEN}git restore --staged file_name"
         echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
         echo
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
@@ -23,6 +27,10 @@ undoing_changes_menu() {
             3) revert_commit ;;
             4) reset_to_commit ;;
             5) remove_untracked_files ;;
+			6) view_staged_changes ;;
+			7) soft_reset ;;
+			8) interactive_clean ;;
+			9) recover_unstaged_changes ;;
             0) clear; break ;;  # Exit the loop and return to the main menu
             *) echo "${RED}Invalid option! Please try again.${RESETBG}" ;;
         esac
@@ -33,33 +41,109 @@ undoing_changes_menu() {
 
 # Functions for each option
 undo_unstaged_changes() {
-    read -p "${GREEN}Enter the file name to undo unstaged changes: ${BLUE}" file_name
+ read -p "${GREEN}Enter the file name to undo unstaged changes: ${BLUE}" file_name
+    if ! git ls-files --error-unmatch "$file_name" > /dev/null 2>&1; then
+        echo -e "${RED}Error: File '$file_name' not found or not tracked by Git.${RESETBG}"
+        return
+    fi
     git checkout -- "$file_name"
     echo "${GREEN}Unstaged changes for '$file_name' have been undone.${RESETBG}"
 }
 
 undo_staged_changes() {
     read -p "${GREEN}Enter the file name to unstage: ${BLUE}" file_name
+    if ! git diff --cached --quiet "$file_name"; then
+        echo -e "${RED}Error: File '$file_name' is not staged.${RESETBG}"
+        return
+    fi
     git reset HEAD "$file_name"
     echo "${GREEN}Staged changes for '$file_name' have been undone.${RESETBG}"
 }
 
 revert_commit() {
     read -p "${GREEN}Enter the commit hash to revert: ${BLUE}" commit_hash
+    if ! git rev-parse "$commit_hash" > /dev/null 2>&1; then
+        echo -e "${RED}Error: Commit hash '$commit_hash' not found.${RESETBG}"
+        return
+    fi
     git revert "$commit_hash"
     echo "${GREEN}Commit '$commit_hash' has been reverted.${RESETBG}"
 }
 
 reset_to_commit() {
     read -p "${GREEN}Enter the commit hash to reset to: ${BLUE}" commit_hash
-    git reset --hard "$commit_hash"
-    echo "${GREEN}Repository has been reset to commit '$commit_hash'.${RESETBG}"
+    if ! git rev-parse "$commit_hash" > /dev/null 2>&1; then
+        echo -e "${RED}Error: Commit hash '$commit_hash' not found.${RESETBG}"
+        return
+    fi
+    if confirm; then
+        git reset --hard "$commit_hash"
+        echo "${GREEN}Repository has been reset to commit '$commit_hash'.${RESETBG}"
+    else
+        echo "${ORANGE}Operation canceled.${RESETBG}"
+    fi
 }
 
 remove_untracked_files() {
-    git clean -f
-    echo "${GREEN}All untracked files have been removed.${RESETBG}"
+    if confirm; then
+        git clean -f
+        echo "${GREEN}All untracked files have been removed.${RESETBG}"
+    else
+        echo "${ORANGE}Operation canceled.${RESETBG}"
+    fi
 }
+
+view_staged_changes() {
+    echo -e "${ORANGE}Viewing staged changes...${RESETBG}"
+    git diff --cached
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}No staged changes found.${RESETBG}"
+    fi
+}
+
+soft_reset() {
+    read -p "${ORANGE}Enter the commit hash to reset to: ${WHITE}" commit_hash
+    if ! git rev-parse "$commit_hash" > /dev/null 2>&1; then
+        echo -e "${RED}Error: Commit hash '$commit_hash' not found.${RESETBG}"
+        return
+    fi
+
+    echo -e "${ORANGE}Performing soft reset to commit '$commit_hash'...${RESETBG}"
+    git reset --soft "$commit_hash"
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Repository has been softly reset to commit '$commit_hash'.${RESETBG}"
+    else
+        echo -e "${RED}Failed to perform soft reset.${RESETBG}"
+    fi
+}
+
+interactive_clean() {
+    echo -e "${ORANGE}Running git clean in interactive mode...${RESETBG}"
+    echo -e "${WHITE}Command: git clean -i${RESETBG}"
+    git clean -i
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Interactive cleanup completed.${RESETBG}"
+    else
+        echo -e "${RED}Failed to start interactive cleanup.${RESETBG}"
+    fi
+}
+
+recover_unstaged_changes() {
+    read -p "${ORANGE}Enter the file name to recover unstaged changes: ${WHITE}" file_name
+    if ! git ls-files --error-unmatch "$file_name" > /dev/null 2>&1; then
+        echo -e "${RED}Error: File '$file_name' not found or not tracked by Git.${RESETBG}"
+        return
+    fi
+
+    echo -e "${ORANGE}Recovering unstaged changes for '$file_name'...${RESETBG}"
+    git restore --staged "$file_name"
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Unstaged changes for '$file_name' have been recovered.${RESETBG}"
+    else
+        echo -e "${RED}Failed to recover unstaged changes for '$file_name'.${RESETBG}"
+    fi
+}
+
 
 check_git_repo
 undoing_changes_menu
