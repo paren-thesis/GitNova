@@ -14,6 +14,10 @@ remote_repositories_menu() {
         echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Fetch from a remote repository ${GREEN}git fetch remote_name"
         echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Push changes to a remote repository ${GREEN}git push remote_name branch_name"
         echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Pull changes from a remote repository ${GREEN}git pull remote_name branch_name"
+		echo -e "${RED}[${WHITE}7${RED}]${ORANGE} Set upstream tracking for a branch ${GREEN}git branch --set-upstream-to"
+		echo -e "${RED}[${WHITE}8${RED}]${ORANGE} Prune stale remote-tracking branches ${GREEN}git remote prune"
+		echo -e "${RED}[${WHITE}9${RED}]${ORANGE} Push all branches to a remote ${GREEN}git push --all"
+		echo -e "${RED}[${WHITE}10${RED}]${ORANGE} Delete a remote branch ${GREEN}git push --delete"
         echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
         echo
         read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
@@ -25,6 +29,10 @@ remote_repositories_menu() {
             4) fetch_from_remote ;;
             5) push_to_remote ;;
             6) pull_from_remote ;;
+			7) set_upstream ;;
+			8) prune_stale_branches ;;
+			9) push_all_branches ;;
+			10) delete_remote_branch ;;
             0) clear; break ;;  # Exit the loop and return to the main menu
             *) echo "${RED}Invalid option! Please try again.${RESETBG}" ;;
         esac
@@ -40,6 +48,11 @@ add_remote_repository() {
 
     if git remote | grep -Fxq "$name"; then
         echo -e "${RED}Error: Remote '$name' already exists.${RESETBG}"
+        return
+    fi
+
+    if ! git ls-remote --exit-code "$url" > /dev/null 2>&1; then
+        echo -e "${RED}Error: Repository URL '$url' is invalid or unreachable.${RESETBG}"
         return
     fi
 
@@ -67,6 +80,9 @@ remove_remote_repository() {
 list_remotes() {
     echo "${GREEN}Listing all remote repositories:${RESETBG}"
     git remote -v
+    echo
+    echo "${CYAN}Tracking information for the current branch:${RESETBG}"
+    git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || echo "No tracking information available."
 }
 
 fetch_from_remote() {
@@ -77,8 +93,14 @@ fetch_from_remote() {
         return
     fi
 
-    git fetch "$name"
-    echo "${GREEN}Fetched changes from remote '$name'.${RESETBG}"
+    read -p "${ORANGE}Fetch all branches? (y/n): ${WHITE}" fetch_all
+    if [[ "$fetch_all" == "y" || "$fetch_all" == "Y" ]]; then
+        git fetch --all
+        echo "${GREEN}Fetched all branches from remote '$name'.${RESETBG}"
+    else
+        git fetch "$name"
+        echo "${GREEN}Fetched changes from remote '$name'.${RESETBG}"
+    fi
 }
 
 push_to_remote() {
@@ -95,8 +117,14 @@ push_to_remote() {
         return
     fi
 
-    git push "$remote_name" "$branch_name"
-    echo "${GREEN}Changes have been pushed to '$remote_name' on branch '$branch_name'.${RESETBG}"
+    read -p "${ORANGE}Force push? (y/n): ${WHITE}" force_push
+    if [[ "$force_push" == "y" || "$force_push" == "Y" ]]; then
+        git push "$remote_name" "$branch_name" --force
+        echo "${GREEN}Changes have been forcefully pushed to '$remote_name' on branch '$branch_name'.${RESETBG}"
+    else
+        git push "$remote_name" "$branch_name"
+        echo "${GREEN}Changes have been pushed to '$remote_name' on branch '$branch_name'.${RESETBG}"
+    fi
 }
 
 pull_from_remote() {
@@ -113,9 +141,82 @@ pull_from_remote() {
         return
     fi
 
-    git pull "$remote_name" "$branch_name"
-    echo "${GREEN}Pulled changes from '$remote_name' on branch '$branch_name'.${RESETBG}"
+    read -p "${ORANGE}Use rebase instead of merge? (y/n): ${WHITE}" use_rebase
+    if [[ "$use_rebase" == "y" || "$use_rebase" == "Y" ]]; then
+        git pull "$remote_name" "$branch_name" --rebase
+        echo "${GREEN}Rebased changes from '$remote_name' on branch '$branch_name'.${RESETBG}"
+    else
+        git pull "$remote_name" "$branch_name"
+        echo "${GREEN}Merged changes from '$remote_name' on branch '$branch_name'.${RESETBG}"
+    fi
 }
+
+set_upstream() {
+
+    read -p "${ORANGE}Enter the remote name: ${WHITE}" remote_name
+    read -p "${ORANGE}Enter the branch name: ${WHITE}" branch_name
+
+    if ! git remote | grep -Fxq "$remote_name"; then
+        echo -e "${RED}Error: Remote '$remote_name' does not exist.${RESETBG}"
+        return
+    fi
+
+    if ! git show-ref --verify --quiet "refs/heads/$branch_name"; then
+        echo -e "${RED}Error: Branch '$branch_name' does not exist.${RESETBG}"
+        return
+    fi
+
+    git branch --set-upstream-to="$remote_name/$branch_name" "$branch_name"
+    echo "${GREEN}Upstream tracking set for branch '$branch_name' to '$remote_name/$branch_name'.${RESETBG}"
+}
+
+prune_stale_branches() {
+    read -p "${ORANGE}Enter the remote name to prune: ${WHITE}" remote_name
+
+    if ! git remote | grep -Fxq "$remote_name"; then
+        echo -e "${RED}Error: Remote '$remote_name' does not exist.${RESETBG}"
+        return
+    fi
+
+    if ! confirm; then
+        echo -e "${ORANGE}Operation canceled.${RESETBG}"
+        return
+    fi
+
+    git remote prune "$remote_name"
+    echo "${GREEN}Stale remote-tracking branches from '$remote_name' have been pruned.${RESETBG}"
+}
+
+push_all_branches() {
+    read -p "${ORANGE}Enter the remote name: ${WHITE}" remote_name
+
+    if ! git remote | grep -Fxq "$remote_name"; then
+        echo -e "${RED}Error: Remote '$remote_name' does not exist.${RESETBG}"
+        return
+    fi
+
+    git push "$remote_name" --all
+    echo "${GREEN}All branches have been pushed to '$remote_name'.${RESETBG}"
+}
+
+delete_remote_branch() {
+    read -p "${ORANGE}Enter the remote name: ${WHITE}" remote_name
+    read -p "${ORANGE}Enter the branch name to delete: ${WHITE}" branch_name
+
+    if ! git remote | grep -Fxq "$remote_name"; then
+        echo -e "${RED}Error: Remote '$remote_name' does not exist.${RESETBG}"
+        return
+    fi
+
+    if ! confirm; then
+        echo -e "${ORANGE}Operation canceled.${RESETBG}"
+        return
+    fi
+
+    git push "$remote_name" --delete "$branch_name"
+    echo "${GREEN}Branch '$branch_name' has been deleted from remote '$remote_name'.${RESETBG}"
+}
+
 
 check_git_repo
 remote_repositories_menu
