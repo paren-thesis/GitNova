@@ -5,10 +5,10 @@ generic_menu() {
     shift
     while true; do
         clear
-        echo -e "${RED}$title${RESETBG}"
+        echo -e "${RE}$title${RT}"
         echo "$@"
         echo
-        read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
+        read -p "${RE}[${WHITE}-${RE}]${GG} Select an option: ${BB}" selected
         case $selected in
             0) break ;;
             *) 
@@ -16,10 +16,10 @@ generic_menu() {
                 if declare -f "$func" > /dev/null; then
                     $func
                 else
-                    echo -e "${RED}Invalid option! Please try again.${RESETBG}"
+                    echo -e "${RE}Invalid option! Please try again.${RT}"
                 fi
                 ;;
         esac
-        read -p "${GREEN}Press [Enter] to continue...${RESETBG}"
+        read -p "${GG}Press [Enter] to continue...${RT}"
     done
 }

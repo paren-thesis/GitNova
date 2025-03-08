@@ -5,19 +5,19 @@ source /c/GitNova/cmds/utils/utils
 # Display Branch Management Menu
 branch_menu() {
     clear
-    echo -e "${RED}Branch Management Commands:${RESETBG}"
-    echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Create a branch: ${GREEN}git checkout -b branch_name"
-    echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Delete a branch: ${GREEN}git branch -d branch_name"
-    echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Merge a branch: ${GREEN}git merge branch_name"
-    echo -e "${RED}[${WHITE}4${RED}]${ORANGE} List all branches: ${GREEN}git branch"
-    echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Switch to a branch: ${GREEN}git checkout branch_name"
-    echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Create a remote branch: ${GREEN}git push -u origin branch_name"
-    echo -e "${RED}[${WHITE}7${RED}]${ORANGE} Delete a remote branch: ${GREEN}git push origin --delete branch_name"
-    echo -e "${RED}[${WHITE}8${RED}]${ORANGE} Switch to a remote branch: ${GREEN}git checkout -b branch_name origin/branch_name"
-    echo -e "${RED}[${WHITE}9${RED}]${ORANGE} Rebase a branch: ${GREEN}git rebase branch_name"
-    echo -e "${RED}[${WHITE}10${RED}]${ORANGE} Rename a branch: ${GREEN}git branch -m old_name new_name"
-    echo -e "${RED}[${WHITE}11${RED}]${ORANGE} View branch history: ${GREEN}git log branch_name --oneline"
-    echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to main menu"
+    echo -e "${RE}Branch Management Commands:${RT}"
+    echo -e "${RE}[${WHITE}1${RE}]${OG} Create a branch: ${GG}git checkout -b branch_name"
+    echo -e "${RE}[${WHITE}2${RE}]${OG} Delete a branch: ${GG}git branch -d branch_name"
+    echo -e "${RE}[${WHITE}3${RE}]${OG} Merge a branch: ${GG}git merge branch_name"
+    echo -e "${RE}[${WHITE}4${RE}]${OG} List all branches: ${GG}git branch"
+    echo -e "${RE}[${WHITE}5${RE}]${OG} Switch to a branch: ${GG}git checkout branch_name"
+    echo -e "${RE}[${WHITE}6${RE}]${OG} Create a remote branch: ${GG}git push -u origin branch_name"
+    echo -e "${RE}[${WHITE}7${RE}]${OG} Delete a remote branch: ${GG}git push origin --delete branch_name"
+    echo -e "${RE}[${WHITE}8${RE}]${OG} Switch to a remote branch: ${GG}git checkout -b branch_name origin/branch_name"
+    echo -e "${RE}[${WHITE}9${RE}]${OG} Rebase a branch: ${GG}git rebase branch_name"
+    echo -e "${RE}[${WHITE}10${RE}]${OG} Rename a branch: ${GG}git branch -m old_name new_name"
+    echo -e "${RE}[${WHITE}11${RE}]${OG} View branch history: ${GG}git log branch_name --oneline"
+    echo -e "${RE}[${WHITE}0${RE}]${OG} Back to main menu"
     echo
 }
 
@@ -25,137 +25,137 @@ branch_menu() {
 # Function to create a branch
 create_branch() {
     list_branches
-    read -p "${GREEN}Enter the name of the new branch: ${BLUE}" branch_name
+    read -p "${GG}Enter the name of the new branch: ${BB}" branch_name
     if [[ ! "$branch_name" =~ ^[a-zA-Z0-9_-]+$ ]]; then
-        echo -e "${RED}Error: Invalid branch name.${RESETBG}"
+        echo -e "${RE}Error: Invalid branch name.${RT}"
         return
     fi
     git checkout -b "$branch_name"
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Branch '$branch_name' created successfully!${RESETBG}"
+        echo -e "${GG}Branch '$branch_name' created successfully!${RT}"
     else
-        echo -e "${RED}Failed to create branch '$branch_name'.${RESETBG}"
+        echo -e "${RE}Failed to create branch '$branch_name'.${RT}"
     fi
 }
 
 # Function to delete a branch
 delete_branch() {
     list_branches
-    read -p "${GREEN}Enter the name of the branch to delete: ${BLUE}" branch_name
-    read -p "${GREEN}Force delete unmerged branch? (y/n): ${BLUE}" force
+    read -p "${GG}Enter the name of the branch to delete: ${BB}" branch_name
+    read -p "${GG}Force delete unmerged branch? (y/n): ${BB}" force
     if [[ $force == "y" || $force == "Y" ]]; then
         git branch -D "$branch_name"
     else
         git branch -d "$branch_name"
     fi
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Branch '$branch_name' deleted successfully!${RESETBG}"
+        echo -e "${GG}Branch '$branch_name' deleted successfully!${RT}"
     else
-        echo -e "${RED}Failed to delete branch '$branch_name'.${RESETBG}"
+        echo -e "${RE}Failed to delete branch '$branch_name'.${RT}"
     fi
 }
 
 # Function to merge a branch
 merge_branch() {
     list_branches
-    read -p "${GREEN}Enter the name of the branch to merge: ${BLUE}" branch_name
+    read -p "${GG}Enter the name of the branch to merge: ${BB}" branch_name
     git merge "$branch_name"
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Branch '$branch_name' merged successfully!${RESETBG}"
+        echo -e "${GG}Branch '$branch_name' merged successfully!${RT}"
     else
-        echo -e "${RED}Merge conflict detected! Resolve conflicts and commit the changes.${RESETBG}"
+        echo -e "${RE}Merge conflict detected! Resolve conflicts and commit the changes.${RT}"
     fi
 }
 
 # Function to list all branches
 list_branches() {
-    echo "${CYAN}Listing all branches:${RESETBG}"
+    echo "${CY}Listing all branches:${RT}"
     git branch
 }
 
 # Function to switch to a branch
 switch_branch() {
     list_branches
-    read -p "${GREEN}Enter the name of the branch to switch to: ${BLUE}" branch_name
+    read -p "${GG}Enter the name of the branch to switch to: ${BB}" branch_name
     git checkout "$branch_name"
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Switched to branch '$branch_name' successfully!${RESETBG}"
+        echo -e "${GG}Switched to branch '$branch_name' successfully!${RT}"
     else
-        echo -e "${RED}Failed to switch to branch '$branch_name'.${RESETBG}"
+        echo -e "${RE}Failed to switch to branch '$branch_name'.${RT}"
     fi
 }
 
 create_remote_branch() {
     list_branches
-    read -p "${GREEN}Enter the name of the new branch: ${BLUE}" branch_name
+    read -p "${GG}Enter the name of the new branch: ${BB}" branch_name
     if [[ ! "$branch_name" =~ ^[a-zA-Z0-9_-]+$ ]]; then
     
-        echo -e "${RED}Error: Invalid branch name.${RESETBG}"
+        echo -e "${RE}Error: Invalid branch name.${RT}"
         return
     fi
     git checkout -b "$branch_name"
     git push -u origin "$branch_name"
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Remote branch '$branch_name' created and pushed successfully!${RESETBG}"
+        echo -e "${GG}Remote branch '$branch_name' created and pushed successfully!${RT}"
     else
-        echo -e "${RED}Failed to create remote branch '$branch_name'.${RESETBG}"
+        echo -e "${RE}Failed to create remote branch '$branch_name'.${RT}"
     fi
 }
 
 delete_remote_branch() {
     list_branches
-    read -p "${GREEN}Enter the name of the remote branch to delete: ${BLUE}" branch_name
+    read -p "${GG}Enter the name of the remote branch to delete: ${BB}" branch_name
     git push origin --delete "$branch_name"
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Remote branch '$branch_name' deleted successfully!${RESETBG}"
+        echo -e "${GG}Remote branch '$branch_name' deleted successfully!${RT}"
     else
-        echo -e "${RED}Failed to delete remote branch '$branch_name'.${RESETBG}"
+        echo -e "${RE}Failed to delete remote branch '$branch_name'.${RT}"
     fi
 }
 
 switch_remote_branch() {
     git fetch --all
     list_branches
-    read -p "${GREEN}Enter the name of the remote branch to switch to: ${BLUE}" branch_name
+    read -p "${GG}Enter the name of the remote branch to switch to: ${BB}" branch_name
     git checkout -b "$branch_name" "origin/$branch_name"
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Switched to remote branch '$branch_name' successfully!${RESETBG}"
+        echo -e "${GG}Switched to remote branch '$branch_name' successfully!${RT}"
     else
-        echo -e "${RED}Failed to switch to remote branch '$branch_name'.${RESETBG}"
+        echo -e "${RE}Failed to switch to remote branch '$branch_name'.${RT}"
     fi
 }
 
 rebase_branch() {
     list_branches
-    read -p "${GREEN}Enter the name of the branch to rebase onto: ${BLUE}" branch_name
+    read -p "${GG}Enter the name of the branch to rebase onto: ${BB}" branch_name
     git rebase "$branch_name"
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Rebase onto '$branch_name' completed successfully!${RESETBG}"
+        echo -e "${GG}Rebase onto '$branch_name' completed successfully!${RT}"
     else
-        echo -e "${RED}Rebase failed. Resolve conflicts and run 'git rebase --continue'.${RESETBG}"
+        echo -e "${RE}Rebase failed. Resolve conflicts and run 'git rebase --continue'.${RT}"
     fi
 }
 
 rename_branch() {
     list_branches
-    read -p "${GREEN}Enter the current name of the branch: ${BLUE}" old_name
-    read -p "${GREEN}Enter the new name for the branch: ${BLUE}" new_name
+    read -p "${GG}Enter the current name of the branch: ${BB}" old_name
+    read -p "${GG}Enter the new name for the branch: ${BB}" new_name
     if [[ ! "$new_name" =~ ^[a-zA-Z0-9_-]+$ ]]; then
-        echo -e "${RED}Error: Invalid branch name.${RESETBG}"
+        echo -e "${RE}Error: Invalid branch name.${RT}"
         return
     fi
     git branch -m "$old_name" "$new_name"
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Branch renamed from '$old_name' to '$new_name' successfully!${RESETBG}"
+        echo -e "${GG}Branch renamed from '$old_name' to '$new_name' successfully!${RT}"
     else
-        echo -e "${RED}Failed to rename branch.${RESETBG}"
+        echo -e "${RE}Failed to rename branch.${RT}"
     fi
 }
 
 view_branch_history() {
     list_branches
-    read -p "${GREEN}Enter the name of the branch to view history: ${BLUE}" branch_name
-    echo -e "${CYAN}Commit history for branch '$branch_name':${RESETBG}"
+    read -p "${GG}Enter the name of the branch to view history: ${BB}" branch_name
+    echo -e "${CY}Commit history for branch '$branch_name':${RT}"
     git log "$branch_name" --oneline
 }
 
@@ -177,9 +177,9 @@ branch_management() {
             10) rename_branch ;;
             11) view_branch_history ;;
             0) clear; break ;;
-            *) echo "${RED}Invalid option! Please try again.${RESETBG}" ;;
+            *) echo "${RE}Invalid option! Please try again.${RT}" ;;
         esac
-        read -p "${BLUE}Press [Enter] to continue...${RESETBG}"
+        read -p "${BB}Press [Enter] to continue...${RT}"
     done
 }
 

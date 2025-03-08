@@ -6,21 +6,21 @@ source /c/GitNova/cmds/utils/utils
 tagging_menu() {
     while true; do
         clear
-        echo -e "${RED}Tagging Commands:${RESETBG}"
-        echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Create a new tag ${GREEN}git tag tag_name"
-        echo -e "${RED}[${WHITE}2${RED}]${ORANGE} List all tags ${GREEN}git tag"
-        echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Delete a tag ${GREEN}git tag -d tag_name"
-        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Push a tag to remote ${GREEN}git push origin tag_name"
-        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Push all tags to remote ${GREEN}git push --tags"
-        echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Show tag details ${GREEN}git show tag_name"
-		echo -e "${RED}[${WHITE}7${RED}]${ORANGE} View commit associated with a tag ${GREEN}git log -1 tag_name"
-		echo -e "${RED}[${WHITE}8${RED}]${ORANGE} Delete a remote tag ${GREEN}git push origin --delete tag_name"
-		echo -e "${RED}[${WHITE}9${RED}]${ORANGE} Sign a tag with GPG ${GREEN}git tag -s tag_name -m 'message'"
-		echo -e "${RED}[${WHITE}10${RED}]${ORANGE} Verify a signed tag ${GREEN}git tag -v tag_name"
-        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to Main Menu"
+        echo -e "${RE}Tagging Commands:${RT}"
+        echo -e "${RE}[${WHITE}1${RE}]${OG} Create a new tag ${GG}git tag tag_name"
+        echo -e "${RE}[${WHITE}2${RE}]${OG} List all tags ${GG}git tag"
+        echo -e "${RE}[${WHITE}3${RE}]${OG} Delete a tag ${GG}git tag -d tag_name"
+        echo -e "${RE}[${WHITE}4${RE}]${OG} Push a tag to remote ${GG}git push origin tag_name"
+        echo -e "${RE}[${WHITE}5${RE}]${OG} Push all tags to remote ${GG}git push --tags"
+        echo -e "${RE}[${WHITE}6${RE}]${OG} Show tag details ${GG}git show tag_name"
+		echo -e "${RE}[${WHITE}7${RE}]${OG} View commit associated with a tag ${GG}git log -1 tag_name"
+		echo -e "${RE}[${WHITE}8${RE}]${OG} Delete a remote tag ${GG}git push origin --delete tag_name"
+		echo -e "${RE}[${WHITE}9${RE}]${OG} Sign a tag with GPG ${GG}git tag -s tag_name -m 'message'"
+		echo -e "${RE}[${WHITE}10${RE}]${OG} Verify a signed tag ${GG}git tag -v tag_name"
+        echo -e "${RE}[${WHITE}0${RE}]${OG} Back to Main Menu"
         echo
 
-        read -p "${GREEN}Select an option: ${WHITE}" choice
+        read -p "${GG}Select an option: ${WHITE}" choice
         case $choice in
             1) create_tag ;;
             2) list_tags ;;
@@ -33,149 +33,149 @@ tagging_menu() {
 			9) sign_tag ;;
 			10) verify_tag ;;
             0) clear; break ;;
-            *) echo -e "${RED}Invalid option! Try again.${RESETBG}" ;;
+            *) echo -e "${RE}Invalid option! Try again.${RT}" ;;
         esac
-        read -p "${GREEN}Press [Enter] to continue...${RESETBG}"
+        read -p "${GG}Press [Enter] to continue...${RT}"
     done
 }
 
 # Function to create a new tag
 create_tag() {
-    read -p "${ORANGE}Enter tag name: ${WHITE}" tag_name
+    read -p "${OG}Enter tag name: ${WHITE}" tag_name
     if [[ -z "$tag_name" || "$tag_name" =~ [^a-zA-Z0-9._-] ]]; then
-        echo -e "${RED}Error: Invalid tag name. Use only letters, numbers, dots, underscores, or hyphens.${RESETBG}"
+        echo -e "${RE}Error: Invalid tag name. Use only letters, numbers, dots, underscores, or hyphens.${RT}"
         return
     fi
 
-    read -p "${ORANGE}Create an annotated tag? (y/n): ${WHITE}" annotate
+    read -p "${OG}Create an annotated tag? (y/n): ${WHITE}" annotate
     if [[ "$annotate" == "y" || "$annotate" == "Y" ]]; then
-        read -p "${ORANGE}Enter tag message: ${WHITE}" message
+        read -p "${OG}Enter tag message: ${WHITE}" message
         git tag -a "$tag_name" -m "$message"
     else
         git tag "$tag_name"
     fi
 
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Tag '${tag_name}' created.${RESETBG}"
+        echo -e "${GG}Tag '${tag_name}' created.${RT}"
     else
-        echo -e "${RED}Failed to create tag '${tag_name}'.${RESETBG}"
+        echo -e "${RE}Failed to create tag '${tag_name}'.${RT}"
     fi
 }
 
 # Function to list all tags
 list_tags() {
-    echo -e "${GREEN}Listing all tags (sorted by creation date):${RESETBG}"
+    echo -e "${GG}Listing all tags (sorted by creation date):${RT}"
     git tag --sort=-creatordate
 }
 
 # Function to delete a tag
 delete_tag() {
-    read -p "${ORANGE}Enter tag name to delete: ${WHITE}" tag_name
+    read -p "${OG}Enter tag name to delete: ${WHITE}" tag_name
     if ! git rev-parse --verify "$tag_name" > /dev/null 2>&1; then
-        echo -e "${RED}Error: Tag '$tag_name' not found.${RESETBG}"
+        echo -e "${RE}Error: Tag '$tag_name' not found.${RT}"
         return
     fi
 
     if ! confirm; then
-        echo -e "${ORANGE}Operation canceled.${RESETBG}"
+        echo -e "${OG}Operation canceled.${RT}"
         return
     fi
 
     git tag -d "$tag_name"
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Tag '${tag_name}' deleted.${RESETBG}"
+        echo -e "${GG}Tag '${tag_name}' deleted.${RT}"
     else
-        echo -e "${RED}Failed to delete tag '${tag_name}'.${RESETBG}"
+        echo -e "${RE}Failed to delete tag '${tag_name}'.${RT}"
     fi
 }
 
 # Function to push a tag to remote
 push_tag() {
-    read -p "${ORANGE}Enter tag name to push: ${WHITE}" tag_name
+    read -p "${OG}Enter tag name to push: ${WHITE}" tag_name
     if ! git rev-parse --verify "$tag_name" > /dev/null 2>&1; then
-        echo -e "${RED}Error: Tag '$tag_name' not found locally.${RESETBG}"
+        echo -e "${RE}Error: Tag '$tag_name' not found locally.${RT}"
         return
     fi
 
     git push origin "$tag_name"
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Tag '${tag_name}' pushed to remote.${RESETBG}"
+        echo -e "${GG}Tag '${tag_name}' pushed to remote.${RT}"
     else
-        echo -e "${RED}Failed to push tag '${tag_name}' to remote.${RESETBG}"
+        echo -e "${RE}Failed to push tag '${tag_name}' to remote.${RT}"
     fi
 }
 
 # Function to push all tags to remote
 push_all_tags() {
     if ! confirm; then
-        echo -e "${ORANGE}Operation canceled.${RESETBG}"
+        echo -e "${OG}Operation canceled.${RT}"
         return
     fi
 
     git push --tags
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}All tags pushed to remote.${RESETBG}"
+        echo -e "${GG}All tags pushed to remote.${RT}"
     else
-        echo -e "${RED}Failed to push tags to remote.${RESETBG}"
+        echo -e "${RE}Failed to push tags to remote.${RT}"
     fi
 }
 
 # Function to show tag details
 show_tag_details() {
-    read -p "${ORANGE}Enter tag name to view details: ${WHITE}" tag_name
+    read -p "${OG}Enter tag name to view details: ${WHITE}" tag_name
     if ! git rev-parse --verify "$tag_name" > /dev/null 2>&1; then
-        echo -e "${RED}Error: Tag '$tag_name' not found.${RESETBG}"
+        echo -e "${RE}Error: Tag '$tag_name' not found.${RT}"
         return
     fi
 
-    echo -e "${GREEN}Details for tag '${tag_name}':${RESETBG}"
+    echo -e "${GG}Details for tag '${tag_name}':${RT}"
     git show "$tag_name"
 }
 
 view_tag_commit() {
-    read -p "${ORANGE}Enter tag name to view associated commit: ${WHITE}" tag_name
+    read -p "${OG}Enter tag name to view associated commit: ${WHITE}" tag_name
     if ! git rev-parse --verify "$tag_name" > /dev/null 2>&1; then
-        echo -e "${RED}Error: Tag '$tag_name' not found.${RESETBG}"
+        echo -e "${RE}Error: Tag '$tag_name' not found.${RT}"
         return
     fi
 
-    echo -e "${GREEN}Commit associated with tag '${tag_name}':${RESETBG}"
+    echo -e "${GG}Commit associated with tag '${tag_name}':${RT}"
     git log -1 "$tag_name"
 }
 
 delete_remote_tag() {
-    read -p "${ORANGE}Enter tag name to delete from remote: ${WHITE}" tag_name
+    read -p "${OG}Enter tag name to delete from remote: ${WHITE}" tag_name
     if ! git rev-parse --verify "$tag_name" > /dev/null 2>&1; then
-        echo -e "${RED}Error: Tag '$tag_name' not found locally.${RESETBG}"
+        echo -e "${RE}Error: Tag '$tag_name' not found locally.${RT}"
         return
     fi
 
     if ! confirm; then
-        echo -e "${ORANGE}Operation canceled.${RESETBG}"
+        echo -e "${OG}Operation canceled.${RT}"
         return
     fi
 
     git push origin --delete "$tag_name"
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Tag '${tag_name}' deleted from remote.${RESETBG}"
+        echo -e "${GG}Tag '${tag_name}' deleted from remote.${RT}"
     else
-        echo -e "${RED}Failed to delete tag '${tag_name}' from remote.${RESETBG}"
+        echo -e "${RE}Failed to delete tag '${tag_name}' from remote.${RT}"
     fi
 }
 
 sign_tag() {
-    read -p "${ORANGE}Enter tag name to sign: ${WHITE}" tag_name
-    read -p "${ORANGE}Enter tag message: ${WHITE}" message
+    read -p "${OG}Enter tag name to sign: ${WHITE}" tag_name
+    read -p "${OG}Enter tag message: ${WHITE}" message
     git tag -s "$tag_name" -m "$message"
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Tag '${tag_name}' signed successfully.${RESETBG}"
+        echo -e "${GG}Tag '${tag_name}' signed successfully.${RT}"
     else
-        echo -e "${RED}Failed to sign tag '${tag_name}'.${RESETBG}"
+        echo -e "${RE}Failed to sign tag '${tag_name}'.${RT}"
     fi
 }
 
 verify_tag() {
-    read -p "${ORANGE}Enter tag name to verify: ${WHITE}" tag_name
+    read -p "${OG}Enter tag name to verify: ${WHITE}" tag_name
     git tag -v "$tag_name"
 }
 

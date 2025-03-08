@@ -6,15 +6,15 @@ source /c/GitNova/cmds/utils/utils
 cleanup_menu() {
     while true; do
         clear
-        echo -e "${RED}Clean Up Commands:${RESETBG}"
-        echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Remove untracked files ${GREEN}(git clean -f)${RESETBG}"
-        echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Remove untracked directories ${GREEN}(git clean -fd)${RESETBG}"
-        echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Prune remote-tracking branches ${GREEN}(git remote prune origin)${RESETBG}"
-        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Delete merged branches ${GREEN}(git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d)${RESETBG}"
-        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Clean up dangling objects ${GREEN}(git gc --prune=now)${RESETBG}"
-        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Back to Main Menu${RESETBG}"
+        echo -e "${RE}Clean Up Commands:${RT}"
+        echo -e "${RE}[${WHITE}1${RE}]${OG} Remove untracked files ${GG}(git clean -f)${RT}"
+        echo -e "${RE}[${WHITE}2${RE}]${OG} Remove untracked directories ${GG}(git clean -fd)${RT}"
+        echo -e "${RE}[${WHITE}3${RE}]${OG} Prune remote-tracking branches ${GG}(git remote prune origin)${RT}"
+        echo -e "${RE}[${WHITE}4${RE}]${OG} Delete merged branches ${GG}(git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d)${RT}"
+        echo -e "${RE}[${WHITE}5${RE}]${OG} Clean up dangling objects ${GG}(git gc --prune=now)${RT}"
+        echo -e "${RE}[${WHITE}0${RE}]${OG} Back to Main Menu${RT}"
         echo
-        read -p "${GREEN}Select an option: ${WHITE}" choice
+        read -p "${GG}Select an option: ${WHITE}" choice
         case $choice in
             1) remove_untracked_files ;;
             2) remove_untracked_directories ;;
@@ -22,53 +22,53 @@ cleanup_menu() {
             4) delete_merged_branches ;;
             5) cleanup_dangling_objects ;;
             0) clear; break ;;
-            *) echo -e "${RED}Invalid option! Try again.${RESETBG}" ;;
+            *) echo -e "${RE}Invalid option! Try again.${RT}" ;;
         esac
-        read -p "${GREEN}Press [Enter] to continue...${RESETBG}"
+        read -p "${GG}Press [Enter] to continue...${RT}"
     done
 }
 
 # Function to remove untracked files
 remove_untracked_files() {
-    echo -e "${ORANGE}Removing untracked files...${RESETBG}"
+    echo -e "${OG}Removing untracked files...${RT}"
     if confirm; then
-        echo -e "${GREEN}Command: git clean -f${RESETBG}"
+        echo -e "${GG}Command: git clean -f${RT}"
         git clean -f
     fi
 }
 
 # Function to remove untracked directories
 remove_untracked_directories() {
-    echo -e "${ORANGE}Removing untracked directories...${RESETBG}"
+    echo -e "${OG}Removing untracked directories...${RT}"
     if confirm; then
-        echo -e "${GREEN}Command: git clean -fd${RESETBG}"
+        echo -e "${GG}Command: git clean -fd${RT}"
         git clean -fd
     fi
 }
 
 # Function to prune remote-tracking branches
 prune_remote_branches() {
-    echo -e "${ORANGE}Pruning remote-tracking branches...${RESETBG}"
+    echo -e "${OG}Pruning remote-tracking branches...${RT}"
     if confirm; then
-        echo -e "${GREEN}Command: git remote prune origin${RESETBG}"
+        echo -e "${GG}Command: git remote prune origin${RT}"
         git remote prune origin
     fi
 }
 
 # Function to delete merged branches
 delete_merged_branches() {
-    echo -e "${ORANGE}Deleting merged branches...${RESETBG}"
+    echo -e "${OG}Deleting merged branches...${RT}"
     if confirm; then
-        echo -e "${GREEN}Command: git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d${RESETBG}"
+        echo -e "${GG}Command: git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d${RT}"
         git branch --merged | grep -v '\*' | xargs -n 1 git branch -d
     fi
 }
 
 # Function to clean up dangling objects
 cleanup_dangling_objects() {
-    echo -e "${ORANGE}Cleaning up dangling objects...${RESETBG}"
+    echo -e "${OG}Cleaning up dangling objects...${RT}"
     if confirm; then
-        echo -e "${GREEN}Command: git gc --prune=now${RESETBG}"
+        echo -e "${GG}Command: git gc --prune=now${RT}"
         git gc --prune=now
     fi
 }

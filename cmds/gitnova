@@ -10,21 +10,21 @@ PORT='8080'
 
 
 banner_g() {
-echo "${CYAN} <<--NoVa-->>" ${__version__}
+echo "${CY} <<--NoVa-->>" ${__version__}
 }
 
 
 about() {
-    echo "${GREEN}About this script:"
-    echo "${GREEN}Version: ${__version__}"
-    echo "${GREEN}This script provides various utility functions for repo management."
-    echo "${GREEN}This repo was created by gitty-thesis on github"
+    echo "${GG}About this script:"
+    echo "${GG}Version: ${__version__}"
+    echo "${GG}This script provides various utility functions for repo management."
+    echo "${GG}This repo was created by gitty-thesis on github"
     echo
-    echo "${CYAN}This is a list this of available commands"
+    echo "${CY}This is a list this of available commands"
 }
 
 exit_script() {
-    echo "${GREEN}Exiting script..."
+    echo "${GG}Exiting script..."
     clear
     exit 0
 }
@@ -35,21 +35,21 @@ main_menu() {
         clear
         banner_g
         echo
-        echo -e "${RED}[${WHITE}1${RED}]${ORANGE} Configuration and Setup --> ${GREEN} n-config"
-        echo -e "${RED}[${WHITE}2${RED}]${ORANGE} Branch Management --> ${GREEN} n-branch"
-        echo -e "${RED}[${WHITE}3${RED}]${ORANGE} Staging and Stash --> ${GREEN} n-stage"
-        echo -e "${RED}[${WHITE}4${RED}]${ORANGE} Commit Changes --> ${GREEN} n-commit"
-        echo -e "${RED}[${WHITE}5${RED}]${ORANGE} Undoing Changes --> ${GREEN} n-undo"
-        echo -e "${RED}[${WHITE}6${RED}]${ORANGE} Remote Repositories --> ${GREEN} n-remote"
-        echo -e "${RED}[${WHITE}7${RED}]${ORANGE} Logs and History --> ${GREEN} n-logs"
-        echo -e "${RED}[${WHITE}8${RED}]${ORANGE} Working with Submodules --> ${GREEN} n-subm"
-        echo -e "${RED}[${WHITE}9${RED}]${ORANGE} Advanced Commands --> ${GREEN} n-adv"
-        echo -e "${RED}[${WHITE}10${RED}]${ORANGE} Clean Up  --> ${GREEN} n-clean"
-        echo -e "${RED}[${WHITE}11${RED}]${ORANGE} Tagging --> ${GREEN} n-tag"
-        echo -e "${RED}[${WHITE}99${RED}]${ORANGE} About  --> ${GREEN} about"
-        echo -e "${RED}[${WHITE}0${RED}]${ORANGE} Exit"
+        echo -e "${RE}[${WHITE}1${RE}]${OG} Configuration and Setup --> ${GG} n-config"
+        echo -e "${RE}[${WHITE}2${RE}]${OG} Branch Management --> ${GG} n-branch"
+        echo -e "${RE}[${WHITE}3${RE}]${OG} Staging and Stash --> ${GG} n-stage"
+        echo -e "${RE}[${WHITE}4${RE}]${OG} Commit Changes --> ${GG} n-commit"
+        echo -e "${RE}[${WHITE}5${RE}]${OG} Undoing Changes --> ${GG} n-undo"
+        echo -e "${RE}[${WHITE}6${RE}]${OG} Remote Repositories --> ${GG} n-remote"
+        echo -e "${RE}[${WHITE}7${RE}]${OG} Logs and History --> ${GG} n-logs"
+        echo -e "${RE}[${WHITE}8${RE}]${OG} Working with Submodules --> ${GG} n-subm"
+        echo -e "${RE}[${WHITE}9${RE}]${OG} Advanced Commands --> ${GG} n-adv"
+        echo -e "${RE}[${WHITE}10${RE}]${OG} Clean Up  --> ${GG} n-clean"
+        echo -e "${RE}[${WHITE}11${RE}]${OG} Tagging --> ${GG} n-tag"
+        echo -e "${RE}[${WHITE}99${RE}]${OG} About  --> ${GG} about"
+        echo -e "${RE}[${WHITE}0${RE}]${OG} Exit"
         echo
-        read -p "${RED}[${WHITE}-${RED}]${GREEN} Select an option: ${BLUE}" selected
+        read -p "${RE}[${WHITE}-${RE}]${GG} Select an option: ${BB}" selected
 
         case $selected in
             1) source /c/GitNova/cmds/n-config ;;
@@ -65,10 +65,10 @@ main_menu() {
             11) source /c/GitNova/cmds/n-tag ;;
             99) about ;;
             0) exit_script ;;
-            *) echo "${RED}Invalid option! Please try again." ;;
+            *) echo "${RE}Invalid option! Please try again." ;;
         esac
 
-        read -p "${GREEN}Press [Enter] to continue..." dummy
+        read -p "${GG}Press [Enter] to continue..." dummy
     done
 }
 
