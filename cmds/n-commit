@@ -7,19 +7,19 @@ commit_commands_menu() {
     while true; do
         clear
         echo -e "${RE}Commit Commands Options:${RT}"
-        echo -e "${RE}[${WHITE}1${RE}]${OG} Commit changes with a message ${GG}git commit -m 'message'"
-        echo -e "${RE}[${WHITE}2${RE}]${OG} Amend the last commit ${GG}git commit --amend"
-        echo -e "${RE}[${WHITE}3${RE}]${OG} Commit only specific files ${GG}git commit file_name -m 'message'"
-        echo -e "${RE}[${WHITE}4${RE}]${OG} Skip staging and commit directly ${GG}git commit -a -m 'message'"
-        echo -e "${RE}[${WHITE}5${RE}]${OG} Commit and sign with GPG ${GG}git commit -S -m 'message'"
-        echo -e "${RE}[${WHITE}6${RE}]${OG} Commit all changes (including untracked files) ${GG}git add -A && git commit -m 'message'"
-        echo -e "${RE}[${WHITE}7${RE}]${OG} Create an empty commit ${GG}git commit --allow-empty -m 'message'"
-        echo -e "${RE}[${WHITE}8${RE}]${OG} Commit with a specific date ${GG}git commit -m 'message' --date='YYYY-MM-DD HH:MM:SS'"
-        echo -e "${RE}[${WHITE}9${RE}]${OG} View commit history ${GG}git log --oneline"
-        echo -e "${RE}[${WHITE}10${RE}]${OG} Undo last commit (keep changes) ${GG}git reset --soft HEAD~1"
-        echo -e "${RE}[${WHITE}0${RE}]${OG} Back to main menu"
+        echo -e "${RE}[${WH}1${RE}]${OG} Commit changes with a message ${GG}git commit -m 'message'"
+        echo -e "${RE}[${WH}2${RE}]${OG} Amend the last commit ${GG}git commit --amend"
+        echo -e "${RE}[${WH}3${RE}]${OG} Commit only specific files ${GG}git commit file_name -m 'message'"
+        echo -e "${RE}[${WH}4${RE}]${OG} Skip staging and commit directly ${GG}git commit -a -m 'message'"
+        echo -e "${RE}[${WH}5${RE}]${OG} Commit and sign with GPG ${GG}git commit -S -m 'message'"
+        echo -e "${RE}[${WH}6${RE}]${OG} Commit all changes (including untracked files) ${GG}git add -A && git commit -m 'message'"
+        echo -e "${RE}[${WH}7${RE}]${OG} Create an empty commit ${GG}git commit --allow-empty -m 'message'"
+        echo -e "${RE}[${WH}8${RE}]${OG} Commit with a specific date ${GG}git commit -m 'message' --date='YYYY-MM-DD HH:MM:SS'"
+        echo -e "${RE}[${WH}9${RE}]${OG} View commit history ${GG}git log --oneline"
+        echo -e "${RE}[${WH}10${RE}]${OG} Undo last commit (keep changes) ${GG}git reset --soft HEAD~1"
+        echo -e "${RE}[${WH}0${RE}]${OG} Back to main menu"
         echo
-        read -p "${RE}[${WHITE}-${RE}]${GG} Select an option: ${BB}" selected
+        read -p "${RE}[${WH}-${RE}]${GG} Select an option: ${BB}" selected
 
         case $selected in
             1) commit_with_message ;;

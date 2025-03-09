@@ -7,14 +7,14 @@ cleanup_menu() {
     while true; do
         clear
         echo -e "${RE}Clean Up Commands:${RT}"
-        echo -e "${RE}[${WHITE}1${RE}]${OG} Remove untracked files ${GG}(git clean -f)${RT}"
-        echo -e "${RE}[${WHITE}2${RE}]${OG} Remove untracked directories ${GG}(git clean -fd)${RT}"
-        echo -e "${RE}[${WHITE}3${RE}]${OG} Prune remote-tracking branches ${GG}(git remote prune origin)${RT}"
-        echo -e "${RE}[${WHITE}4${RE}]${OG} Delete merged branches ${GG}(git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d)${RT}"
-        echo -e "${RE}[${WHITE}5${RE}]${OG} Clean up dangling objects ${GG}(git gc --prune=now)${RT}"
-        echo -e "${RE}[${WHITE}0${RE}]${OG} Back to Main Menu${RT}"
+        echo -e "${RE}[${WH}1${RE}]${OG} Remove untracked files ${GG}(git clean -f)${RT}"
+        echo -e "${RE}[${WH}2${RE}]${OG} Remove untracked directories ${GG}(git clean -fd)${RT}"
+        echo -e "${RE}[${WH}3${RE}]${OG} Prune remote-tracking branches ${GG}(git remote prune origin)${RT}"
+        echo -e "${RE}[${WH}4${RE}]${OG} Delete merged branches ${GG}(git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d)${RT}"
+        echo -e "${RE}[${WH}5${RE}]${OG} Clean up dangling objects ${GG}(git gc --prune=now)${RT}"
+        echo -e "${RE}[${WH}0${RE}]${OG} Back to Main Menu${RT}"
         echo
-        read -p "${GG}Select an option: ${WHITE}" choice
+        read -p "${GG}Select an option: ${WH}" choice
         case $choice in
             1) remove_untracked_files ;;
             2) remove_untracked_directories ;;

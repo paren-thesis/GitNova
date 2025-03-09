@@ -6,18 +6,18 @@ source /c/GitNova/cmds/utils/utils
 branch_menu() {
     clear
     echo -e "${RE}Branch Management Commands:${RT}"
-    echo -e "${RE}[${WHITE}1${RE}]${OG} Create a branch: ${GG}git checkout -b branch_name"
-    echo -e "${RE}[${WHITE}2${RE}]${OG} Delete a branch: ${GG}git branch -d branch_name"
-    echo -e "${RE}[${WHITE}3${RE}]${OG} Merge a branch: ${GG}git merge branch_name"
-    echo -e "${RE}[${WHITE}4${RE}]${OG} List all branches: ${GG}git branch"
-    echo -e "${RE}[${WHITE}5${RE}]${OG} Switch to a branch: ${GG}git checkout branch_name"
-    echo -e "${RE}[${WHITE}6${RE}]${OG} Create a remote branch: ${GG}git push -u origin branch_name"
-    echo -e "${RE}[${WHITE}7${RE}]${OG} Delete a remote branch: ${GG}git push origin --delete branch_name"
-    echo -e "${RE}[${WHITE}8${RE}]${OG} Switch to a remote branch: ${GG}git checkout -b branch_name origin/branch_name"
-    echo -e "${RE}[${WHITE}9${RE}]${OG} Rebase a branch: ${GG}git rebase branch_name"
-    echo -e "${RE}[${WHITE}10${RE}]${OG} Rename a branch: ${GG}git branch -m old_name new_name"
-    echo -e "${RE}[${WHITE}11${RE}]${OG} View branch history: ${GG}git log branch_name --oneline"
-    echo -e "${RE}[${WHITE}0${RE}]${OG} Back to main menu"
+    echo -e "${RE}[${WH}1${RE}]${OG} Create a branch: ${GG}git checkout -b branch_name"
+    echo -e "${RE}[${WH}2${RE}]${OG} Delete a branch: ${GG}git branch -d branch_name"
+    echo -e "${RE}[${WH}3${RE}]${OG} Merge a branch: ${GG}git merge branch_name"
+    echo -e "${RE}[${WH}4${RE}]${OG} List all branches: ${GG}git branch"
+    echo -e "${RE}[${WH}5${RE}]${OG} Switch to a branch: ${GG}git checkout branch_name"
+    echo -e "${RE}[${WH}6${RE}]${OG} Create a remote branch: ${GG}git push -u origin branch_name"
+    echo -e "${RE}[${WH}7${RE}]${OG} Delete a remote branch: ${GG}git push origin --delete branch_name"
+    echo -e "${RE}[${WH}8${RE}]${OG} Switch to a remote branch: ${GG}git checkout -b branch_name origin/branch_name"
+    echo -e "${RE}[${WH}9${RE}]${OG} Rebase a branch: ${GG}git rebase branch_name"
+    echo -e "${RE}[${WH}10${RE}]${OG} Rename a branch: ${GG}git branch -m old_name new_name"
+    echo -e "${RE}[${WH}11${RE}]${OG} View branch history: ${GG}git log branch_name --oneline"
+    echo -e "${RE}[${WH}0${RE}]${OG} Back to main menu"
     echo
 }
 

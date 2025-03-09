@@ -7,14 +7,14 @@ logs_history_menu() {
     while true; do
         clear
         echo -e "${RE}Logs and History Commands Options:${RT}"
-        echo -e "${RE}[${WHITE}1${RE}]${OG} View commit history ${GG}git log"
-        echo -e "${RE}[${WHITE}2${RE}]${OG} View one-line commit history ${GG}git log --oneline"
-        echo -e "${RE}[${WHITE}3${RE}]${OG} View commit history with graph ${GG}git log --oneline --graph"
-        echo -e "${RE}[${WHITE}4${RE}]${OG} View the last N commits ${GG}git log -n N"
-        echo -e "${RE}[${WHITE}5${RE}]${OG} View a specific file's commit history ${GG}git log -- file_name"
-        echo -e "${RE}[${WHITE}0${RE}]${OG} Back to main menu"
+        echo -e "${RE}[${WH}1${RE}]${OG} View commit history ${GG}git log"
+        echo -e "${RE}[${WH}2${RE}]${OG} View one-line commit history ${GG}git log --oneline"
+        echo -e "${RE}[${WH}3${RE}]${OG} View commit history with graph ${GG}git log --oneline --graph"
+        echo -e "${RE}[${WH}4${RE}]${OG} View the last N commits ${GG}git log -n N"
+        echo -e "${RE}[${WH}5${RE}]${OG} View a specific file's commit history ${GG}git log -- file_name"
+        echo -e "${RE}[${WH}0${RE}]${OG} Back to main menu"
         echo
-        read -p "${RE}[${WHITE}-${RE}]${GG} Select an option: ${BB}" selected
+        read -p "${RE}[${WH}-${RE}]${GG} Select an option: ${BB}" selected
 
         case $selected in
             1) view_commit_history ;;

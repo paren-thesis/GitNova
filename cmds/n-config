@@ -8,17 +8,17 @@ configuration_setup() {
     while true; do
         clear
         echo -e "${RE}Configuration and Setup Options:${RT}"
-        echo -e "${RE}[${WHITE}1${RE}]${OG} Set user name ${GG}git config --global user.name username"
-        echo -e "${RE}[${WHITE}2${RE}]${OG} Set user email ${GG}git config --global user.email useremail"
-        echo -e "${RE}[${WHITE}3${RE}]${OG} View configuration ${GG}git config --list"
-        echo -e "${RE}[${WHITE}4${RE}]${OG} Initialize repository ${GG}git init"
-        echo -e "${RE}[${WHITE}5${RE}]${OG} Set default branch name ${GG}git config --global init.defaultBranch main"
-        echo -e "${RE}[${WHITE}6${RE}]${OG} Set default text editor ${GG}git config --global core.editor vim"
-        echo -e "${RE}[${WHITE}7${RE}]${OG} Set GPG signing key ${GG}git config --global user.signingKey <GPG_KEY_ID>"
-        echo -e "${RE}[${WHITE}8${RE}]${OG} Unset configuration ${GG}git config --global --unset <key>"
-        echo -e "${RE}[${WHITE}0${RE}]${OG} Back to main menu"
+        echo -e "${RE}[${WH}1${RE}]${OG} Set user name ${GG}git config --global user.name username"
+        echo -e "${RE}[${WH}2${RE}]${OG} Set user email ${GG}git config --global user.email useremail"
+        echo -e "${RE}[${WH}3${RE}]${OG} View configuration ${GG}git config --list"
+        echo -e "${RE}[${WH}4${RE}]${OG} Initialize repository ${GG}git init"
+        echo -e "${RE}[${WH}5${RE}]${OG} Set default branch name ${GG}git config --global init.defaultBranch main"
+        echo -e "${RE}[${WH}6${RE}]${OG} Set default text editor ${GG}git config --global core.editor vim"
+        echo -e "${RE}[${WH}7${RE}]${OG} Set GPG signing key ${GG}git config --global user.signingKey <GPG_KEY_ID>"
+        echo -e "${RE}[${WH}8${RE}]${OG} Unset configuration ${GG}git config --global --unset <key>"
+        echo -e "${RE}[${WH}0${RE}]${OG} Back to main menu"
         echo
-        read -p "${RE}[${WHITE}-${RE}]${GG} Select an option: ${BB}" selected
+        read -p "${RE}[${WH}-${RE}]${GG} Select an option: ${BB}" selected
 
         case $selected in
             1) set_user_name ;;
@@ -106,14 +106,14 @@ set_gpg_signing_key() {
 
 unset_config() {
     echo -e "${GG}Select the configuration to unset:${RT}"
-    echo -e "${RE}[${WHITE}1${RE}]${OG} Unset user name ${GG}git config --global --unset user.name"
-    echo -e "${RE}[${WHITE}2${RE}]${OG} Unset user email ${GG}git config --global --unset user.email"
-    echo -e "${RE}[${WHITE}3${RE}]${OG} Unset default branch ${GG}git config --global --unset init.defaultBranch"
-    echo -e "${RE}[${WHITE}4${RE}]${OG} Unset default editor ${GG}git config --global --unset core.editor"
-    echo -e "${RE}[${WHITE}5${RE}]${OG} Unset GPG signing key ${GG}git config --global --unset user.signingKey"
-    echo -e "${RE}[${WHITE}0${RE}]${OG} Back to main menu"
+    echo -e "${RE}[${WH}1${RE}]${OG} Unset user name ${GG}git config --global --unset user.name"
+    echo -e "${RE}[${WH}2${RE}]${OG} Unset user email ${GG}git config --global --unset user.email"
+    echo -e "${RE}[${WH}3${RE}]${OG} Unset default branch ${GG}git config --global --unset init.defaultBranch"
+    echo -e "${RE}[${WH}4${RE}]${OG} Unset default editor ${GG}git config --global --unset core.editor"
+    echo -e "${RE}[${WH}5${RE}]${OG} Unset GPG signing key ${GG}git config --global --unset user.signingKey"
+    echo -e "${RE}[${WH}0${RE}]${OG} Back to main menu"
     echo
-    read -p "${RE}[${WHITE}-${RE}]${GG} Select an option: ${BB}" unset_option
+    read -p "${RE}[${WH}-${RE}]${GG} Select an option: ${BB}" unset_option
 
     case $unset_option in
         1) git config --global --unset user.name && echo -e "${GG}User name unset.${RT}" ;;
