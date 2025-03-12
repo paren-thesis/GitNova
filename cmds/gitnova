@@ -35,21 +35,21 @@ main_menu() {
         clear
         banner_g
         echo
-        echo -e "${RE}[${WHITE}1${RE}]${OG} Configuration and Setup --> ${GG} n-config"
-        echo -e "${RE}[${WHITE}2${RE}]${OG} Branch Management --> ${GG} n-branch"
-        echo -e "${RE}[${WHITE}3${RE}]${OG} Staging and Stash --> ${GG} n-stage"
-        echo -e "${RE}[${WHITE}4${RE}]${OG} Commit Changes --> ${GG} n-commit"
-        echo -e "${RE}[${WHITE}5${RE}]${OG} Undoing Changes --> ${GG} n-undo"
-        echo -e "${RE}[${WHITE}6${RE}]${OG} Remote Repositories --> ${GG} n-remote"
-        echo -e "${RE}[${WHITE}7${RE}]${OG} Logs and History --> ${GG} n-logs"
-        echo -e "${RE}[${WHITE}8${RE}]${OG} Working with Submodules --> ${GG} n-subm"
-        echo -e "${RE}[${WHITE}9${RE}]${OG} Advanced Commands --> ${GG} n-adv"
-        echo -e "${RE}[${WHITE}10${RE}]${OG} Clean Up  --> ${GG} n-clean"
-        echo -e "${RE}[${WHITE}11${RE}]${OG} Tagging --> ${GG} n-tag"
-        echo -e "${RE}[${WHITE}99${RE}]${OG} About  --> ${GG} about"
-        echo -e "${RE}[${WHITE}0${RE}]${OG} Exit"
+        echo -e "${RE}[${WH}1${RE}]${OG} Configuration and Setup --> ${GG} n-config"
+        echo -e "${RE}[${WH}2${RE}]${OG} Branch Management --> ${GG} n-branch"
+        echo -e "${RE}[${WH}3${RE}]${OG} Staging and Stash --> ${GG} n-stage"
+        echo -e "${RE}[${WH}4${RE}]${OG} Commit Changes --> ${GG} n-commit"
+        echo -e "${RE}[${WH}5${RE}]${OG} Undoing Changes --> ${GG} n-undo"
+        echo -e "${RE}[${WH}6${RE}]${OG} Remote Repositories --> ${GG} n-remote"
+        echo -e "${RE}[${WH}7${RE}]${OG} Logs and History --> ${GG} n-logs"
+        echo -e "${RE}[${WH}8${RE}]${OG} Working with Submodules --> ${GG} n-subm"
+        echo -e "${RE}[${WH}9${RE}]${OG} Advanced Commands --> ${GG} n-adv"
+        echo -e "${RE}[${WH}10${RE}]${OG} Clean Up  --> ${GG} n-clean"
+        echo -e "${RE}[${WH}11${RE}]${OG} Tagging --> ${GG} n-tag"
+        echo -e "${RE}[${WH}99${RE}]${OG} About  --> ${GG} about"
+        echo -e "${RE}[${WH}0${RE}]${OG} Exit"
         echo
-        read -p "${RE}[${WHITE}-${RE}]${GG} Select an option: ${BB}" selected
+        read -p "${RE}[${WH}-${RE}]${GG} Select an option: ${BB}" selected
 
         case $selected in
             1) source /c/GitNova/cmds/n-config ;;

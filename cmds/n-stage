@@ -7,22 +7,22 @@ staging_stash_menu() {
     while true; do
         clear
         echo -e "${RE}Staging and Stash Options:${RT}"
-        echo -e "${RE}[${WHITE}1${RE}]${OG} Stage all changes ${GG}git add ."
-        echo -e "${RE}[${WHITE}2${RE}]${OG} Stage a specific file ${GG}git add file_name"
-        echo -e "${RE}[${WHITE}3${RE}]${OG} Unstage a file ${GG}git reset file_name"
-        echo -e "${RE}[${WHITE}4${RE}]${OG} Unstage all changes ${GG}git reset"
-        echo -e "${RE}[${WHITE}5${RE}]${OG} Stash changes ${GG}git stash"
-        echo -e "${RE}[${WHITE}6${RE}]${OG} Apply stashed changes ${GG}git stash apply"
-        echo -e "${RE}[${WHITE}7${RE}]${OG} Apply a specific stash ${GG}git stash apply stash@{n}"
-        echo -e "${RE}[${WHITE}8${RE}]${OG} Drop a stash ${GG}git stash drop stash@{n}"
-        echo -e "${RE}[${WHITE}9${RE}]${OG} List stashed changes ${GG}git stash list"
-        echo -e "${RE}[${WHITE}10${RE}]${OG} Pop the most recent stash ${GG}git stash pop"
-        echo -e "${RE}[${WHITE}11${RE}]${OG} Clear all stashes ${GG}git stash clear"
-        echo -e "${RE}[${WHITE}12${RE}]${OG} Stage changes interactively ${GG}git add -p"
-        echo -e "${RE}[${WHITE}13${RE}]${OG} View stash diff ${GG}git stash show -p stash@{n}"
-        echo -e "${RE}[${WHITE}0${RE}]${OG} Back to main menu"
+        echo -e "${RE}[${WH}1${RE}]${OG} Stage all changes ${GG}git add ."
+        echo -e "${RE}[${WH}2${RE}]${OG} Stage a specific file ${GG}git add file_name"
+        echo -e "${RE}[${WH}3${RE}]${OG} Unstage a file ${GG}git reset file_name"
+        echo -e "${RE}[${WH}4${RE}]${OG} Unstage all changes ${GG}git reset"
+        echo -e "${RE}[${WH}5${RE}]${OG} Stash changes ${GG}git stash"
+        echo -e "${RE}[${WH}6${RE}]${OG} Apply stashed changes ${GG}git stash apply"
+        echo -e "${RE}[${WH}7${RE}]${OG} Apply a specific stash ${GG}git stash apply stash@{n}"
+        echo -e "${RE}[${WH}8${RE}]${OG} Drop a stash ${GG}git stash drop stash@{n}"
+        echo -e "${RE}[${WH}9${RE}]${OG} List stashed changes ${GG}git stash list"
+        echo -e "${RE}[${WH}10${RE}]${OG} Pop the most recent stash ${GG}git stash pop"
+        echo -e "${RE}[${WH}11${RE}]${OG} Clear all stashes ${GG}git stash clear"
+        echo -e "${RE}[${WH}12${RE}]${OG} Stage changes interactively ${GG}git add -p"
+        echo -e "${RE}[${WH}13${RE}]${OG} View stash diff ${GG}git stash show -p stash@{n}"
+        echo -e "${RE}[${WH}0${RE}]${OG} Back to main menu"
         echo
-        read -p "${RE}[${WHITE}-${RE}]${GG} Select an option: ${BB}" selected
+        read -p "${RE}[${WH}-${RE}]${GG} Select an option: ${BB}" selected
 
         case $selected in
             1) stage_all_changes ;;

@@ -6,6 +6,7 @@ OG="$(printf '\033[33m')" # ORANGE
 BB="$(printf '\033[34m')" # BLUE
 RE="$(printf '\033[31m')" # RED
 RT="$(printf '\e[0m\n')" # RT
+WH="$(printf '\033[37m')" # WH
 
 check_git_repo() {
     if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then

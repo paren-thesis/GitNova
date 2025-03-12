@@ -8,7 +8,7 @@ generic_menu() {
         echo -e "${RE}$title${RT}"
         echo "$@"
         echo
-        read -p "${RE}[${WHITE}-${RE}]${GG} Select an option: ${BB}" selected
+        read -p "${RE}[${WH}-${RE}]${GG} Select an option: ${BB}" selected
         case $selected in
             0) break ;;
             *) 

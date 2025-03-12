@@ -8,18 +8,18 @@ submodules_menu() {
     while true; do
         clear
         echo -e "${RE}Submodules Commands Options:${RT}"
-        echo -e "${RE}[${WHITE}1${RE}]${OG} Add a submodule ${GG}git submodule add repository_url path"
-        echo -e "${RE}[${WHITE}2${RE}]${OG} Initialize submodules ${GG}git submodule init"
-        echo -e "${RE}[${WHITE}3${RE}]${OG} Update submodules ${GG}git submodule update"
-        echo -e "${RE}[${WHITE}4${RE}]${OG} Remove a submodule ${GG}manual steps requiRE"
-        echo -e "${RE}[${WHITE}5${RE}]${OG} Show submodule status ${GG}git submodule status"
-		echo -e "${RE}[${WHITE}6${RE}]${OG} Clone repository with submodules ${GG}git clone --recurse-submodules"
-		echo -e "${RE}[${WHITE}7${RE}]${OG} Synchronize submodules ${GG}git submodule sync --recursive"
-		echo -e "${RE}[${WHITE}8${RE}]${OG} List submodules ${GG}git config --file .gitmodules --get-regexp path"
-		echo -e "${RE}[${WHITE}9${RE}]${OG} Rebase submodules ${GG}git submodule foreach git pull origin main"
-		echo -e "${RE}[${WHITE}0${RE}]${OG} Back to main menu"
+        echo -e "${RE}[${WH}1${RE}]${OG} Add a submodule ${GG}git submodule add repository_url path"
+        echo -e "${RE}[${WH}2${RE}]${OG} Initialize submodules ${GG}git submodule init"
+        echo -e "${RE}[${WH}3${RE}]${OG} Update submodules ${GG}git submodule update"
+        echo -e "${RE}[${WH}4${RE}]${OG} Remove a submodule ${GG}manual steps requiRE"
+        echo -e "${RE}[${WH}5${RE}]${OG} Show submodule status ${GG}git submodule status"
+		echo -e "${RE}[${WH}6${RE}]${OG} Clone repository with submodules ${GG}git clone --recurse-submodules"
+		echo -e "${RE}[${WH}7${RE}]${OG} Synchronize submodules ${GG}git submodule sync --recursive"
+		echo -e "${RE}[${WH}8${RE}]${OG} List submodules ${GG}git config --file .gitmodules --get-regexp path"
+		echo -e "${RE}[${WH}9${RE}]${OG} Rebase submodules ${GG}git submodule foreach git pull origin main"
+		echo -e "${RE}[${WH}0${RE}]${OG} Back to main menu"
         echo
-        read -p "${RE}[${WHITE}-${RE}]${GG} Select an option: ${BB}" selected
+        read -p "${RE}[${WH}-${RE}]${GG} Select an option: ${BB}" selected
 
         case $selected in
             1) add_submodule ;;
@@ -129,13 +129,13 @@ show_submodule_status() {
 }
 
 clone_with_submodules() {
-    read -p "${OG}Enter the repository URL to clone: ${WHITE}" repo_url
+    read -p "${OG}Enter the repository URL to clone: ${WH}" repo_url
     if [[ -z "$repo_url" ]]; then
         echo -e "${RE}Error: Repository URL cannot be empty.${RT}"
         return
     fi
 
-    read -p "${OG}Enter the directory name to clone into (leave blank for default): ${WHITE}" dir_name
+    read -p "${OG}Enter the directory name to clone into (leave blank for default): ${WH}" dir_name
     if [[ -n "$dir_name" ]]; then
         echo -e "${CY}Cloning repository with submodules into '$dir_name'...${RT}"
         git clone --recurse-submodules "$repo_url" "$dir_name"
@@ -165,7 +165,7 @@ list_submodules() {
     echo -e "${CY}Listing all submodules:${RT}"
     git config --file .gitmodules --get-regexp path | while read line; do
         submodule_path=$(echo "$line" | awk '{print $2}')
-        echo -e "${GG}- Submodule Path: ${WHITE}$submodule_path${RT}"
+        echo -e "${GG}- Submodule Path: ${WH}$submodule_path${RT}"
     done
 
     if [ $? -ne 0 ]; then
