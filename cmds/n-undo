@@ -7,7 +7,7 @@ source /c/GitNova/cmds/utils/utils
 undoing_changes_menu() {
     while true; do
         clear
-        echo -e "${RE}Undoing Changes Options:${RT}"
+        echo -e "${CY}Undoing Changes Options:${RT}"
         echo -e "${RE}[${WH}1${RE}]${OG} Undo unstaged changes to a file ${GG}git checkout -- file_name"
         echo -e "${RE}[${WH}2${RE}]${OG} Undo staged changes ${GG}git reset HEAD file_name"
         echo -e "${RE}[${WH}3${RE}]${OG} Revert a commit ${GG}git revert commit_hash"

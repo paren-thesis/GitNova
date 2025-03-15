@@ -5,7 +5,7 @@ source /c/GitNova/cmds/utils/utils
 # Display Branch Management Menu
 branch_menu() {
     clear
-    echo -e "${RE}Branch Management Commands:${RT}"
+    echo -e "${CY}Branch Management Commands:${RT}"
     echo -e "${RE}[${WH}1${RE}]${OG} Create a branch: ${GG}git checkout -b branch_name"
     echo -e "${RE}[${WH}2${RE}]${OG} Delete a branch: ${GG}git branch -d branch_name"
     echo -e "${RE}[${WH}3${RE}]${OG} Merge a branch: ${GG}git merge branch_name"

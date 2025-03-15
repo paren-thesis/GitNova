@@ -6,7 +6,7 @@ source /c/GitNova/cmds/utils/utils
 staging_stash_menu() {
     while true; do
         clear
-        echo -e "${RE}Staging and Stash Options:${RT}"
+        echo -e "${CY}Staging and Stash Options:${RT}"
         echo -e "${RE}[${WH}1${RE}]${OG} Stage all changes ${GG}git add ."
         echo -e "${RE}[${WH}2${RE}]${OG} Stage a specific file ${GG}git add file_name"
         echo -e "${RE}[${WH}3${RE}]${OG} Unstage a file ${GG}git reset file_name"

@@ -7,7 +7,7 @@ source /c/GitNova/cmds/utils/utils
 remote_repositories_menu() {
     while true; do
         clear
-        echo -e "${RE}Remote Repositories Commands Options:${RT}"
+        echo -e "${CY}Remote Repositories Commands Options:${RT}"
         echo -e "${RE}[${WH}1${RE}]${OG} Add a remote repository ${GG}git remote add name url"
         echo -e "${RE}[${WH}2${RE}]${OG} Remove a remote repository ${GG}git remote remove name"
         echo -e "${RE}[${WH}3${RE}]${OG} List all remotes ${GG}git remote -v"

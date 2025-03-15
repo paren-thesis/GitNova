@@ -6,7 +6,7 @@ source /c/GitNova/cmds/utils/utils
 advanced_menu() {
     while true; do
         clear
-        echo -e "${RE}Advanced Git Commands:${RT}"
+        echo -e "${CY}Advanced Git Commands:${RT}"
         echo -e "${RE}[${WH}1${RE}]${OG} Squash commits into one ${GG}git rebase -i HEAD~n"
         echo -e "${RE}[${WH}2${RE}]${OG} Cherry-pick a commit ${GG}git cherry-pick commit_hash"
         echo -e "${RE}[${WH}3${RE}]${OG} Revert a specific commit ${GG}git revert commit_hash"

@@ -6,7 +6,7 @@ source /c/GitNova/cmds/utils/utils
 logs_history_menu() {
     while true; do
         clear
-        echo -e "${RE}Logs and History Commands Options:${RT}"
+        echo -e "${CY}Logs and History Commands Options:${RT}"
         echo -e "${RE}[${WH}1${RE}]${OG} View commit history ${GG}git log"
         echo -e "${RE}[${WH}2${RE}]${OG} View one-line commit history ${GG}git log --oneline"
         echo -e "${RE}[${WH}3${RE}]${OG} View commit history with graph ${GG}git log --oneline --graph"

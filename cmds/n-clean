@@ -6,7 +6,7 @@ source /c/GitNova/cmds/utils/utils
 cleanup_menu() {
     while true; do
         clear
-        echo -e "${RE}Clean Up Commands:${RT}"
+        echo -e "${CY}Clean Up Commands:${RT}"
         echo -e "${RE}[${WH}1${RE}]${OG} Remove untracked files ${GG}(git clean -f)${RT}"
         echo -e "${RE}[${WH}2${RE}]${OG} Remove untracked directories ${GG}(git clean -fd)${RT}"
         echo -e "${RE}[${WH}3${RE}]${OG} Prune remote-tracking branches ${GG}(git remote prune origin)${RT}"

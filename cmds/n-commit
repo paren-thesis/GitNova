@@ -6,7 +6,7 @@ source /c/GitNova/cmds/utils/utils
 commit_commands_menu() {
     while true; do
         clear
-        echo -e "${RE}Commit Commands Options:${RT}"
+        echo -e "${CY}Commit Commands Options:${RT}"
         echo -e "${RE}[${WH}1${RE}]${OG} Commit changes with a message ${GG}git commit -m 'message'"
         echo -e "${RE}[${WH}2${RE}]${OG} Amend the last commit ${GG}git commit --amend"
         echo -e "${RE}[${WH}3${RE}]${OG} Commit only specific files ${GG}git commit file_name -m 'message'"

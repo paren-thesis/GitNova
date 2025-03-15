@@ -7,7 +7,7 @@ source /c/GitNova/cmds/utils/utils
 configuration_setup() {
     while true; do
         clear
-        echo -e "${RE}Configuration and Setup Options:${RT}"
+        echo -e "${CY}Configuration and Setup Options:${RT}"
         echo -e "${RE}[${WH}1${RE}]${OG} Set user name ${GG}git config --global user.name username"
         echo -e "${RE}[${WH}2${RE}]${OG} Set user email ${GG}git config --global user.email useremail"
         echo -e "${RE}[${WH}3${RE}]${OG} View configuration ${GG}git config --list"

@@ -6,7 +6,7 @@ source /c/GitNova/cmds/utils/utils
 tagging_menu() {
     while true; do
         clear
-        echo -e "${RE}Tagging Commands:${RT}"
+        echo -e "${CY}Tagging Commands:${RT}"
         echo -e "${RE}[${WH}1${RE}]${OG} Create a new tag ${GG}git tag tag_name"
         echo -e "${RE}[${WH}2${RE}]${OG} List all tags ${GG}git tag"
         echo -e "${RE}[${WH}3${RE}]${OG} Delete a tag ${GG}git tag -d tag_name"

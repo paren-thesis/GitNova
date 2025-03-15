@@ -7,7 +7,7 @@ source /c/GitNova/cmds/utils/utils
 submodules_menu() {
     while true; do
         clear
-        echo -e "${RE}Submodules Commands Options:${RT}"
+        echo -e "${CY}Submodules Commands Options:${RT}"
         echo -e "${RE}[${WH}1${RE}]${OG} Add a submodule ${GG}git submodule add repository_url path"
         echo -e "${RE}[${WH}2${RE}]${OG} Initialize submodules ${GG}git submodule init"
         echo -e "${RE}[${WH}3${RE}]${OG} Update submodules ${GG}git submodule update"
