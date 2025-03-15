@@ -4,128 +4,183 @@ source /c/GitNova/cmds/utils/utils
 
 # Branch Management
 branch_management() {
-    echo "${CY}Branch Management Commands:"
+    echo -e "${CY}Branch Management Commands:${RT}"
+    echo
     echo -e "${CY}[${WH}1${CY}]${OG} Create a branch: ${GG}git checkout -b branch_name"
     echo -e "${CY}[${WH}2${CY}]${OG} Delete a branch: ${GG}git branch -d branch_name"
     echo -e "${CY}[${WH}3${CY}]${OG} Merge a branch: ${GG}git merge branch_name"
     echo -e "${CY}[${WH}4${CY}]${OG} List all branches: ${GG}git branch"
     echo -e "${CY}[${WH}5${CY}]${OG} Switch to a branch: ${GG}git checkout branch_name"
+    echo -e "${CY}[${WH}6${CY}]${OG} Create a remote branch: ${GG}git push -u origin branch_name"
+    echo -e "${CY}[${WH}7${CY}]${OG} Delete a remote branch: ${GG}git push origin --delete branch_name"
+    echo -e "${CY}[${WH}8${CY}]${OG} Switch to a remote branch: ${GG}git checkout -b branch_name origin/branch_name"
+    echo -e "${CY}[${WH}9${CY}]${OG} Rebase a branch: ${GG}git rebase branch_name"
+    echo -e "${CY}[${WH}10${CY}]${OG} Rename a branch: ${GG}git branch -m old_name new_name"
+    echo -e "${CY}[${WH}11${CY}]${OG} View branch history: ${GG}git log branch_name --oneline"
 }
 
 # Configuration and Setup
 configuration_setup() {
-    echo "${CY}Configuration and Setup Commands:"
+    echo -e "${CY}Configuration and Setup Options:${RT}"
+    echo
     echo -e "${CY}[${WH}1${CY}]${OG} Set user name ${GG}git config --global user.name username"
     echo -e "${CY}[${WH}2${CY}]${OG} Set user email ${GG}git config --global user.email useremail"
     echo -e "${CY}[${WH}3${CY}]${OG} View configuration ${GG}git config --list"
     echo -e "${CY}[${WH}4${CY}]${OG} Initialize repository ${GG}git init"
+    echo -e "${CY}[${WH}5${CY}]${OG} Set default branch name ${GG}git config --global init.defaultBranch main"
+    echo -e "${CY}[${WH}6${CY}]${OG} Set default text editor ${GG}git config --global core.editor vim"
+    echo -e "${CY}[${WH}7${CY}]${OG} Set GPG signing key ${GG}git config --global user.signingKey <GPG_KEY_ID>"
+    echo -e "${CY}[${WH}8${CY}]${OG} Unset configuration ${GG}git config --global --unset <key>"
 }
 
 # Commit Changes
 commit() {
-    echo "${CY}Commit Changes commands:"
+    echo -e "${CY}Commit Commands Options:${RT}"
+    echo
     echo -e "${CY}[${WH}1${CY}]${OG} Commit changes with a message ${GG}git commit -m 'message'"
     echo -e "${CY}[${WH}2${CY}]${OG} Amend the last commit ${GG}git commit --amend"
     echo -e "${CY}[${WH}3${CY}]${OG} Commit only specific files ${GG}git commit file_name -m 'message'"
     echo -e "${CY}[${WH}4${CY}]${OG} Skip staging and commit directly ${GG}git commit -a -m 'message'"
+    echo -e "${CY}[${WH}5${CY}]${OG} Commit and sign with GPG ${GG}git commit -S -m 'message'"
+    echo -e "${CY}[${WH}6${CY}]${OG} Commit all changes (including untracked files) ${GG}git add -A && git commit -m 'message'"
+    echo -e "${CY}[${WH}7${CY}]${OG} Create an empty commit ${GG}git commit --allow-empty -m 'message'"
+    echo -e "${CY}[${WH}8${CY}]${OG} Commit with a specific date ${GG}git commit -m 'message' --date='YYYY-MM-DD HH:MM:SS'"
+    echo -e "${CY}[${WH}9${CY}]${OG} View commit history ${GG}git log --oneline"
+    echo -e "${CY}[${WH}10${CY}]${OG} Undo last commit (keep changes) ${GG}git reset --soft HEAD~1"
 }
 
 # Staging and Stash
 staging_and_stash() {
-    echo "${CY}Staging and Stash Commands:"
+    echo -e "${CY}Staging and Stash Options:${RT}"
+    echo
     echo -e "${CY}[${WH}1${CY}]${OG} Stage all changes ${GG}git add ."
     echo -e "${CY}[${WH}2${CY}]${OG} Stage a specific file ${GG}git add file_name"
     echo -e "${CY}[${WH}3${CY}]${OG} Unstage a file ${GG}git reset file_name"
-    echo -e "${CY}[${WH}4${CY}]${OG} Stash changes ${GG}git stash"
-    echo -e "${CY}[${WH}5${CY}]${OG} Apply stashed changes ${GG}git stash apply"
-    echo -e "${CY}[${WH}6${CY}]${OG} List stashed changes ${GG}git stash list"
+    echo -e "${CY}[${WH}4${CY}]${OG} Unstage all changes ${GG}git reset"
+    echo -e "${CY}[${WH}5${CY}]${OG} Stash changes ${GG}git stash"
+    echo -e "${CY}[${WH}6${CY}]${OG} Apply stashed changes ${GG}git stash apply"
+    echo -e "${CY}[${WH}7${CY}]${OG} Apply a specific stash ${GG}git stash apply stash@{n}"
+    echo -e "${CY}[${WH}8${CY}]${OG} Drop a stash ${GG}git stash drop stash@{n}"
+    echo -e "${CY}[${WH}9${CY}]${OG} List stashed changes ${GG}git stash list"
+    echo -e "${CY}[${WH}10${CY}]${OG} Pop the most recent stash ${GG}git stash pop"
+    echo -e "${CY}[${WH}11${CY}]${OG} Clear all stashes ${GG}git stash clear"
+    echo -e "${CY}[${WH}12${CY}]${OG} Stage changes interactively ${GG}git add -p"
+    echo -e "${CY}[${WH}13${CY}]${OG} View stash diff ${GG}git stash show -p stash@{n}"
 }
 
 # Undoing Changes
 undoing_changes() {
-    echo "${CY}Undoing Changes Commands:"
+    echo -e "${CY}Undoing Changes Options:${RT}"
+    echo
     echo -e "${CY}[${WH}1${CY}]${OG} Undo unstaged changes to a file ${GG}git checkout -- file_name"
     echo -e "${CY}[${WH}2${CY}]${OG} Undo staged changes ${GG}git reset HEAD file_name"
     echo -e "${CY}[${WH}3${CY}]${OG} Revert a commit ${GG}git revert commit_hash"
     echo -e "${CY}[${WH}4${CY}]${OG} Reset to a previous commit ${GG}git reset --hard commit_hash"
     echo -e "${CY}[${WH}5${CY}]${OG} Remove untracked files ${GG}git clean -f"
+	echo -e "${CY}[${WH}6${CY}]${OG} View staged changes before unstaging ${GG}git diff --cached"
+	echo -e "${CY}[${WH}7${CY}]${OG} Perform a soft reset ${GG}git reset --soft commit_hash"
+	echo -e "${CY}[${WH}8${CY}]${OG} Run git clean in interactive mode ${GG}git clean -i"
+	echo -e "${CY}[${WH}9${CY}]${OG} Recover unstaged changes ${GG}git restore --staged file_name"
 }
 
 # Remote Repositories
 remote_repositories() {
-    echo "${CY}Remote Repositories Commands:"
+    echo -e "${CY}Remote Repositories Commands Options:${RT}"
+    echo
     echo -e "${CY}[${WH}1${CY}]${OG} Add a remote repository ${GG}git remote add name url"
     echo -e "${CY}[${WH}2${CY}]${OG} Remove a remote repository ${GG}git remote remove name"
     echo -e "${CY}[${WH}3${CY}]${OG} List all remotes ${GG}git remote -v"
     echo -e "${CY}[${WH}4${CY}]${OG} Fetch from a remote repository ${GG}git fetch remote_name"
     echo -e "${CY}[${WH}5${CY}]${OG} Push changes to a remote repository ${GG}git push remote_name branch_name"
     echo -e "${CY}[${WH}6${CY}]${OG} Pull changes from a remote repository ${GG}git pull remote_name branch_name"
+	echo -e "${CY}[${WH}7${CY}]${OG} Set upstream tracking for a branch ${GG}git branch --set-upstream-to"
+	echo -e "${CY}[${WH}8${CY}]${OG} Prune stale remote-tracking branches ${GG}git remote prune"
+	echo -e "${CY}[${WH}9${CY}]${OG} Push all branches to a remote ${GG}git push --all"
+	echo -e "${CY}[${WH}10${CY}]${OG} Delete a remote branch ${GG}git push --delete"
 }
 
 # Logs and History
 logs_and_history() {
-    echo "${CY}Logs and History Commands:"
+    echo -e "${CY}Logs and History Commands Options:${RT}"
+    echo
     echo -e "${CY}[${WH}1${CY}]${OG} View commit history ${GG}git log"
     echo -e "${CY}[${WH}2${CY}]${OG} View one-line commit history ${GG}git log --oneline"
     echo -e "${CY}[${WH}3${CY}]${OG} View commit history with graph ${GG}git log --oneline --graph"
     echo -e "${CY}[${WH}4${CY}]${OG} View the last N commits ${GG}git log -n N"
     echo -e "${CY}[${WH}5${CY}]${OG} View a specific file's commit history ${GG}git log -- file_name"
+    echo -e "${CY}[${WH}0${CY}]${OG} Back to main menu"
 }
 
 # Working with Submodules
 submodules() {
-    echo "${CY}Working with Submodules Commands:"
+    echo -e "${CY}Submodules Commands Options:${RT}"
+    echo
     echo -e "${CY}[${WH}1${CY}]${OG} Add a submodule ${GG}git submodule add repository_url path"
     echo -e "${CY}[${WH}2${CY}]${OG} Initialize submodules ${GG}git submodule init"
     echo -e "${CY}[${WH}3${CY}]${OG} Update submodules ${GG}git submodule update"
-    echo -e "${CY}[${WH}4${CY}]${OG} Remove a submodule ${GG}manual steps requiCY"
+    echo -e "${CY}[${WH}4${CY}]${OG} Remove a submodule ${GG}manual steps requiRE"
     echo -e "${CY}[${WH}5${CY}]${OG} Show submodule status ${GG}git submodule status"
+	echo -e "${CY}[${WH}6${CY}]${OG} Clone repository with submodules ${GG}git clone --recurse-submodules"
+	echo -e "${CY}[${WH}7${CY}]${OG} Synchronize submodules ${GG}git submodule sync --recursive"
+	echo -e "${CY}[${WH}8${CY}]${OG} List submodules ${GG}git config --file .gitmodules --get-regexp path"
+	echo -e "${CY}[${WH}9${CY}]${OG} Rebase submodules ${GG}git submodule foreach git pull origin main"
 }
 
 # Advanced Commands
 advanced_commands() {
-    echo "${CY}Advanced Commands:"
+    echo -e "${CY}Advanced Git Commands:${RT}"
+    echo
     echo -e "${CY}[${WH}1${CY}]${OG} Squash commits into one ${GG}git rebase -i HEAD~n"
     echo -e "${CY}[${WH}2${CY}]${OG} Cherry-pick a commit ${GG}git cherry-pick commit_hash"
     echo -e "${CY}[${WH}3${CY}]${OG} Revert a specific commit ${GG}git revert commit_hash"
     echo -e "${CY}[${WH}4${CY}]${OG} Fix the last commit ${GG}git commit --amend"
     echo -e "${CY}[${WH}5${CY}]${OG} View changes in staged files ${GG}git diff --cached"
+	echo -e "${CY}[${WH}6${CY}]${OG} Perform interactive rebase ${GG}git rebase -i HEAD~n"
+	echo -e "${CY}[${WH}7${CY}]${OG} Bisect commits ${GG}git bisect start bad_commit good_commit"
+	echo -e "${CY}[${WH}8${CY}]${OG} Show commit details ${GG}git show commit_hash"
+	echo -e "${CY}[${WH}9${CY}]${OG} Search commits by message ${GG}git log --grep='message'"
 }
 
 # Clean Up
 clean_up() {
-    echo "${CY}Clean Up Commands:"
-    echo -e "${CY}[${WH}1${CY}]${OG} Remove untracked files ${GG}git clean -f"
-    echo -e "${CY}[${WH}2${CY}]${OG} Remove untracked directories ${GG}git clean -fd"
-    echo -e "${CY}[${WH}3${CY}]${OG} Prune remote-tracking branches ${GG}git remote prune origin"
-    echo -e "${CY}[${WH}4${CY}]${OG} Delete merged branches ${GG}git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
-    echo -e "${CY}[${WH}5${CY}]${OG} Clean up dangling objects ${GG}git gc --prune=now"
+    echo -e "${CY}Clean Up Commands:${RT}"
+    echo
+    echo -e "${CY}[${WH}1${CY}]${OG} Remove untracked files ${GG}(git clean -f)${RT}"
+    echo -e "${CY}[${WH}2${CY}]${OG} Remove untracked directories ${GG}(git clean -fd)${RT}"
+    echo -e "${CY}[${WH}3${CY}]${OG} Prune remote-tracking branches ${GG}(git remote prune origin)${RT}"
+    echo -e "${CY}[${WH}4${CY}]${OG} Delete merged branches ${GG}(git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d)${RT}"
+    echo -e "${CY}[${WH}5${CY}]${OG} Clean up dangling objects ${GG}(git gc --prune=now)${RT}"
 }
 
 # Tagging
 tagging() {
-    echo "${CY}Tagging Commands:"
+    echo -e "${CY}Tagging Commands:${RT}"
+    echo
     echo -e "${CY}[${WH}1${CY}]${OG} Create a new tag ${GG}git tag tag_name"
     echo -e "${CY}[${WH}2${CY}]${OG} List all tags ${GG}git tag"
     echo -e "${CY}[${WH}3${CY}]${OG} Delete a tag ${GG}git tag -d tag_name"
     echo -e "${CY}[${WH}4${CY}]${OG} Push a tag to remote ${GG}git push origin tag_name"
     echo -e "${CY}[${WH}5${CY}]${OG} Push all tags to remote ${GG}git push --tags"
     echo -e "${CY}[${WH}6${CY}]${OG} Show tag details ${GG}git show tag_name"
+	echo -e "${CY}[${WH}7${CY}]${OG} View commit associated with a tag ${GG}git log -1 tag_name"
+	echo -e "${CY}[${WH}8${CY}]${OG} Delete a remote tag ${GG}git push origin --delete tag_name"
+	echo -e "${CY}[${WH}9${CY}]${OG} Sign a tag with GPG ${GG}git tag -s tag_name -m 'message'"
+	echo -e "${CY}[${WH}10${CY}]${OG} Verify a signed tag ${GG}git tag -v tag_name"
 }
 
 list_em() {
-    echo "${CY}Listing commands Commands:"
-configuration_setup
-branch_management
-staging_and_stash
-commit
-undoing_changes
-remote_repositories
-logs_and_history
-submodules
-advanced_commands
-clean_up
-tagging
+    echo "${CY}Listing commands Commands:"; echo
+configuration_setup; echo
+branch_management; echo
+staging_and_stash; echo
+commit; echo
+undoing_changes; echo
+remote_repositories; echo
+logs_and_history; echo
+submodules; echo
+advanced_commands; echo
+clean_up; echo
+tagging; echo
 }
 
 list_em
