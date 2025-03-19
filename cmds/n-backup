@@ -1,0 +1,238 @@
+#!/bin/bash
+
+source /c/GitNova/cmds/utils/utils
+
+# Display Backup and Restore Menu
+backup_menu() {
+    clear
+    echo -e "${CY}Repository Backup and Restore Commands:${RT}"
+    echo -e "${RE}[${WH}1${RE}]${OG} Backup all commits to tag references: ${GG}git tag backup-[date]-[count] [commit]"
+    echo -e "${RE}[${WH}2${RE}]${OG} List all backup tags: ${GG}git tag -l 'backup-*'"
+    echo -e "${RE}[${WH}3${RE}]${OG} Restore to a specific backup point: ${GG}git checkout [backup-tag]"
+    echo -e "${RE}[${WH}4${RE}]${OG} Delete a backup tag: ${GG}git tag -d [backup-tag]"
+    echo -e "${RE}[${WH}5${RE}]${OG} Export commit log to file: ${GG}git log --pretty=format:'%H %ad %an %s' > backup-log.txt"
+    echo -e "${RE}[${WH}6${RE}]${OG} Backup current branch state: ${GG}git tag backup-branch-[branchname]-[date]"
+    echo -e "${RE}[${WH}7${RE}]${OG} Push all backup tags to remote: ${GG}git push origin --tags"
+    echo -e "${RE}[${WH}8${RE}]${OG} Pull all backup tags from remote: ${GG}git fetch --tags"
+    echo -e "${RE}[${WH}0${RE}]${OG} Back to main menu"
+    echo
+}
+
+# Function to backup all commits with tags
+backup_all_commits() {
+    echo -e "${CY}Creating backup tags for all commits in the current branch...${RT}"
+    
+    # Get current date for tag naming
+    current_date=$(date +"%Y%m%d")
+    
+    # Get all commit hashes
+    commits=$(git log --pretty=format:"%H")
+    
+    # Counter for unique tag names
+    count=1
+    
+    # Loop through each commit and create a backup tag
+    for commit in $commits; do
+        tag_name="backup-${current_date}-${count}"
+        git tag "$tag_name" "$commit"
+        if [ $? -eq 0 ]; then
+            echo -e "${GG}Created backup tag '$tag_name' for commit ${commit:0:8}${RT}"
+            count=$((count+1))
+        else
+            echo -e "${RE}Failed to create backup tag for commit ${commit:0:8}${RT}"
+        fi
+    done
+    
+    echo -e "${GG}Backup completed. Created $(($count-1)) backup tags.${RT}"
+    echo -e "${CY}Use 'List all backup tags' to view them.${RT}"
+}
+
+# Function to list all backup tags
+list_backup_tags() {
+    echo -e "${CY}Listing all backup tags:${RT}"
+    git tag -l "backup-*" | sort -r
+    
+    # Show additional info for each tag if requested
+    read -p "${GG}Show detailed information for each tag? (y/n): ${BB}" show_details
+    if [[ $show_details == "y" || $show_details == "Y" ]]; then
+        echo -e "${CY}Detailed backup tag information:${RT}"
+        for tag in $(git tag -l "backup-*" | sort -r); do
+            commit=$(git rev-list -n 1 $tag)
+            echo -e "${GG}Tag: $tag${RT}"
+            echo -e "${GG}  Commit: ${commit:0:8}${RT}"
+            echo -e "${GG}  Date: $(git show -s --format=%ci $commit)${RT}"
+            echo -e "${GG}  Message: $(git show -s --format=%s $commit)${RT}"
+            echo
+        done
+    fi
+}
+
+# Function to restore to a specific backup point
+restore_backup() {
+    list_backup_tags
+    read -p "${GG}Enter the backup tag to restore to: ${BB}" backup_tag
+    
+    # Check if the tag exists
+    if ! git tag -l | grep -q "^$backup_tag$"; then
+        echo -e "${RE}Error: Backup tag '$backup_tag' does not exist.${RT}"
+        return 1
+    fi
+    
+    # Create a temporary branch name for safety
+    temp_branch="temp-restore-$(date +"%Y%m%d%H%M%S")"
+    
+    # Create a backup of current state with current timestamp
+    current_branch=$(git symbolic-ref --short HEAD 2>/dev/null || echo "detached-HEAD")
+    current_state_tag="backup-branch-${current_branch}-$(date +"%Y%m%d%H%M%S")"
+    
+    echo -e "${CY}Creating backup of current state as '$current_state_tag'...${RT}"
+    git tag "$current_state_tag"
+    
+    echo -e "${CY}Checking out backup tag '$backup_tag'...${RT}"
+    git checkout -b "$temp_branch" "$backup_tag"
+    
+    if [ $? -eq 0 ]; then
+        echo -e "${GG}Successfully restored to backup '$backup_tag'.${RT}"
+        echo -e "${GG}You are now on temporary branch '$temp_branch'.${RT}"
+        echo -e "${CY}You can return to your previous state with:${RT}"
+        echo -e "${GG}  git checkout $current_branch${RT}"
+        echo -e "${CY}Or make this restoration permanent with:${RT}"
+        echo -e "${GG}  git branch -D $current_branch && git branch -m $temp_branch $current_branch${RT}"
+    else
+        echo -e "${RE}Failed to restore to backup '$backup_tag'.${RT}"
+    fi
+}
+
+# Function to delete a backup tag
+delete_backup_tag() {
+    list_backup_tags
+    read -p "${GG}Enter the backup tag to delete: ${BB}" backup_tag
+    
+    # Check if the tag exists
+    if ! git tag -l | grep -q "^$backup_tag$"; then
+        echo -e "${RE}Error: Backup tag '$backup_tag' does not exist.${RT}"
+        return 1
+    fi
+    
+    # Confirm deletion
+    read -p "${GG}Are you sure you want to delete '$backup_tag'? (y/n): ${BB}" confirm
+    if [[ $confirm == "y" || $confirm == "Y" ]]; then
+        git tag -d "$backup_tag"
+        if [ $? -eq 0 ]; then
+            echo -e "${GG}Successfully deleted backup tag '$backup_tag'.${RT}"
+        else
+            echo -e "${RE}Failed to delete backup tag '$backup_tag'.${RT}"
+        fi
+    else
+        echo -e "${CY}Deletion cancelled.${RT}"
+    fi
+}
+
+# Function to export commit log to file
+export_log() {
+    # Let user choose the file name and format
+    read -p "${GG}Enter output file name [backup-log.txt]: ${BB}" output_file
+    output_file=${output_file:-backup-log.txt}
+    
+    echo -e "${CY}Select log format:${RT}"
+    echo -e "${RE}[${WH}1${RE}]${OG} Basic (hash, date, author, subject)"
+    echo -e "${RE}[${WH}2${RE}]${OG} Detailed (hash, date, author, email, subject, body)"
+    echo -e "${RE}[${WH}3${RE}]${OG} Custom format"
+    read -p "${GG}Select format [1]: ${BB}" format_choice
+    format_choice=${format_choice:-1}
+    
+    case $format_choice in
+        1) format='%H,%ad,%an,%s' ;;
+        2) format='%H,%ad,%an,<%ae>,%s,%b' ;;
+        3) 
+            echo -e "${CY}Enter custom format using Git pretty format placeholders:${RT}"
+            echo -e "${CY}Example: %H,%ad,%an,%s${RT}"
+            read -p "${GG}Custom format: ${BB}" custom_format
+            format=${custom_format}
+            ;;
+        *) format='%H,%ad,%an,%s' ;;
+    esac
+    
+    # Add CSV header
+    case $format_choice in
+        1) echo "Commit Hash,Date,Author,Subject" > "$output_file" ;;
+        2) echo "Commit Hash,Date,Author,Email,Subject,Body" > "$output_file" ;;
+        3) echo "Custom Format" > "$output_file" ;;
+    esac
+    
+    # Execute git log command with the selected format
+    git log --pretty=format:"$format" >> "$output_file"
+    
+    if [ $? -eq 0 ]; then
+        echo -e "${GG}Successfully exported log to '$output_file'.${RT}"
+    else
+        echo -e "${RE}Failed to export log.${RT}"
+    fi
+}
+
+# Function to backup current branch state
+backup_branch() {
+    current_branch=$(git symbolic-ref --short HEAD 2>/dev/null || echo "detached-HEAD")
+    current_date=$(date +"%Y%m%d%H%M%S")
+    tag_name="backup-branch-${current_branch}-${current_date}"
+    
+    git tag "$tag_name"
+    if [ $? -eq 0 ]; then
+        echo -e "${GG}Successfully created backup tag '$tag_name' for current branch state.${RT}"
+    else
+        echo -e "${RE}Failed to create backup tag.${RT}"
+    fi
+}
+
+# Function to push all backup tags to remote
+push_backup_tags() {
+    echo -e "${CY}Pushing all backup tags to remote...${RT}"
+    echo -e "${CY}This will push ALL tags. Continue? (y/n): ${RT}"
+    read -p "${GG}> ${BB}" confirm
+    
+    if [[ $confirm == "y" || $confirm == "Y" ]]; then
+        git push origin --tags
+        if [ $? -eq 0 ]; then
+            echo -e "${GG}Successfully pushed all tags to remote.${RT}"
+        else
+            echo -e "${RE}Failed to push tags to remote.${RT}"
+        fi
+    else
+        echo -e "${CY}Operation cancelled.${RT}"
+    fi
+}
+
+# Function to pull all backup tags from remote
+pull_backup_tags() {
+    echo -e "${CY}Fetching all tags from remote...${RT}"
+    git fetch --tags
+    if [ $? -eq 0 ]; then
+        echo -e "${GG}Successfully fetched all tags from remote.${RT}"
+    else
+        echo -e "${RE}Failed to fetch tags from remote.${RT}"
+    fi
+}
+
+# Menu Navigation
+backup_management() {
+    while true; do
+        backup_menu
+        read -p "Select an option (0 to go back): " option
+        case $option in
+            1) backup_all_commits ;;
+            2) list_backup_tags ;;
+            3) restore_backup ;;
+            4) delete_backup_tag ;;
+            5) export_log ;;
+            6) backup_branch ;;
+            7) push_backup_tags ;;
+            8) pull_backup_tags ;;
+            0) clear; break ;;
+            *) echo "${RE}Invalid option! Please try again.${RT}" ;;
+        esac
+        read -p "${BB}Press [Enter] to continue...${RT}"
+    done
+}
+
+check_git_repo
+backup_management 

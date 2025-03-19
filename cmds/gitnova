@@ -2,7 +2,7 @@
 
 source /c/GitNova/cmds/utils/utils
 
-__version__="2.3.5"
+__version__="2.3.6"
 
 ## DEFAULT HOST & PORT
 HOST='127.0.0.1'
@@ -18,7 +18,7 @@ about() {
     echo "${GG}About this script:"
     echo "${GG}Version: ${__version__}"
     echo "${GG}This script provides various utility functions for repo management."
-    echo "${GG}This repo was created by gitty-thesis on github"
+    echo "${GG}This repo was created by paren-thesis on github"
     echo
     echo "${CY}This is a list this of available commands"
 }
@@ -46,6 +46,7 @@ main_menu() {
         echo -e "${RE}[${WH}9${RE}]${OG} Advanced Commands --> ${GG} n-adv"
         echo -e "${RE}[${WH}10${RE}]${OG} Clean Up  --> ${GG} n-clean"
         echo -e "${RE}[${WH}11${RE}]${OG} Tagging --> ${GG} n-tag"
+        echo -e "${RE}[${WH}12${RE}]${OG} Backup and Restore --> ${GG} n-backup"
         echo -e "${RE}[${WH}99${RE}]${OG} About  --> ${GG} about"
         echo -e "${RE}[${WH}0${RE}]${OG} Exit"
         echo
@@ -53,7 +54,7 @@ main_menu() {
 
         case $selected in
             1) source /c/GitNova/cmds/n-config ;;
-            2) source /c/GItNova/cmds/n-branch ;;
+            2) source /c/GitNova/cmds/n-branch ;;
             3) source /c/GitNova/cmds/n-stage ;;
             4) source /c/GitNova/cmds/n-commit ;;
             5) source /c/GitNova/cmds/n-undo ;;
@@ -63,6 +64,7 @@ main_menu() {
             9) source /c/GitNova/cmds/n-adv ;;
             10) source /c/GitNova/cmds/n-clean ;;
             11) source /c/GitNova/cmds/n-tag ;;
+            12) source /c/GitNova/cmds/n-backup ;;
             99) about ;;
             0) exit_script ;;
             *) echo "${RE}Invalid option! Please try again." ;;

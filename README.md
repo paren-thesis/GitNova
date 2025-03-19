@@ -70,6 +70,12 @@ GitNova provides comprehensive Git functionality through an organized menu syste
     - Annotated and lightweight tags
     - Push tags to remote repositories
 
+12. **Backup and Restore** (`n-backup`)
+    - Create tagged backups of all commits
+    - Restore to any previous commit state safely
+    - Export commit logs for documentation
+    - Push and pull backup tags to/from remote repositories
+
 ## 🧬 Dependencies
 
 - **Git**: Ensure Git is installed on your system. [Download Git](https://git-scm.com/)
@@ -134,6 +140,16 @@ Follow these steps to set up GitNova on your system:
 4. Stage and commit your changes
 5. Push your branch to a remote repository
 6. Create a pull request (instructions provided)
+
+## 🔄 Backup and Restore Workflow
+
+GitNova's backup system allows you to safely experiment and recover from mistakes:
+
+1. Before making significant changes, create a backup of your current state
+2. Make your changes and test them
+3. If satisfied, continue working normally
+4. If you need to revert, use the restore feature to return to any backup point
+5. For team collaboration, push your backup tags to share consistent restore points
 
 ## 👥 Target Users
 
